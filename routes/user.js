@@ -1,58 +1,11 @@
-const { pool } = require('../db/server.js');
+const { findUser, findUsername, createUser } = require('../helpers/userHelpers.js')
 // const passport = require('passport');
 // const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
-
 const express = require('express');
-const { response } = require('express');
 const userRouter = express.Router();
 
-// Password Hashing Function
-const passwordHash = async (password, saltRounds) => {
-    try {
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hash = await bcrypt.hash(password, salt);
-        return hash
-    } catch (err) {
-        console.log(err);
-    }
-    return null;
-}
-
-
-
-// Function to check if user already exists
-const findUser = async (email) => {
-    try {
-        const SQL = 'SELECT * FROM users WHERE email=$1';
-        return await pool.query(SQL, [email])
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-// Function to check if username is already taken
-const findUsername = async (username) => {
-    try {
-        const SQL = 'SELECT * FROM users WHERE username=$1';
-        return await pool.query(SQL, [username])
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-// Registration function to create user in database
-const createUser = async (username, password, first_name, last_name, telephone, email) => {
-    const hashedPassword = await passwordHash(password, 10);
-    console.log(hashedPassword)
-    const SQL = 'INSERT INTO users (username, password, first_name, last_name, telephone, email) VALUES ($1, $2, $3, $4, $5, $6)';
-
-    pool.query(SQL, [username, hashedPassword, first_name, last_name, telephone, email], (error, results) => {
-        if (error) {
-            throw error
-        }
-    })
-}
+// REGISTRATION
+// ____________
 
 // Callback function for register route that will register user and return success result
 const registerUser = async (req, res) => {
@@ -84,10 +37,8 @@ const registerUser = async (req, res) => {
 
 userRouter.post('/register', registerUser);
 
-
-//LOGIN FUNCTIONS
-
-
+// LOGIN
+// _____
 
 // Exports
 
