@@ -42,16 +42,15 @@ const findUsername = async (username) => {
 }
 
 // Registration function to create user in database
-const createUser = (username, password, first_name, last_name, telephone, email) => {
-    const hashedPassword = passwordHash(password, 10);
+const createUser = async (username, password, first_name, last_name, telephone, email) => {
+    const hashedPassword = await passwordHash(password, 10);
+    console.log(hashedPassword)
     const SQL = 'INSERT INTO users (username, password, first_name, last_name, telephone, email) VALUES ($1, $2, $3, $4, $5, $6)';
 
     pool.query(SQL, [username, hashedPassword, first_name, last_name, telephone, email], (error, results) => {
         if (error) {
             throw error
         }
-
-        // results.status(201).send(`User added with ID: ${results.rows[0].id}`)
     })
 }
 
