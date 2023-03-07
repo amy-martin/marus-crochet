@@ -25,7 +25,7 @@ userRouter.get('/profile', (req, res) => {
 
 // LOGOUT ROUTES
 
-userRouter('/logout', (req, res) => {
+userRouter.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/login');
 })
