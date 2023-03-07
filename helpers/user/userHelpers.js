@@ -1,4 +1,4 @@
-const { pool } = require('../db/server.js');
+const { pool } = require('../../db/server.js');
 const bcrypt = require('bcrypt');
 
 
@@ -17,14 +17,14 @@ const passwordHash = async (password, saltRounds) => {
 };
 
 // Function to check if user already exists
-const findUser = async (email, cb) => {
+const findUserByEmail = async (email, cb) => {
     try {
         const SQL = 'SELECT * FROM users WHERE email=$1';
         const foundUser = await pool.query(SQL, [email])
         if (cb) {
             cb(null, foundUser.rows[0]);
         }
-        return foundUser
+        return foundUser.rows
     } catch (err) {
         console.log(err)
         if (cb) {
@@ -35,14 +35,14 @@ const findUser = async (email, cb) => {
 };
 
 // Function to check if username is already taken
-const findUsername = async (username, cb) => {
+const findUserByUsername = async (username, cb) => {
     try {
         const SQL = 'SELECT * FROM users WHERE username=$1';
         const foundUser = await pool.query(SQL, [username])
         if (cb) {
             cb(null, foundUser.rows[0]);
         }
-        return foundUser;
+        return foundUser.rows;
     } catch (err) {
         console.log(err);
         if (cb) {
@@ -51,4 +51,21 @@ const findUsername = async (username, cb) => {
     }
 };
 
-module.exports = { passwordHash, findUser, findUsername }
+// Function to find user by ID
+const findUserById = async (id, cb) => {
+    try {
+        const SQL = 'SELECT * FROM users WHERE id=$1';
+        const foundUser = await pool.query(SQL, [id])
+        if (cb) {
+            cb(null, foundUser.rows[0]);
+        }
+        return foundUser.rows;
+    } catch (err) {
+        console.log(err);
+        if (cb) {
+            cb(err, null);
+        }
+    }
+};
+
+module.exports = { passwordHash, findUserByEmail, findUserByUsername, findUserById }

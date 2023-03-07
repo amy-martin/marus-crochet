@@ -1,17 +1,34 @@
-const { registerUser } = require('../helpers/registrationHelpers.js');
-const { loginUser } = require('../helpers/loginHelpers.js')
+const { registerUser } = require('../helpers/user/registrationHelpers.js');
+const { loginUser } = require('../helpers/user/loginHelpers.js')
 const express = require('express');
 const userRouter = express.Router();
 
-// Registration Route
+// REGISTRATION ROUTES
 
+userRouter.get('/register', (req, res) => {
+    res.render('register')
+})
 userRouter.post('/register', registerUser);
 
-// LOGIN
-// _____
+// LOGIN ROUTES
 
-// passport.use(localStrategy)
+userRouter.get('/login', (req, res) => {
+    res.render('login')
+})
 userRouter.post('/login', loginUser);
+
+// PROFILE ROUTES
+
+userRouter.get('/profile', (req, res) => {
+    res.render('profile', {user: req.user})
+})
+
+// LOGOUT ROUTES
+
+userRouter('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
+})
 
 // Exports
 

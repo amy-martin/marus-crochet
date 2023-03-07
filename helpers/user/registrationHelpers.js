@@ -1,7 +1,7 @@
-const { pool } = require('../db/server.js');
+const { pool } = require('../../db/server.js');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
-const { passwordHash, findUser, findUsername } = require('../helpers/userHelpers.js')
+const { passwordHash, findUserByEmail, findUserByUsername } = require('./userHelpers.js')
 
 
 // REGISTRATION HELPERS
@@ -68,21 +68,21 @@ const registerUser = async (req, res) => {
         const formattedEmail = validator.normalizeEmail(email);
 
         // CHECK IF USER EXISTS IN DATABASE
-        const userFound = await findUser(formattedEmail);
-        if (userFound.rows.length !== 0) {
+        const userFound = await findUserByEmail(formattedEmail);
+        if (userFound.length !== 0) {
             res.send('USER ALREADY EXISTS')
             return 
             // return res.reditect("login");
         };
         //CHECK IF USERNAME IS ALREADY TAKEN
-        const usernameFound = await findUsername(username);
-        if (usernameFound.rows.length !== 0) {
+        const usernameFound = await findUserByUsername(username);
+        if (usernameFound.length !== 0) {
             res.send('USERNAME TAKEN')
             return
         } 
         await createUser(username, password, first_name, last_name, telephone, formattedEmail);
-        const createdUser = await findUser(formattedEmail);
-        res.send(`USER CREATED WITH ID: ${createdUser.rows[0].id}`)
+        const createdUser = await findUserByEmail(formattedEmail);
+        res.send(`USER CREATED WITH ID: ${createdUser[0].id}`)
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
