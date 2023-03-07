@@ -3,7 +3,7 @@ const { getProductById, getProducts } = require('../helpers/products/productsHel
 const express = require('express');
 const productsRouter = express.Router();
 
-productsRouter.get('/:id', getProductById)
+productsRouter.get('/:id', getProductById);
 
-productsRouter.get('/', getProducts)
+productsRouter.get('/', getProducts);
 module.exports = { productsRouter }
