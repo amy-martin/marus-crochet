@@ -36,11 +36,12 @@ passport.use(new LocalStrategy((username, password, done) => {
 }))
 
 
+// Login Function
 
 const loginUser = () => {
     passport.authenticate('local', {failureRedirect: '/login'}),
     (req, res) => {
-        res.redirect('profile');
+        res.redirect('/profile');
     }
 };
 

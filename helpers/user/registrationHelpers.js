@@ -1,7 +1,7 @@
 const { pool } = require('../../db/server.js');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
-const { passwordHash, findUserByEmail, findUserByUsername } = require('./userHelpers.js')
+const { passwordHash, findUserByEmail, findUserByUsername, checkIfUsernameTaken, checkIfEmailTaken, validateFieldLength } = require('./userHelpers.js')
 
 
 // REGISTRATION HELPERS
@@ -25,38 +25,15 @@ const registerUser = async (req, res) => {
     const {username, password, first_name, last_name, telephone, email} = req.query;
     try {
         // DATA VALIDATION AND FORMATTING
-        if (!validator.isLength(username, {min: 2, max:20})) {
-            if (username.length < 2) {
-                res.send('USERNAME TOO SHORT')
-            }
-            if (username.length > 20) {
-                res.send('USERNAME TOO LONG')
-            }
-            return
-        }
+        validateFieldLength('USERNAME', username, 2, 20);
+        validateFieldLength('FIRST NAME', first_name, 2, 20);
+        validateFieldLength('LAST NAME', last_name, 2, 20);
+
         // PASSWORD STRENGTH; REFER TO DOCUMENTATION WHEN CREATED FRONT END PROMPT
         // if (!validator.isStrongPassword(password)) {
         //     res.send('PASSWORD NOT STRONG ENOUGH');
+        //     return
         // }
-
-        if (!validator.isLength(first_name, {min: 2, max:20})) {
-            if (first_name.length < 2) {
-                res.send('FIRST NAME TOO SHORT')
-            }
-            if (first_name.length > 20) {
-                res.send('FIRST NAME TOO LONG')
-            }
-            return
-        }
-        if (!validator.isLength(last_name, {min: 2, max:20})) {
-            if (last_name.length < 2) {
-                res.send('LAST NAME TOO SHORT')
-            }
-            if (last_name.length > 20) {
-                res.send('LAST NAME TOO LONG')
-            }
-            return
-        }
         // if (!validator.isMobilePhone(telephone)) {
         //     res.send('INVALID PHONE NUMBER');
         //     return
@@ -68,18 +45,9 @@ const registerUser = async (req, res) => {
         const formattedEmail = validator.normalizeEmail(email);
 
         // CHECK IF USER EXISTS IN DATABASE
-        const userFound = await findUserByEmail(formattedEmail);
-        if (userFound.length !== 0) {
-            res.send('USER ALREADY EXISTS')
-            return 
-            // return res.reditect("login");
-        };
+        checkIfEmailTaken(formattedEmail);
         //CHECK IF USERNAME IS ALREADY TAKEN
-        const usernameFound = await findUserByUsername(username);
-        if (usernameFound.length !== 0) {
-            res.send('USERNAME TAKEN')
-            return
-        } 
+        checkIfUsernameTaken(username)
         await createUser(username, password, first_name, last_name, telephone, formattedEmail);
         const createdUser = await findUserByEmail(formattedEmail);
         res.send(`USER CREATED WITH ID: ${createdUser[0].id}`)
