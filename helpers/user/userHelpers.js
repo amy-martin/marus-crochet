@@ -5,6 +5,7 @@ const validator = require('validator');
 
 // MISCELLANEOUS USER HELPERS
 
+
 // Password Hashing Function
 const passwordHash = async (password, saltRounds) => {
     try {
@@ -112,7 +113,8 @@ const updateField = async (field, newFieldValue, userId) => {
     }
 };
 
-// // Function to update username
+
+// Function to update username
 
 // const updateUsername = async (username, userId) => {
 //     try {
@@ -173,7 +175,7 @@ const updateField = async (field, newFieldValue, userId) => {
 // Function to update email (check if email is not taken first)
             //format email to pass into checking function
 // Function to update user info
-const updateUser = async (req, res) => {
+const updateUser = async (req, res) => {    
     const { user } = req.user;
     const { id } = user;
     const { username, password, first_name, last_name, telephone, email } = req.body;

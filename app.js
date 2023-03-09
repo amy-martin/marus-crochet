@@ -11,8 +11,9 @@ const pgSession = require('connect-pg-simple')(session);
 const dotenv = require('dotenv');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const {userRouter} = require('./routes/user.js');
+const { userRouter } = require('./routes/user.js');
 const { productsRouter } = require('./routes/products.js');
+const { cartRouter } = require('./routes/cart.js')
 
 
 dotenv.config();
@@ -64,6 +65,11 @@ app.use('/user', userRouter);
 
 // Mounting Product Routes
 app.use('/products', productsRouter)
+
+// Mounting Cart Routes
+
+app.use('/cart', cartRouter)
+
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

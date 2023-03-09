@@ -27,6 +27,8 @@ userRouter.get('/profile', (req, res) => {
 
 userRouter.put('/profile', passport.authenticate('local', {failureRedirect: '/login'}), updateUser)
 
+
+
 // LOGOUT ROUTES
 
 userRouter.get('/logout', (req, res) => {

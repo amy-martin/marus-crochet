@@ -13,7 +13,7 @@ const createUser = async (username, password, first_name, last_name, telephone, 
     const hashedPassword = await passwordHash(password, 10);
     const SQL = 'INSERT INTO users (username, password, first_name, last_name, telephone, email) VALUES ($1, $2, $3, $4, $5, $6)';
 
-    pool.query(SQL, [username, hashedPassword, first_name, last_name, telephone, email], (error, results) => {
+    await pool.query(SQL, [username, hashedPassword, first_name, last_name, telephone, email], (error, results) => {
         if (error) {
             throw error
         }
