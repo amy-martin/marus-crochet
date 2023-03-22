@@ -14,6 +14,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const { userRouter } = require('./routes/user.js');
 const { productsRouter } = require('./routes/products.js');
 const { cartRouter } = require('./routes/cart.js');
+const { ordersRouter } = require('./routes/orders.js');
 
 
 dotenv.config();
@@ -70,6 +71,7 @@ app.use('/products', productsRouter)
 
 app.use('/cart', cartRouter)
 
+app.use('/orders', ordersRouter)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
