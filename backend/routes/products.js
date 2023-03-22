@@ -1,4 +1,3 @@
-const { pool } = require('../db/server.js')
 const { getProductById, getProducts } = require('../helpers/products/productsHelper.js')
 const express = require('express');
 const productsRouter = express.Router();

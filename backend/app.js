@@ -13,7 +13,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const { userRouter } = require('./routes/user.js');
 const { productsRouter } = require('./routes/products.js');
-const { cartRouter } = require('./routes/cart.js')
+const { cartRouter } = require('./routes/cart.js');
 
 
 dotenv.config();

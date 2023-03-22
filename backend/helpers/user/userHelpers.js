@@ -114,66 +114,7 @@ const updateField = async (field, newFieldValue, userId) => {
 };
 
 
-// Function to update username
 
-// const updateUsername = async (username, userId) => {
-//     try {
-//         checkIfUsernameTaken(username);
-//         const SQL = 'UPDATE users SET username=$1 WHERE id=$2';
-//         await pool.query(SQL, [username, userId])
-//         return findUserById(userId);
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
-// const updatePassword = async (password, userId) => {
-//     try {
-//         const SQL = 'UPDATE users SET password=$1 WHERE id=$2';
-//         await pool.query(SQL, [password, userId])
-//         return findUserById(userId);
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
-// // Function to update first name
-// const updateFirstName = async (firstName, userId) => {
-//     try {
-//         const SQL = 'UPDATE users SET first_name=$1 WHERE id=$2';
-//         await pool.query(SQL, [firstName, userId])
-//         return findUserById(userId);
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-// // Function to update last name 
-// const updateLastName = async (lastName, userId) => {
-//     try {
-//         const SQL = 'UPDATE users SET last_name=$1 WHERE id=$2';
-//         await pool.query(SQL, [lastName, userId])
-//         return findUserById(userId);
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
-// // Function to update telephone
-// const updateTelephone = async (telephone, userId) => {
-//     try {
-//         const SQL = 'UPDATE users SET telephone=$1 WHERE id=$2';
-//         await pool.query(SQL, [telephone, userId])
-//         return findUserById(userId);
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
-
-
-/// REFACTOR VALIDATING DATA FUNCTIONS TO USE IN YOUR UPDATE FUNCTION 
-// Function to update email (check if email is not taken first)
-            //format email to pass into checking function
 // Function to update user info
 const updateUser = async (req, res) => {    
     const { user } = req.user;
@@ -222,5 +163,9 @@ const updateUser = async (req, res) => {
         res.send(`EMAIL UPDATED TO: ${updatedUser[0].email}`);
     }
 }
+
+
+
+
 // Exports
 module.exports = { passwordHash, findUserByEmail, findUserByUsername, findUserById, updateUser, checkIfUsernameTaken, checkIfEmailTaken, validateFieldLength }

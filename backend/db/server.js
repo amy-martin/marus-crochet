@@ -10,10 +10,5 @@ const pgObject = {
 }
 
 const pool = new Pool(pgObject);
- 
-// const SQL = `SELECT * FROM user `;
-// pool.query(SQL, (err, res) => {
-//     console.log(err, res)
-//     pool.end();})
 
 module.exports = { pool }
