@@ -3,10 +3,13 @@ import { NavBar } from "../navbar/NavBar";
 export const HomePage = () => {
     return (
         <div className="home-page">
-            <NavBar />
-            <body>
+            <header>
+              <NavBar />  
+            </header>
+            
+            <main>
 
-            </body>
+            </main>
         </div>
     )
 }

@@ -3,49 +3,119 @@
   color: white;
   margin: 0;
   padding: 0;
-
-  
+  width: 100%;
+  height: 100%;
+}
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #CFC7C0;
+}
+/* #root {
+  width:100%;
+  height: 100%;
 }
 .homepage {
   width: 100%;
   height: 100%
 }
-body {
-  background-color: #CFC7C0;
-}
+.login {
+  width: 100%;
+  height: 100%;
+} */
 
 /* NAVBAR STYLING */
-
+header {
+  width: 100%;
+}
 nav {
   width: 100%;
   height: 140px;
-  display: flex;
-  flex-direction: row;
-  padding: 10px;
   background-color: #7B6F64;
-}
-
-.nav-components {
-  width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  align-content: center;
+}
+
+.nav-components{
+  width: 75%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+ 
+}
+
+.generic.nav-component {
+  width: 90%;
+  height: auto;
+  display: flex;
+  justify-content: space-around
+}
+
+.generic.nav-component ul{
+  width: 100%;
   background-color: #7B6F64;
-}
-
-.nav-components {
   list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
 
-.nav-components h3 {
-  font-size: 15px;
+
+.nav-component h3 {
+  font-size: 12px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
 }
 
-.nav-components h1 {
+.nav-component h1 {
   font-size: 35px;
   font-family: 'Playfair Display', sans-serif;
   font-weight: 400;
+}
+
+.user.nav-component {
+  width: fit-content;
+  height: 30%
+}
+
+
+.user.nav-component ul{
+  display:flex;
+  flex-direction: column;
+  justify-content:space-around;
+  align-items: end;
+  float: right;
+  list-style-type: none;
+
+}
+
+.user.nav-component li {
+  float: right;
+  padding-top:10px;
+  padding-bottom: 10px;
+}
+
+.user.nav-component h4 {
+  font-size: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+/* LOGIN STYLING */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.login-form {
+  width: 500px;
+  height: 500px;
+  background-color: wheat;
 }
