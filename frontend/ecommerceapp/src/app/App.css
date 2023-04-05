@@ -1,5 +1,70 @@
-* {
-    box-sizing: border-box;
-    color: white;
-    background-color: ;
-  }
+
+
+/* .nav-components{
+  width: 75%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+ 
+}
+
+.generic.nav-component {
+  width: 90%;
+  height: auto;
+  
+}
+
+.generic.nav-component ul{
+  width: 100%;
+  background-color: #7B6F64;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+.generic.nav-component li{
+  min-width: fit-content;
+  padding: 10px;
+}
+
+.nav-component h3 {
+  font-size: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+}
+
+.nav-component h1 {
+  font-size: 35px;
+  font-family: 'Playfair Display', sans-serif;
+  font-weight: 400;
+}
+
+.user.nav-component {
+  width: fit-content;
+  height: 30%
+}
+
+
+.user.nav-component ul{
+  display:flex;
+  flex-direction: column;
+  justify-content:space-around;
+  align-items: end;
+  float: right;
+  list-style-type: none;
+
+}
+
+.user.nav-component li {
+  float: right;
+  padding-top:10px;
+  padding-bottom: 10px;
+}
+
+.user.nav-component h4 {
+  font-size: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+} */
