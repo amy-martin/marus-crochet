@@ -9,11 +9,11 @@ const { passwordHash, findUserByEmail, findUserByUsername, checkIfUsernameTaken,
 
 
 // Registration function to create user in database
-const createUser = async (username, password, first_name, last_name, telephone, email) => {
+const createUser = async (username, password, firstName, lastName, telephone, email) => {
     const hashedPassword = await passwordHash(password, 10);
     const SQL = 'INSERT INTO users (username, password, first_name, last_name, telephone, email) VALUES ($1, $2, $3, $4, $5, $6)';
 
-    await pool.query(SQL, [username, hashedPassword, first_name, last_name, telephone, email], (error, results) => {
+    await pool.query(SQL, [username, hashedPassword, firstName, lastName, telephone, email], (error, results) => {
         if (error) {
             throw error
         }
@@ -21,12 +21,15 @@ const createUser = async (username, password, first_name, last_name, telephone, 
 }
 // Callback function for register route that will register user and return success result
 const registerUser = async (req, res) => {
-    const {username, password, first_name, last_name, telephone, email} = req.body;
+    const {username, password, firstName, lastName, telephone, email} = req.body;
     try {
+        console.log('Entered backend')
+        console.log(req.body)
+        console.log(username)
         // DATA VALIDATION AND FORMATTING
         validateFieldLength('USERNAME', username, 2, 20);
-        validateFieldLength('FIRST NAME', first_name, 2, 20);
-        validateFieldLength('LAST NAME', last_name, 2, 20);
+        validateFieldLength('FIRST NAME', firstName, 2, 20);
+        validateFieldLength('LAST NAME', lastName, 2, 20);
 
         // PASSWORD STRENGTH; REFER TO DOCUMENTATION WHEN CREATED FRONT END PROMPT
         // if (!validator.isStrongPassword(password)) {
@@ -47,7 +50,7 @@ const registerUser = async (req, res) => {
         checkIfEmailTaken(formattedEmail);
         //CHECK IF USERNAME IS ALREADY TAKEN
         checkIfUsernameTaken(username)
-        await createUser(username, password, first_name, last_name, telephone, formattedEmail);
+        await createUser(username, password, firstName, lastName, telephone, formattedEmail);
         const createdUser = await findUserByEmail(formattedEmail);
         res.send(`USER CREATED WITH ID: ${createdUser[0].id}`)
     } catch (err) {
