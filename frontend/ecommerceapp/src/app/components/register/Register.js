@@ -9,15 +9,18 @@ export const Register = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmationPassword, setConfirmationPassword] = useState();
-    const handleSubmit = (e) => {
+    const handleSubmit =  (e) => {
         e.preventDefault();
         console.log('Entered handlesubmit')
         if (password !== confirmationPassword) {
             throw new Error('Passwords Do Not Match')
         } else {
-            console.log('HandleSubmit: ' + firstName)
             const requestOptions = {
-                method: 'POST', 
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({
                     firstName,
                     lastName,
@@ -27,7 +30,7 @@ export const Register = () => {
                     password
                 })
             };
-            fetch('http://localHost:3000/register', requestOptions)
+            fetch('http://localHost:3000/user/register', requestOptions)
                 .then(response => console.log(response));
         }
     }
