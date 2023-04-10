@@ -21,7 +21,7 @@ const createUser = async (username, password, first_name, last_name, telephone, 
 }
 // Callback function for register route that will register user and return success result
 const registerUser = async (req, res) => {
-    const {username, password, first_name, last_name, telephone, email} = req.query;
+    const {username, password, first_name, last_name, telephone, email} = req.body;
     try {
         // DATA VALIDATION AND FORMATTING
         validateFieldLength('USERNAME', username, 2, 20);
