@@ -88,7 +88,7 @@ const checkIfUsernameTaken = async (username) => {
     if (usernameFound.length !== 0) {
         res.send('USERNAME TAKEN')
         return
-    }
+    } else return null
 };
 
 // Function to check if email is taken 
@@ -97,7 +97,7 @@ const checkIfEmailTaken = async (email) => {
     if (userFound.length !== 0) {
         res.send('EMAIL ALREADY IN USE')
         return
-    };
+    } else return null
 }
 
 

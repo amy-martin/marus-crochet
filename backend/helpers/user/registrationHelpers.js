@@ -1,7 +1,6 @@
 const { pool } = require('../../db/server.js');
-const bcrypt = require('bcrypt');
 const validator = require('validator');
-const { passwordHash, findUserByEmail, findUserByUsername, checkIfUsernameTaken, checkIfEmailTaken, validateFieldLength } = require('./userHelpers.js')
+const { passwordHash, findUserByEmail, findUserById, checkIfUsernameTaken, checkIfEmailTaken, validateFieldLength } = require('./userHelpers.js')
 
 
 // REGISTRATION HELPERS
@@ -13,7 +12,7 @@ const createUser = async (username, password, firstName, lastName, telephone, em
     const hashedPassword = await passwordHash(password, 10);
     const SQL = 'INSERT INTO users (username, password, first_name, last_name, telephone, email) VALUES ($1, $2, $3, $4, $5, $6)';
 
-    await pool.query(SQL, [username, hashedPassword, firstName, lastName, telephone, email], (error, results) => {
+    pool.query(SQL, [username, hashedPassword, firstName, lastName, telephone, email], (error, results) => {
         if (error) {
             throw error
         }
@@ -23,9 +22,7 @@ const createUser = async (username, password, firstName, lastName, telephone, em
 const registerUser = async (req, res) => {
     const {username, password, firstName, lastName, telephone, email} = req.body;
     try {
-        console.log('Entered backend')
-        console.log(req.body)
-        console.log(username)
+
         // DATA VALIDATION AND FORMATTING
         validateFieldLength('USERNAME', username, 2, 20);
         validateFieldLength('FIRST NAME', firstName, 2, 20);
@@ -47,12 +44,13 @@ const registerUser = async (req, res) => {
         const formattedEmail = validator.normalizeEmail(email);
 
         // CHECK IF USER EXISTS IN DATABASE
-        checkIfEmailTaken(formattedEmail);
+        await checkIfEmailTaken(formattedEmail)
         //CHECK IF USERNAME IS ALREADY TAKEN
-        checkIfUsernameTaken(username)
+        await checkIfUsernameTaken(username)
         await createUser(username, password, firstName, lastName, telephone, formattedEmail);
         const createdUser = await findUserByEmail(formattedEmail);
-        res.send(`USER CREATED WITH ID: ${createdUser[0].id}`)
+
+        res.status(200).json({ message: `User created with ID: ${createdUser[0].id}`})
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
