@@ -9,9 +9,8 @@ export const Register = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmationPassword, setConfirmationPassword] = useState();
-    const handleSubmit =  (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Entered handlesubmit')
         if (password !== confirmationPassword) {
             throw new Error('Passwords Do Not Match')
         } else {
@@ -31,7 +30,8 @@ export const Register = () => {
                 })
             };
             fetch('http://localHost:3000/user/register', requestOptions)
-                .then(response => console.log(response));
+                .then(response => response.json())
+                .then(responseData => console.log(responseData.message));
         }
     }
 
