@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export const Register = () => {
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
-    const [telephone, setTelephone] = useState();
-    const [username, setUsername] = useState();
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [confirmationPassword, setConfirmationPassword] = useState();
+    const navigate = useNavigate();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [telephone, setTelephone] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmationPassword, setConfirmationPassword] = useState('');
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password !== confirmationPassword) {
             throw new Error('Passwords Do Not Match')
         } else {
+            
             const requestOptions = {
                 method: 'POST',
                 mode: 'cors',
@@ -30,8 +32,20 @@ export const Register = () => {
                 })
             };
             fetch('http://localHost:3000/user/register', requestOptions)
-                .then(response => response.json())
-                .then(responseData => console.log(responseData.message));
+                .then(async response => {
+                    const responseObject = {
+                        status: response.status,
+                        json: await response.json()
+
+                    }
+                    return responseObject})
+                .then(responseData => {
+                    if (responseData.status == 200) {
+                        console.log(responseData)
+                        navigate('/login')
+                    } else return responseData.status
+                    
+                });
         }
     }
 

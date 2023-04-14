@@ -106,6 +106,7 @@ nav {
 .login-form input {
   width: auto;
   height: auto;
+  color: black;
 }
 .login-form button {
   width: auto;
@@ -137,3 +138,4 @@ nav {
 .registration-form .entry {
   padding: 10px;
 }
+
