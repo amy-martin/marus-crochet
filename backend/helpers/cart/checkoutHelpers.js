@@ -1,4 +1,4 @@
-const { pool } = require('../../db/server.js');
+const { pool } = require('../../db.js');
 const { getAllCartItems } = require('./cartHelpers.js');
 
 // Function to validate if cart exists (Retrieve cart id from session?)

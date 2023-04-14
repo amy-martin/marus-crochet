@@ -1,4 +1,4 @@
-const { pool } = require('../../db/server.js');
+const { pool } = require('../../db.js');
 
 // Function To Find Product List From Database By Category
 const findProductsByCategory = async (categoryId) => {

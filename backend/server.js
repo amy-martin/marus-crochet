@@ -6,32 +6,40 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-const { pool } = require('./db/server.js')
+const { pool } = require('./db.js')
 const pgSession = require('connect-pg-simple')(session);
 const dotenv = require('dotenv');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const { userRouter } = require('./routes/user.js');
 const { productsRouter } = require('./routes/products.js');
 const { cartRouter } = require('./routes/cart.js');
 const { ordersRouter } = require('./routes/orders.js');
-
-
+const { passportConfiguration } = require('./helpers/user/passportConfigHelper')
+const passport = require('passport')
+const flash = require('express-flash')
+const initializePassport = require('./helpers/user/passportConfigHelper');
+const { findUserByUsername, findUserById } = require('./helpers/user/userHelpers.js');
+const { homeRouter } = require('./routes/home.js');
 dotenv.config();
 
-// Express Session and Session Store Configuration
-// const store = new pgSession({
-//     pool,
-//     tableName: 'shopping_session'
-// });
 
 // BodyParser Configuration
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
-        extended: true,
+        extended: true
     })
 )
+
+// CORS Configuration
+app.use(
+    cors({
+        origin: ['http://localhost:3000', 'http://localhost:3001'],
+        credentials: true,
+        methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD']
+    })
+);
+
+// DB Session and Cookie Configuration
 app.use(
     session({
         store: new pgSession({
@@ -42,6 +50,7 @@ app.use(
         cookie: {
             maxAge: 1000*60*60*24, 
             secure: true,
+            httpOnly: false,
             sameSite:"none"
         },
         resave: false,
@@ -49,16 +58,25 @@ app.use(
     })
 );
 
-// CORS Configuration
-app.use(
-    cors({
-        origin: ['http://localhost:3000', 'http://localhost:3001'],
-        methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD']
-    })
-);
+app.use(cookieParser(process.env.SESSION_SECRET))
+
 // Passport Configuration
 app.use(passport.initialize());
 app.use(passport.session());
+initializePassport(
+    passport,
+    findUserByUsername,
+    findUserById
+)
+
+// Miscellaneous Configurations
+// Express flash to interpret error messages passport authentication method provides
+
+app.use(flash());
+
+// Mounting Home Routes
+
+app.use('/home', homeRouter)
 
 // Mounting User Routes
 app.use('/user', userRouter);
@@ -76,4 +94,4 @@ app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 });
 
-
+module.exports = { passport }

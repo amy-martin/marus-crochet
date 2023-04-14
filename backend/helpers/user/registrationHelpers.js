@@ -1,4 +1,4 @@
-const { pool } = require('../../db/server.js');
+const { pool } = require('../../db.js');
 const validator = require('validator');
 const { passwordHash, findUserByEmail, findUserById, checkIfUsernameTaken, checkIfEmailTaken, validateFieldLength } = require('./userHelpers.js')
 
@@ -50,9 +50,9 @@ const registerUser = async (req, res) => {
         await createUser(username, password, firstName, lastName, telephone, formattedEmail);
         const createdUser = await findUserByEmail(formattedEmail);
 
-        res.status(200).json({ message: `User created with ID: ${createdUser[0].id}`})
+        res.status(200).json({message: `User created with ID: ${createdUser[0].id}`})
     } catch (err) {
-        res.status(500).json({ message: err.message })
+        res.status(500).json({message: err.message })
     }
     
 }

@@ -1,4 +1,4 @@
-const { pool } = require('../../db/server.js');
+const { pool } = require('../../db.js');
 
 
 //FIGURE OUT HOW TO ACCESS SESSION ID TO PASS INTO FUNCTION

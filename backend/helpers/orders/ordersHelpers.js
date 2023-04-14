@@ -1,4 +1,4 @@
-const { pool } = require('../../db/server.js');
+const { pool } = require('../../db.js');
 
 const getAllOrdersQuery = async (user_id) => {
     try {

@@ -1,4 +1,4 @@
-const { pool } = require('../../db/server.js');
+const { pool } = require('../../db.js');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 
@@ -37,7 +37,7 @@ const findUserByEmail = async (email, cb) => {
         if (cb) {
             cb(null, foundUser.rows[0]);
         }
-        return foundUser.rows
+        return foundUser.rows[0] ? foundUser.rows[0]: null;
     } catch (err) {
         console.log(err)
         if (cb) {
@@ -55,7 +55,7 @@ const findUserByUsername = async (username, cb) => {
         if (cb) {
             cb(null, foundUser.rows[0]);
         }
-        return foundUser.rows;
+        return foundUser.rows[0] ? foundUser.rows[0]: null;
     } catch (err) {
         console.log(err);
         if (cb) {
@@ -72,7 +72,7 @@ const findUserById = async (id, cb) => {
         if (cb) {
             cb(null, foundUser.rows[0]);
         }
-        return foundUser.rows;
+        return foundUser.rows[0] ? foundUser.rows[0]: null;
     } catch (err) {
         console.log(err);
         if (cb) {
@@ -164,8 +164,22 @@ const updateUser = async (req, res) => {
     }
 }
 
+// Middleware function to check if user is authenticated
 
+const checkAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next()
+    } else res.redirect('/login')
+}
+
+// Middleware function to check if user is not authenticated
+
+const checkNotAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/');
+    } else next();
+}
 
 
 // Exports
-module.exports = { passwordHash, findUserByEmail, findUserByUsername, findUserById, updateUser, checkIfUsernameTaken, checkIfEmailTaken, validateFieldLength }
+module.exports = { passwordHash, findUserByEmail, findUserByUsername, findUserById, updateUser, checkIfUsernameTaken, checkIfEmailTaken, validateFieldLength, checkAuthenticated, checkNotAuthenticated }
