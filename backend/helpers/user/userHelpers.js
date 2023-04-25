@@ -21,9 +21,9 @@ const passwordHash = async (password, saltRounds) => {
 const validateFieldLength = (field, fieldValue, min, max) => {
     if (!validator.isLength(fieldValue, {min, max})) {
         if (fieldValue.length < min) {
-            res.send(`${field} TOO SHORT`)
+            return (`${field} TOO SHORT`)
         } else {
-            res.send(`${field} TOO LONG`)
+            return (`${field} TOO LONG`)
         }
         return
     }
@@ -81,25 +81,6 @@ const findUserById = async (id, cb) => {
     }
 };
 
-// Function to check if username is taken 
-
-const checkIfUsernameTaken = async (username) => {
-    const usernameFound = await findUserByUsername(username)
-    if (usernameFound.length !== 0) {
-        res.send('USERNAME TAKEN')
-        return
-    } else return null
-};
-
-// Function to check if email is taken 
-const checkIfEmailTaken = async (email) => {
-    const userFound = await findUserByEmail(email);
-    if (userFound.length !== 0) {
-        res.send('EMAIL ALREADY IN USE')
-        return
-    } else return null
-}
-
 
 // Function to update user field
 
@@ -122,45 +103,56 @@ const updateUser = async (req, res) => {
     const { username, password, first_name, last_name, telephone, email } = req.body;
     if (username) {
         validateFieldLength('USERNAME', username, 2, 20);
-        checkIfUsernameTaken(username)
+        //CHECK IF USERNAME IS ALREADY TAKEN
+        const usernameFound = await findUserByUsername(username)
+        usernameFound ? res.json({message: 'USERNAME TAKEN'}): null
+
+        
         const updatedUser = await updateField('username', username, id);
-        res.send(`USERNAME UPDATED TO: ${updatedUser[0].username}`)
+        return res.json({message: `USERNAME UPDATED TO: ${updatedUser[0].username}`})
     }
     if (password) {
         // PASSWORD STRENGTH; REFER TO DOCUMENTATION WHEN CREATED FRONT END PROMPT
         // if (!validator.isStrongPassword(password)) {
-        //     res.send('PASSWORD NOT STRONG ENOUGH');
+        //     res.json({message: 'PASSWORD NOT STRONG ENOUGH'});
         // }
         const hashedPassword = passwordHash(password);
         await updateField('password', hashedPassword, id);
-        res.send('PASSWORD UPDATED')
+        return res.json({message: 'PASSWORD UPDATED'})
     }
     if (first_name) {
         validateFieldLength('FIRST NAME', first_name, 2, 20);
         const updatedUser = await updateField('first_name', first_name, id);
-        res.send(`FIRST NAME UPDATED TO: ${updatedUser[0].first_name}`)
+        return res.json({message: `FIRST NAME UPDATED TO: ${updatedUser[0].first_name}`})
     }
     if (last_name) {
         validateFieldLength('LAST NAME', last_name, 2, 20);
         const updatedUser = await updateField('last_name', last_name, id);
-        res.send(`LAST NAME UPDATED TO: ${updatedUser[0].last_name}`)
+        return res.json({message:`LAST NAME UPDATED TO: ${updatedUser[0].last_name}`})
 
     }
     if (telephone) {
         // ADD PHONE VALIDATOR
         const updatedUser = await updateField('telephone',telephone, id);
-        res.send(`TELEPHONE UPDATED TO: ${updatedUser[0].telephone}`)
+        return res.json({message: `TELEPHONE UPDATED TO: ${updatedUser[0].telephone}`})
 
     } 
     if (email) {
         if (!validator.isEmail(email)) {
-            res.send('INVALID EMAIL');
-            return
+            return res.status(409).json({message: 'INVALID EMAIL'});
+            
         }
         const formattedEmail = validator.normalizeEmail(email); 
-        checkIfEmailTaken(formattedEmail);
+        
+        // CHECK IF USER EXISTS IN DATABASE
+        const userFound = await findUserByEmail(formattedEmail);
+        userFound ? res.status(409).json({message: 'EMAIL ALREADY IN USE'}): null
+        
+                
+        
+                
         const updatedUser = await updateField('email', formattedEmail, id);
-        res.send(`EMAIL UPDATED TO: ${updatedUser[0].email}`);
+        return res.json({message: `EMAIL UPDATED TO: ${updatedUser[0].email}`});
     }
 }
 
@@ -182,4 +174,4 @@ const checkNotAuthenticated = (req, res, next) => {
 
 
 // Exports
-module.exports = { passwordHash, findUserByEmail, findUserByUsername, findUserById, updateUser, checkIfUsernameTaken, checkIfEmailTaken, validateFieldLength, checkAuthenticated, checkNotAuthenticated }
+module.exports = { passwordHash, findUserByEmail, findUserByUsername, findUserById, updateUser, validateFieldLength, checkAuthenticated, checkNotAuthenticated }

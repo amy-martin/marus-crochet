@@ -6,30 +6,34 @@ const passport = require('passport')
 
 // REGISTRATION ROUTES
 
-// userRouter.get('/register', checkNotAuthenticated, (req, res) => {
-//     res.render('register')
-// });
+userRouter.get('/register', checkNotAuthenticated, (req, res) => {
+    res.render('register')
+});
 
-userRouter.post('/register', checkNotAuthenticated, registerUser);
+userRouter.post('/register', 
+checkNotAuthenticated, 
+registerUser);
 
 // LOGIN ROUTES
 
-// userRouter.get('/login', checkNotAuthenticated, (req, res) => {
-//     res.render('login')
-// });
+userRouter.get('/login', checkNotAuthenticated, (req, res) => {
+    res.render('login')
+});
 
-userRouter.post('/login', checkNotAuthenticated, passport.authenticate('local', (err, user, info) => {
+userRouter.post('/login', checkNotAuthenticated, (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
     if (err) {
         return res.status(401).json({message: err});
     }
     if (!user) {
         return res.status(401).json({message: info})
     }
-    req.logIn(user, function (err) {
+    req.logIn(user, (err) => {
         if (err) next(err);
         return res.send(user)
     });
-}))
+    })(req, res, next)
+});
 
 // PROFILE ROUTES
 
@@ -37,14 +41,17 @@ userRouter.get('/profile', (req, res) => {
     res.render('profile', {user: req.user})
 });
 
-userRouter.put('/profile', passport.authenticate('local', (err, user, info) => {
+userRouter.put('/profile', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
     if (err) {
         return res.status(401).json({message: err});
     }
     if (!user) {
         return res.status(401).json({message: info})
     }
-}), updateUser);
+})(req,res,next)
+}, 
+updateUser);
 
 
 // LOGOUT ROUTES
