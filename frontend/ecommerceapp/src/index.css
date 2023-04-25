@@ -15,6 +15,13 @@ body {
   font-weight: 300;
 }
 
+/* TEXT STYLING */
+
+h3, h4 {
+  font-weight: 300;
+}
+
+
 /* NAVBAR STYLING */
 header {
   width: 100%;
@@ -91,12 +98,7 @@ nav {
   font-weight: 400;
 }
 
-.generic-nav-component h3 {
-  font-weight: 300;
-}
-.user-nav-component h4 {
-  font-weight: 300;
-}
+
 /* LOGIN STYLING */
 
 .login-form {
@@ -139,3 +141,35 @@ nav {
   padding: 10px;
 }
 
+/* HOME PAGE STYLING */
+
+.home-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  align-self: center;
+}
+.home-page .category-container {
+  width: 25%;
+  min-height: 600px;
+}
+
+.home-page .category-container link {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.home-page .category-container .product-tile-container {
+  height: 300px;
+  width: auto;
+}
+.home-page .category-container img {
+  object-fit: cover;
+}
+.home-page .category-container h3 {
+  height: auto;
+}

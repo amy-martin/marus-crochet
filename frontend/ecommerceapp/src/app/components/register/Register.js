@@ -15,7 +15,6 @@ export const Register = () => {
         if (password !== confirmationPassword) {
             throw new Error('Passwords Do Not Match')
         } else {
-            
             const requestOptions = {
                 method: 'POST',
                 mode: 'cors',
@@ -31,21 +30,26 @@ export const Register = () => {
                     password
                 })
             };
-            fetch('http://localHost:3000/user/register', requestOptions)
+            try {
+                fetch('http://localHost:3000/user/register', requestOptions)
                 .then(async response => {
                     const responseObject = {
                         status: response.status,
-                        json: await response.json()
-
+                        info: await response.json()
                     }
                     return responseObject})
                 .then(responseData => {
-                    if (responseData.status == 200) {
-                        console.log(responseData)
+                    if (responseData.status === 409) {
+                        alert(responseData.info.message)
+                        navigate('/register')
+                    } else if (responseData.status === 200) {  
                         navigate('/login')
                     } else return responseData.status
-                    
-                });
+                })
+            } catch (e) {
+                throw new e
+            }
+            
         }
     }
 

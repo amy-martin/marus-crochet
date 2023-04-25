@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 export const LogIn = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Entered handleSubmit function')
         const requestOptions = {
             method: 'POST',
             mode: 'cors',
@@ -20,7 +20,8 @@ export const LogIn = () => {
             })
         };
         fetch('http://localHost:3000/user/login', requestOptions)
-            .then(res => console.log(res))
+            .then(async res => await res.json())
+            .then(navigate('/'))
     }
     return (
         <div className='login'>
