@@ -19,6 +19,7 @@ const flash = require('express-flash')
 const initializePassport = require('./helpers/user/passportConfigHelper');
 const { findUserByUsername, findUserById } = require('./helpers/user/userHelpers.js');
 const { homeRouter } = require('./routes/home.js');
+const { productRouter } = require('./routes/product.js');
 dotenv.config();
 
 
@@ -82,6 +83,8 @@ app.use('/home', homeRouter)
 app.use('/user', userRouter);
 
 // Mounting Product Routes
+
+app.use('/product', productRouter)
 app.use('/products', productsRouter)
 
 // Mounting Cart Routes

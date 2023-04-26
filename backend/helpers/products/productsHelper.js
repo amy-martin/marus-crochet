@@ -1,10 +1,10 @@
 const { pool } = require('../../db.js');
 
 // Function To Find Product List From Database By Category
-const findProductsByCategory = async (name) => {
+const findProductsByCategory = async (category) => {
     try {
-        const SQL = 'SELECT * FROM products WHERE name=$1';
-        const products = await pool.query(SQL, [name]);
+        const SQL = 'SELECT *, product_categories.id as category_id FROM product_categories INNER JOIN products ON products.category_id = product_categories.id WHERE product_categories.name=$1';
+        const products = await pool.query(SQL, [category]);
         return products.rows
         
     } catch (err) {
@@ -27,13 +27,13 @@ const findProducts = async () => {
 
 const getProducts = async (req, res, next) => {
     try {
-        const { category } = req.query;
+        const { category } = req.params;
         if (category) {
             const productsListByCategory = await findProductsByCategory(category);
             return res.json({products: productsListByCategory});
         } else {
             const products = await findProducts();
-            return res.json({message: `Products Found: ${products}`});
+            return res.json({products});
         };
     } catch (err) {
         return res.status(500).json({ message: err.message })
