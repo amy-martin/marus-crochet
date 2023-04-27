@@ -7,7 +7,7 @@ export const NavBar = () => {
             <div className = "nav-components">
                 <ul className='left generic-nav-component' >
                     <li>
-                        <h3><a>PRODUCTS</a></h3>
+                        <h3><Link to='/products'>PRODUCTS</Link></h3>
                     </li>
                     <li>
                         <h3><a>NEW</a></h3>
@@ -18,7 +18,7 @@ export const NavBar = () => {
                 </ul>
                 <ul className="middle generic-nav-component">
                     <li>
-                        <h1 className="site-name"><a>MARU</a></h1>
+                        <h1 className="site-name"><Link to='/'>MARU</Link></h1>
                     </li>
                 </ul>
                 
