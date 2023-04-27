@@ -16,7 +16,7 @@ const findProductsByCategory = async (category) => {
 // Function to Find All Products From Database Grouped By Category
 const findProducts = async () => {
     try {
-        const SQL = 'SELECT * FROM products GROUP BY category_id'
+        const SQL = 'SELECT * FROM products GROUP BY id,category_id'
         const products = await pool.query(SQL);
         return products.rows
     } catch (err) {
