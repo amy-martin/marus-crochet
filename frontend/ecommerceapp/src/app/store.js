@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import homePageReducer 
+import cartReducer from './components/cart/slice/cartSlice' 
+import sideBarReducer from "./components/navbar/slice/sideBarSlice";
 
 export default configureStore({
     reducer: {
-        // posts: postsReducer,
-        // comments: commentsReducer,
-        // post: postReducer
+        cart: cartReducer,
+        sidebar: sideBarReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 })

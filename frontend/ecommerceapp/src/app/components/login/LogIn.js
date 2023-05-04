@@ -27,12 +27,24 @@ export const LogIn = () => {
         <div className='login'>
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="login-container">
-                    <label>Username: </label>
-                    <input type="text" placeholder="Enter username" name="username" onChange={e => setUsername(e.target.value)}></input>
-                    <label>Password: </label>
-                    <input type="password" placeholder="Enter password" name="password" onChange={e => setPassword(e.target.value)}></input>
-                    <button type="submit">Log In</button>
-                    <h3>Not registered? <Link to='/register'>Register here</Link></h3>
+                    <div className="login-inputs login-item">
+                        <div className="login-input">
+                            <div className='label-container'><label>Username: </label></div>
+                            <input type="text" placeholder="Enter username" name="username" onChange={e => setUsername(e.target.value)}></input>
+                        </div>
+                        <div className="login-input">
+                            <div className='label-container'><label>Password: </label></div>
+                            
+                            <input type="password" placeholder="Enter password" name="password" onChange={e => setPassword(e.target.value)}></input>
+                        </div>
+                    </div>
+
+                    <div className="login-item">
+                        <button type="submit">Log In</button>
+                    </div>
+                    <div className="login-item">
+                        <h4>Not registered? <Link to='/register'>Register here</Link></h4>
+                    </div>
                 </div>
             </form>
         </div>

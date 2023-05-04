@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 import { retrieveProducts } from "../../helpers/products";
 import { CategoryTile } from "./CategoryTile";
 
@@ -26,13 +26,13 @@ export const HomePage = () => {
 
     return (
         <div className="home-page">
-            <h2 className="category-title">CATEGORIES</h2>
+            <h2 className="category-title">OUR COLLECTION</h2>
             <div className="categories">
                 <CategoryTile category='women' url={womensImageURL}/>
                 <CategoryTile category='men' url={mensImageURL}/>
                 <CategoryTile category='accessories' url={accessoriesImageURL}/>
             </div>
-
+            <h3 id="view-all-link"><Link to='/products'>VIEW ALL</Link></h3>
         </div>
     )
 }

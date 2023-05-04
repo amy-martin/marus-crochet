@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -86,6 +86,7 @@ export const Register = () => {
                         <input type="password" placeholder="" name="confirmation-password" onChange={e => setConfirmationPassword(e.target.value)}></input>
                     </div>
                     <button>Submit</button>
+                    <h4>Already registered? Log in <Link to='/login'>here</Link></h4>
                 </div>
                 
             </form>

@@ -1,11 +1,12 @@
 import React from "react";
 
 export const ProductInfo = (props) => {
-    const {productName, price} = props
+    const {product} = props
+    const {name, price} = product
 
     return (
-        <div className="product-tile-info">
-            <h3>{productName}</h3>
+        <div className="product-info">
+            <h3>{name}</h3>
             <h5>${price}</h5>
         </div>
     )

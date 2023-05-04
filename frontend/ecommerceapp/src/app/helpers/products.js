@@ -1,4 +1,4 @@
-const retrieveProduct = async (productID=1) => {
+const retrieveProduct = async (productID) => {
     const response = await fetch(`http://localhost:3000/product/${productID}`)
     const json = await response.json();
     const product = json.product
