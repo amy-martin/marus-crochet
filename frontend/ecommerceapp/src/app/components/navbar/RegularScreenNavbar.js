@@ -16,7 +16,7 @@ export const RegularScreenNavBar = () => {
                         <h3><Link>NEW</Link></h3>
                     </li>
                     <li>
-                        <h3><Link>BRAND</Link></h3>
+                        <h3><Link>ABOUT US</Link></h3>
                     </li>
                 </ul>
                 <ul className="middle generic-nav-component">

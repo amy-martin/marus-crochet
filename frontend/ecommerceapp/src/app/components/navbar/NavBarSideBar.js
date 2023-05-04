@@ -33,7 +33,7 @@ export const NavBarSideBar = () => {
             <div className="sidebar-content">
                 <h3 className="nav-component"><Link to='/products'>PRODUCTS</Link></h3>
                 <h3 className="nav-component"><Link>NEW</Link></h3>
-                <h3 className="nav-component"><Link>BRAND</Link></h3>
+                <h3 className="nav-component"><Link>ABOUT US</Link></h3>
                 <h3 className="nav-component"><Link>CUSTOMER SERVICE</Link></h3>
                 <h3 className="nav-component"><Link>SEARCH</Link></h3>
                 <ul className="user nav-component">
