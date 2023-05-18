@@ -1,30 +1,53 @@
 import React, { useState } from "react";
-import {Link, useNavigate} from "react-router-dom"
+import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom"
+import { selectisLoggedIn, setToLoggedIn } from "./loginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Flash } from "../miscellaneous/flash/Flash";
+import { setUser, selectUser } from "../user/userSlice";
 
 export const LogIn = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const flash = location.state ? location.state.flash: null
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch()
+    const user = useSelector(selectUser)
+
+    
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = sessionStorage.getItem('token');
         const requestOptions = {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
             headers: {
-                "Content-Type": "application/json"
+                Accept: 'application/json',
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
                 username,
                 password
             })
         };
-        fetch('http://localHost:3000/user/login', requestOptions)
-            .then(async res => await res.json())
-            .then(navigate('/'))
+        try {
+            fetch('http://localHost:3000/user/login', requestOptions)
+                .then(async res => await res.json())
+                .then(res => dispatch(setUser(res)))
+                .then(console.log(user))
+                .then(dispatch(setToLoggedIn()))
+                .then(navigate('/'))
+        } catch (e) {
+            throw e
+        }
+
     }
     return (
-        <div className='login'>
+        <div className='login flash-message-container'>
+            {flash ? <Flash flash = {true} flashMessage={'Please log in or register before continuing'} backgroundColor ='rgba(216,80,39, .7)'/>: <Flash flash = {false} />}
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="login-container">
                     <div className="login-inputs login-item">

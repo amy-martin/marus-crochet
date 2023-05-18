@@ -3,10 +3,9 @@ import { useDispatch } from "react-redux";
 import { toggleDisplay } from "./slice/sideBarSlice";
 
 export const SideBarIcon = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const handleClick = () => {
-        console.log('Clicked!')
         dispatch(toggleDisplay());
     }
     return (

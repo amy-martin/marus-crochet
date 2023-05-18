@@ -6,12 +6,12 @@ export const cartSlice = createSlice({
         quantity: 0
     },
     reducers: {
-        clearQuantity: state => state.quantity = 0,
-        changeByAmount: (state, action) => state.quantity = action.payload
+        clearCartQuantity: state => state.quantity = 0,
+        changeCartByAmount: (state, action) => state.quantity = action.payload
     }
 });
 
-export const { clearQuantity, changeByAmount } = cartSlice.actions;
-export const selectQuantity = state => state.cart.quantity;
+export const { clearCartQuantity, changeCartByAmount } = cartSlice.actions;
+export const selectCartQuantity = state => state.cart.quantity;
 
 export default cartSlice.reducer;

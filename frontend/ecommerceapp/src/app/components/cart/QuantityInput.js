@@ -1,5 +1,5 @@
 import React from "react";
-import { selectQuantity, increment, decrement, changeByAmount } from "./slice/cartSlice";
+import { selectCartQuantity, increment, decrement, changeByAmount } from "./slice/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export const QuantityInput = () => {

@@ -1,5 +1,8 @@
 import { Loading } from "../components/miscellaneous/Loading"
 import { FailedToLoad } from "../components/miscellaneous/FailedToLoad"
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+
 
 // Function to Check if State is Loading, Loaded or Failed
 
@@ -11,10 +14,5 @@ export const checkState = (toCheck) => {
     } else return null
 };
 
-// Function to require login 
-
-// export const requireAuth = (nextState, replace, next) => {
-//     if 
-// }
 
 

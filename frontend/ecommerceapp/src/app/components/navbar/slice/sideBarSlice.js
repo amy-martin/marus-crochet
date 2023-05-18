@@ -13,12 +13,15 @@ const sideBarSlice = createSlice({
             if (state.display == 'none') {
                 state.display = 'flex'
             } else state.display = 'none'
+        },
+        turnOffDisplay: state => {
+            state.display = 'none'
         }
     }
 });
 
 
 export default sideBarSlice.reducer;
-export const { toggleDisplay, changeDisplayByValue } = sideBarSlice.actions;
-export const selectDisplay = (state) => state.sidebar.display;
+export const { toggleDisplay, changeDisplayByValue, turnOffDisplay } = sideBarSlice.actions;
+export const selectSideBarDisplay = (state) => state.sidebar.display;
 

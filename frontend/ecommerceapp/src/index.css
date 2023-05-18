@@ -15,7 +15,10 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
 }
-
+main {
+  min-height: 100%;
+  overflow: auto;
+}
 /* TEXT STYLING */
 
 h2, h3, h4, h5 {
@@ -56,7 +59,6 @@ nav {
   width: 43%;
 }
 
-
 /* CONTAINER HOLDING MIDDLE MAIN NAV COMPONENTS */
 .middle.generic-nav-component {
   width: 14%;
@@ -77,22 +79,28 @@ nav {
   display: flex;
   flex-direction: row;
   list-style-type: none;
+  justify-content: center;
+  align-items: center;
 }
 
 /* CONTAINER HOLDING USER/SESSION SPECIFIC NAV COMPONENTS */
-.user-nav-component {
-  height: 50%;
+.user.nav-component {
   width: 14%;
+  height: auto;
+}
+.user-specific-options {
+  height: 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   height: auto;
   list-style-type: none;
-  
+  text-align: right;
   padding-right: 30px;
 
 }
 /* USER SPECIFIC ITEMS */
-.user-nav-component li {
+.user-specific-options li {
   width:auto;
   padding-bottom: 10px;
   padding-top: 10px;
@@ -122,6 +130,9 @@ nav {
   text-decoration: none;
 }
 
+
+
+
 /* NAVBAR SIDEBAR STYLING */
 
 
@@ -142,7 +153,37 @@ nav hr {
 
 }
 
+/* CATETRGORY DROPDOWN STYLING */
+.regular-screen {
+  width: 100%;
+  height: auto;
+}
+.regular-screen-nav-bar {
+  width: 100%;
+  height: auto;
+}
 
+.regular-screen .category-dropdown {
+  position: absolute;
+  background-color: rgba(123, 111, 100, .75);
+  height: 60px;
+  width: 100%;
+}
+.regular-screen .category-dropdown ul {
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%
+}
+.regular-screen .category-dropdown ul>*{
+  width: auto;
+  height:auto
+}
+.regular-screen category-dropdown >* {
+  height: auto;
+  width: auto;
+}
 /* STYLING FOR NAV SIDEBAR */
 
 .sidebar {
@@ -150,6 +191,8 @@ nav hr {
   z-index: 1;
   background-color: rgba(123, 111, 100, 0.5);
   color:#7B6F64;
+  min-height: 100%;
+  
 }
 
 .sidebar-content {
@@ -162,10 +205,11 @@ nav hr {
 }
 .sidebar .nav-component {
   width: 250px;
-  text-align: center;
+  text-align: left;
   padding: 15px;
   margin: 15px;
   background-color: white;
+  border-radius: 2px;
 }
 .sidebar ul {
   display: flex;
@@ -183,11 +227,39 @@ nav hr {
 .sidebar li {
   height: auto;
 }
+.sidebar-content .nav-component a, .sidebar-content .nav-component .category-dropdown li a{
+  text-decoration: none;
+}
+.sidebar-content .nav-component a:hover, .sidebar-content .nav-component .category-dropdown li a{
+  text-decoration: underline;
+}
+.sidebar-content .category-dropdown {
+  padding: 20px;
+  
+  text-align: left;
+}
+.sidebar-content .category-dropdown ul >*{
+  padding: 10px;
+  margin: 2.5px;
+ 
+}
+.sidebar-content.user.nav-component {
+  height: auto;
+  max-height: 250px;
+}
+.sidebar-content.user-specific-options {
+ height: auto
+}
+
+.sidebar-content.user-specific-options >* {
+  height: auto;
+}
+
 
 /* MEDIA QUERIES FOR DIFFERENT SCREEN SIZES */
 
 @media (max-width: 689px) {
-  nav .regular-screen {
+  .regular-screen {
     display: none;
   }
   nav .small-screen {
@@ -202,24 +274,37 @@ nav hr {
  
 }
 @media (min-width: 690px) {
-  nav .small-screen {
+  header .small-screen {
     display: none;
   }
   h1 #site-title {
     width:fit-content;
   }
 }
+/* FLASH MESSAGE STYLING */
+ 
+.flash-message {
+  text-align: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  height: auto;
+  width: 450px;
+}
+
 /* LOGIN STYLING */
 .login {
   width: 100%;
-  height: 100%;
+  margin-top: 200px;
+  height: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   font-size: 15px;
 }
 
 .login-form {
-  margin: 100px;
   width: 450px;
   height: 300px;
   background-color:#7B6F64;
@@ -250,7 +335,7 @@ nav hr {
 .login-form input {
   width: 130px;
 }
-.login-form input, .login-form button {
+.login-form input, button {
   height: auto;
   color:#7B6F64 ;
   font-family: 'Montserrat', sans-serif;
@@ -258,7 +343,7 @@ nav hr {
   padding-left: 2.5px;
   padding-right: 2.5px;
 }
-.login-form button {
+button {
   width: auto;
   height: auto;
 }
@@ -348,10 +433,10 @@ nav hr {
 .home-page .category-title {
   font-size: 30px;
   height: auto;
-  padding-top: 100px;
+  padding-top: 75px;
 }
 .categories {
-  padding-top: 100px;
+  padding-top: 50px;
   width: 100%;
   height: auto;
   display: flex;
@@ -360,10 +445,9 @@ nav hr {
 }
 .home-page .category-container {
   height: auto;
-  width:300px;
+  width:400px;
   text-align: center;
 }
-
 .home-page .category-container .link {
   width: 100%;
   display: flex;
@@ -408,10 +492,11 @@ nav hr {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding-top: 75px;
 }
 .products-page h2 {
-  padding-top: 50px;
   height: auto;
+  font-size: 25px;
   font-weight: 400
 }
 .product-list-container {
@@ -469,7 +554,7 @@ nav hr {
   flex-direction: column;
   justify-content: baseline;
   align-items: center;
-  padding-top: 30px;
+  padding-top: 75px;
 }
 .product {
   width: 70%;
@@ -525,3 +610,119 @@ nav hr {
   color: #7B6F64;
 
 }
+
+/* ABOUT US PAGE STYLING */
+
+.about-us {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 55px;
+  padding-right: 200px;
+  padding-left: 200px;
+}
+
+.about-us>* {
+  height: auto;
+  padding: 20px;
+}
+
+.about-us h2 {
+  font-size: 25px;
+  font-weight: 400;
+
+}
+.about-us p {
+  font-size: 15px;
+
+  font-weight: 400
+}
+
+/* CONTACT US PAGE STYLING */
+
+.contact-us {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 55px;
+  padding-right: 200px;
+  padding-left: 200px;
+}
+
+.contact-us>* {
+  height: auto;
+  padding: 20px;
+}
+
+.contact-info>* {
+  height: auto;
+}
+.contact-us h2{
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.contact-us h3{
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.contact-us p{
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* PROFILE PAGE STYLING */
+.account-container {
+  height: auto;
+  padding: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.account-container h2 {
+  font-size: 25px;
+  font-weight: 400;
+
+}
+
+.account-container>* {
+  height: auto;
+  width: auto;
+}
+.account-info {
+  width: 50%
+}
+
+.account-entry-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.account-entry-container h4 {
+  padding-bottom: 5px;
+  font-size: 14px;
+}
+
+.account-entry-container h3 {
+  font-size:16px;
+}
+
+
+/* ACCOUNT EDITTING PAGE STYLING */
+
+.account-update-form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.account-update-form input {
+  font-size: 14px;
+  color: #7B6F64;
+}
+
+/* NOTES */
+
+/* PADDING TOP FOR MOST MAIN PAGES SHOULD COME TO EQUAL 75PX TO BE CONSTANT */

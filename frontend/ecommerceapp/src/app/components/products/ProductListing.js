@@ -12,12 +12,10 @@ export const ProductListing = () => {
     useEffect(() => {
         if (category) {
             retrieveProducts(category).then(products => {
-                console.log(productList)
                 setProductList(Array.isArray(products) ? products : 'Failed to Load')
             }) 
         } else {
             retrieveProducts().then(products => {
-                console.log(productList)
                 setProductList(Array.isArray(products) ? products : 'Failed to Load')
             })
         }
