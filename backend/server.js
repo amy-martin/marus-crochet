@@ -20,6 +20,7 @@ const initializePassport = require('./helpers/user/passportConfigHelper');
 const { findUserByUsername, findUserById } = require('./helpers/user/userHelpers.js');
 const { homeRouter } = require('./routes/home.js');
 const { productRouter } = require('./routes/product.js');
+const { newRouter } = require('./routes/new.js');
 dotenv.config();
 
 
@@ -86,6 +87,7 @@ app.use('/user', userRouter);
 
 app.use('/product', productRouter)
 app.use('/products', productsRouter)
+app.use('/new', newRouter)
 
 // Mounting Cart Routes
 

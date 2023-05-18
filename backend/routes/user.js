@@ -16,50 +16,53 @@ registerUser);
 
 // LOGIN ROUTES
 
-userRouter.get('/login', checkNotAuthenticated, (req, res) => {
-    res.render('login')
-});
-
 userRouter.post('/login', checkNotAuthenticated, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
     if (err) {
-        return res.status(401).json({message: err});
+        return res.status(401).json({err});
     }
     if (!user) {
-        return res.status(401).json({message: info})
+        return res.status(401).json({info})
     }
     req.logIn(user, (err) => {
         if (err) next(err);
         return res.send(user)
     });
     })(req, res, next)
-});
-
+},   function(req, res) {
+    // if this gets called then authentication was successful
+    res.cookie('session', { id: req.user.id,secure: true, signed: true, expires: new Date(Date.now() + 3600) });
+ });
+ 
 // PROFILE ROUTES
 
-userRouter.get('/profile', (req, res) => {
-    res.render('profile', {user: req.user})
-});
-
-userRouter.put('/profile', (req, res, next) => {
+userRouter.get('/profile', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
     if (err) {
-        return res.status(401).json({message: err});
+        return res.status(401).json({err});
     }
     if (!user) {
-        return res.status(401).json({message: info})
+        return res.status(401).json({info})
     }
 })(req,res,next)
-}, 
-updateUser);
+}, (req, res) => {
+    try {
+        return res.status(200).json({user: req.user})
+    } catch (e) {
+        console.log(e)
+    }
+});
+
+userRouter.put('/profile', updateUser);
 
 
 // LOGOUT ROUTES
 
-userRouter.get('/logout', (req, res) => {
-    req.logout();
-    req.session.destroy()
-    res.redirect('/login');
+userRouter.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+      if (err) { return next(err); }
+      res.redirect('/login');
+    });
 });
 
 // Exports

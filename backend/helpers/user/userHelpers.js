@@ -43,7 +43,6 @@ const findUserByEmail = async (email, cb) => {
         if (cb) {
             cb(err, null);
         }
-        
     }
 };
 
@@ -84,11 +83,11 @@ const findUserById = async (id, cb) => {
 
 // Function to update user field
 
-const updateField = async (field, newFieldValue, userId) => {
+const updateField = async (field, newFieldValue, username) => {
     try {
-        const SQL = `UPDATE users SET ${field}=$1 WHERE id=$2`;
-        await pool.query(SQL, [newFieldValue, userId])
-        return findUserById(userId);
+        const SQL = `UPDATE users SET ${field}=$1 WHERE username=$2`;
+        await pool.query(SQL, [newFieldValue, username])
+        return await findUserByUsername(username);
     } catch (err) {
         console.log(err);
     }
@@ -97,44 +96,32 @@ const updateField = async (field, newFieldValue, userId) => {
 
 
 // Function to update user info
-const updateUser = async (req, res) => {    
-    const { user } = req.user;
-    const { id } = user;
+const updateUser = async (req, res) => {
     const { username, password, first_name, last_name, telephone, email } = req.body;
-    if (username) {
-        validateFieldLength('USERNAME', username, 2, 20);
-        //CHECK IF USERNAME IS ALREADY TAKEN
-        const usernameFound = await findUserByUsername(username)
-        usernameFound ? res.json({message: 'USERNAME TAKEN'}): null
-
-        
-        const updatedUser = await updateField('username', username, id);
-        return res.json({message: `USERNAME UPDATED TO: ${updatedUser[0].username}`})
-    }
     if (password) {
         // PASSWORD STRENGTH; REFER TO DOCUMENTATION WHEN CREATED FRONT END PROMPT
         // if (!validator.isStrongPassword(password)) {
         //     res.json({message: 'PASSWORD NOT STRONG ENOUGH'});
         // }
         const hashedPassword = passwordHash(password);
-        await updateField('password', hashedPassword, id);
-        return res.json({message: 'PASSWORD UPDATED'})
+        await updateField('password', hashedPassword, username);
+        res.status(200).json({message: 'PASSWORD UPDATED'})
     }
     if (first_name) {
         validateFieldLength('FIRST NAME', first_name, 2, 20);
-        const updatedUser = await updateField('first_name', first_name, id);
-        return res.json({message: `FIRST NAME UPDATED TO: ${updatedUser[0].first_name}`})
+        const updatedUser = await updateField('first_name', first_name, username);
+        res.status(200).json({message: `FIRST NAME UPDATED TO: ${updatedUser.first_name}`})
     }
     if (last_name) {
         validateFieldLength('LAST NAME', last_name, 2, 20);
-        const updatedUser = await updateField('last_name', last_name, id);
-        return res.json({message:`LAST NAME UPDATED TO: ${updatedUser[0].last_name}`})
+        const updatedUser = await updateField('last_name', last_name, username);
+        res.status(200).json({message:`LAST NAME UPDATED TO: ${updatedUser.last_name}`})
 
     }
     if (telephone) {
         // ADD PHONE VALIDATOR
-        const updatedUser = await updateField('telephone',telephone, id);
-        return res.json({message: `TELEPHONE UPDATED TO: ${updatedUser[0].telephone}`})
+        const updatedUser = await updateField('telephone',telephone, username);
+        res.status(200).json({message: `PHONE NUMBER UPDATED TO: ${updatedUser.telephone}`})
 
     } 
     if (email) {
@@ -146,13 +133,13 @@ const updateUser = async (req, res) => {
         
         // CHECK IF USER EXISTS IN DATABASE
         const userFound = await findUserByEmail(formattedEmail);
-        userFound ? res.status(409).json({message: 'EMAIL ALREADY IN USE'}): null
+        if (userFound) {
+            return res.status(409).json({message: 'EMAIL ALREADY IN USE'})
+        }
         
                 
-        
-                
-        const updatedUser = await updateField('email', formattedEmail, id);
-        return res.json({message: `EMAIL UPDATED TO: ${updatedUser[0].email}`});
+        const updatedUser = await updateField('email', formattedEmail, username);
+        res.status(200).json({message: `EMAIL UPDATED TO: ${updatedUser.email}`});
     }
 }
 
