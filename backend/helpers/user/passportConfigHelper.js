@@ -7,15 +7,14 @@ const bcrypt = require('bcrypt');
 const initialize = (passport, findUserByUsername, fidnUserById) => {
     const authenticateUser = async (username, password, done) => {
         const user = await findUserByUsername(username);
-        console.log(user)
         if (user == null) {
-            return done(null, false, { message: 'No user with that email' })
+            return done(null, false, { err: true, message: 'No user with that username. Please try again or register to create an account.' })
         }
         try {
             if (await bcrypt.compare(password, user.password)) {
                 return done(null, user);
             } else {
-                return done(null, false, { message: 'Password incorrect' })
+                return done(null, false, { err: true, message: 'Password or email incorrect. Please try again.' })
             }
         } catch (e) {
             done(e)

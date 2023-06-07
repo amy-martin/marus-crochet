@@ -48,8 +48,8 @@ userRouter.get('/profile', (req, res, next) => {
 }, (req, res) => {
     try {
         return res.status(200).json({user: req.user})
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
     }
 });
 

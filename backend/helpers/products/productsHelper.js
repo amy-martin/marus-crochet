@@ -26,7 +26,6 @@ const findProducts = async () => {
 // Function to Retrieve Products by Descending ID Order (Newest Products First)
 const findNewProducts = async () => {
     try {
-        console.log("we're at the start of the sql query")
         const SQL = 'SELECT * FROM products ORDER BY id DESC'
         const products = await pool.query(SQL);
         return products.rows
@@ -58,7 +57,6 @@ const findProductById = async (productId) => {
     try {
         const SQL = 'SELECT * FROM products WHERE id=$1'
         const foundProduct = await pool.query(SQL, [productId]);
-        console.log(foundProduct)
         return foundProduct.rows[0]
     } catch (err) {
         console.log(err)
@@ -80,7 +78,6 @@ const getProductById = async(req, res, next) => {
 const getNewProducts = async(req, res, next) => {
     try {
         const products = await findNewProducts();
-        console.log("We're in the backend")
         console.log(products)
         return res.json({products})
     } catch (err) {
