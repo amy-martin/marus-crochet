@@ -28,7 +28,6 @@ export const NewProductListing = () => {
 
     return ( 
         <div className="products-page">
-            <h2>OUR NEWEST ADDITIONS</h2>
             <div className={`product-list-container new`}>
                 {checkState(productList) ? checkState(productList): productListMapping(productList)}
             </div>

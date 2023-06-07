@@ -14,11 +14,13 @@ export const RegularScreenNavBar = (props) => {
                 <div className = "regular-screen nav-components">
                     <ul className='left generic-nav-component' >
                         <li onMouseOver={handleCategoryClick}>
-                            <a>
-                                <h3>
+                            <h3>
+                                <a>
+                                    
                                     PRODUCTS
-                                </h3>                            
-                            </a>
+                                                            
+                                </a>
+                            </h3>
                             
                         </li>
                         <li>

@@ -10,7 +10,7 @@ export const Flash = (props) => {
         display = 'flex';
     } else display = 'none'
 
-    
+
     return (
         <div className={`flash-message ${className ? className: null}`} style={{display, backgroundColor}}>
             <h4>{flashMessage}</h4>

@@ -9,10 +9,19 @@ export const SideBarIcon = () => {
         dispatch(toggleDisplay());
     }
     return (
-        <div className="sidebar-icon" onClick={handleClick}>
-            <hr/>
-            <hr/>
-            <hr/>
+        <div className="sidebar-icon-container" onClick={handleClick}>
+            <ul className="sidebar-icon">
+                <li>
+                    <hr/>
+                </li>
+                <li>
+                    <hr/>
+                </li>
+                <li>
+                    <hr/>
+                </li>
+            </ul>
         </div>
+
     )
 }

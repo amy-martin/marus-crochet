@@ -41,7 +41,7 @@ export const ProductListing = () => {
 
     return ( 
         <div className="products-page">
-            <h2>{productPageTitle(category)}</h2>
+            {/* <h2>{productPageTitle(category)}</h2> */}
             <div className={`product-list-container ${category ? category:''}`}>
                 {checkState(productList) ? checkState(productList): productListMapping(productList)}
             </div>

@@ -4,18 +4,31 @@ import { selectUser } from "./userSlice";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { EditAccountButton } from "./EditAccountButton";
 import { Flash } from "../miscellaneous/flash/Flash";
+import { selectisLoggedIn } from "../login/loginSlice";
 
 export const Account = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const flash = location.state ? location.state.flash: null;
     const backgroundColor = location.state ? location.state.backgroundColor: null
-    const flashMessage = location.state ? location.state.flashMessage: null
+    const flashMessage = location.state ? location.state.flashMessage: null;
+    const flashTimeout = location.state ? location.state.flashTimeout: null
     const user = useSelector(selectUser);
+
+
+    useEffect(() => {
+        if (flashTimeout) {
+            setTimeout(() => {
+                navigate('/profile')
+            }, flashTimeout)
+        }
+    })
+
     return (
         <div className="account-container">
             <h2>MY ACCOUNT</h2>
-            {flash ? <Flash flash={flash} backgroundColor={backgroundColor} flashMessage={flashMessage}/>: <Flash flash={false} />}
+            <div className="account-info-container">
+            {flash ? <Flash flash={flash} backgroundColor={backgroundColor} flashMessage={flashMessage} />: <Flash flash={false} />}
             <div className="account-info">
                 <div className="account-entry-container username">
                     <div className="account-entry">
@@ -49,8 +62,11 @@ export const Account = () => {
                         <h3>{user.telephone}</h3>
                     </div>
                 </div>
+                <EditAccountButton />
             </div>
-            <EditAccountButton />
+
+            </div>
+
         </div>
     )
 }

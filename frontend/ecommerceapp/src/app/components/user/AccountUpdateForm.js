@@ -3,6 +3,8 @@ import { selectUser, updateUserField } from "./userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Flash } from "../miscellaneous/flash/Flash";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { BackButton } from "../miscellaneous/BackButton";
+import { selectisLoggedIn } from "../login/loginSlice";
 
 export const AccountUpdateForm = () => {
     const user = useSelector(selectUser);
@@ -10,6 +12,7 @@ export const AccountUpdateForm = () => {
     const flash = location.state ? location.state.flash: null
     const backgroundColor = location.state ? location.state.backgroundColor: null
     const flashMessage = location.state ? location.state.flashMessage: null
+    const isLoggedIn = useSelector(selectisLoggedIn)
 
 
     const [firstName, setFirstName] = useState(`${user.first_name}`);
@@ -62,13 +65,11 @@ export const AccountUpdateForm = () => {
             return res
         })
         .then(res => {
-            // console.log('Second .then statement: ' + res)
             if (res.status == 200) {
-                navigate('/profile', {state: {flash: true, backgroundColor: 'rgba(0, 117, 0, 0.7)', flashMessage: 'Account updated successfully'}, replace: true});
+                navigate('/profile', {state: {flash: true, backgroundColor: 'rgba(0, 117, 0, 0.7)', flashMessage: 'Account updated successfully', flashTimeout: 7000}, replace: true});
             } else {
                 navigate('/profile/edit', {state: {flash: true, backgroundColor: 'rgba(216,80,39, 0.7)', flashMessage: `${res.message}`}, replace: true});
             }
-            console.log(user)
          } )
     }
     return (
@@ -108,9 +109,14 @@ export const AccountUpdateForm = () => {
                             <input type="text" value={`${telephone}`} name='telephone' onChange={e => setTelephone(e.target.value)}></input>
                         </div>
                     </div>
+                    <div className='update-buttons'>
+                        <BackButton />
+                        <button type="submit" form='account-update-form'>Save</button>
+
+                    </div>
                 </div>
+
             </form>
-            <button type="submit" form='account-update-form'>Submit</button>
         </div>
     )
 }

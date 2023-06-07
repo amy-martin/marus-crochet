@@ -26,7 +26,6 @@ export const HomePage = () => {
 
     return (
         <div className="home-page">
-            <h2 className="category-title">OUR HANDMADE CROCHET COLLECTION</h2>
             <div className="categories">
                 <CategoryTile category='women' url={womensImageURL}/>
                 <CategoryTile category='men' url={mensImageURL}/>

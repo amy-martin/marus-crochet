@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { selectisLoggedIn } from "../login/loginSlice";
-import { selectCartQuantity } from "../cart/slice/cartSlice";
+// import { selectCartQuantity } from "../cart/slice/cartSlice";
 import { LogOut } from '../login/LogOut'
 
 export const UserOptions = () => {
     const isLoggedIn = useSelector(selectisLoggedIn)
-    const quantity = useSelector(selectCartQuantity)
+    // const quantity = useSelector(selectCartQuantity)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     
     const handleLoggedOutClick = (e) => {
         e.preventDefault();
         if (!isLoggedIn) {
-            navigate('/login', {state: {flash:true}})
+            navigate('/login', {state: {flash:true, flashMessage: 'Please log in before continuing'}})
         }
     }
     
@@ -26,7 +26,7 @@ export const UserOptions = () => {
             </li>
             <li>
                 {/* LINK TO CART VIEW */}
-                <h4 Link to="">CART ({quantity})</h4>
+                <h4 Link to="">CART (0)</h4>
             </li>
             <li>
                 <LogOut />
