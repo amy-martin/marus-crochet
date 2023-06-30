@@ -1,8 +1,12 @@
+const { generateToken, verifyToken } = require('../helpers/config/cookies.js');
+const { checkAuthenticated, checkNotAuthenticated } = require('../helpers/config/passport.js');
+const { addShoppingSession } = require('../helpers/shoppingSession/shoppingSessionHelpers.js');
 const { registerUser } = require('../helpers/user/registrationHelpers.js');
-const { updateUser, checkAuthenticated, checkNotAuthenticated } = require('../helpers/user/userHelpers')
+const { updateUser } = require('../helpers/user/userHelpers')
 const express = require('express');
 const userRouter = express.Router();
-const passport = require('passport')
+const passport = require('passport');
+
 
 // REGISTRATION ROUTES
 
@@ -10,61 +14,59 @@ userRouter.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register')
 });
 
-userRouter.post('/register', 
-checkNotAuthenticated, 
-registerUser);
+userRouter.post('/register', checkNotAuthenticated, registerUser);
 
 // LOGIN ROUTES
 
-userRouter.post('/login', checkNotAuthenticated, (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-    if (err) {
-        return res.status(401).json({err});
-    }
-    if (!user) {
-        return res.status(401).json({info})
-    }
-    req.logIn(user, (err) => {
-        if (err) next(err);
-        return res.send(user)
-    });
-    })(req, res, next)
-},   function(req, res) {
-    // if this gets called then authentication was successful
-    res.cookie('session', { id: req.user.id,secure: true, signed: true, expires: new Date(Date.now() + 3600) });
- });
- 
-// PROFILE ROUTES
+userRouter.post('/login', (req, res, next) => {
+    passport.authenticate('local', {session: true}, (err, user, info) => {
+        if (err) {
+            throw err
+        }
+        if (!user) {
+            return res.status(401).json({message: info.message})
+        }
+        req.login(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            const token = generateToken(user)
+            res.cookie('token', token, {httpOnly: true, secure:true})
+            return res.json({ message: 'Login successful', user })
+        });
 
-userRouter.get('/profile', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-    if (err) {
-        return res.status(401).json({err});
-    }
-    if (!user) {
-        return res.status(401).json({info})
-    }
-})(req,res,next)
-}, (req, res) => {
-    try {
-        return res.status(200).json({user: req.user})
-    } catch (err) {
-        console.log(err)
-    }
+    })(req, res, next)
 });
 
-userRouter.put('/profile', updateUser);
+
+
+
+// PROFILE ROUTES
+
+// userRouter.get('/profile', checkAuthenticated, (req, res) => {
+//     try {
+//         return res.status(200).json({user: req.user})
+//     } catch (err) {
+//         console.log(err)
+//     }
+// });
+
+userRouter.put('/profile', verifyToken, updateUser);
 
 
 // LOGOUT ROUTES
 
-userRouter.get('/logout', (req, res, next) => {
+userRouter.get('/logout', verifyToken, (req, res, next) => {
     req.logout((err) => {
-      if (err) { return next(err); }
-      res.redirect('/login');
+      if (err) { return next(err) };
     });
+    res.clearCookie('token');
+    res.status(200).json({message: 'Logout successful'})
 });
 
 // Exports
 
+
 module.exports = { userRouter }
+
+  

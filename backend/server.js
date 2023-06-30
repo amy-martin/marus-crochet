@@ -13,14 +13,14 @@ const { userRouter } = require('./routes/user.js');
 const { productsRouter } = require('./routes/products.js');
 const { cartRouter } = require('./routes/cart.js');
 const { ordersRouter } = require('./routes/orders.js');
-const { passportConfiguration } = require('./helpers/user/passportConfigHelper')
-const passport = require('passport')
-const flash = require('express-flash')
-const initializePassport = require('./helpers/user/passportConfigHelper');
-const { findUserByUsername, findUserById } = require('./helpers/user/userHelpers.js');
+const { shoppingSessionRouter } = require('./routes/shoppingSession.js');
+const flash = require('express-flash');
 const { homeRouter } = require('./routes/home.js');
 const { productRouter } = require('./routes/product.js');
 const { newRouter } = require('./routes/new.js');
+const passport = require('passport');
+const {initializePassport} = require('./helpers/config/passport.js');
+
 dotenv.config();
 
 
@@ -49,27 +49,20 @@ app.use(
             createTableIfMissing: true
         }),
         secret: process.env.SESSION_SECRET,
-        cookie: {
-            maxAge: 1000*60*60*24, 
-            secure: true,
-            httpOnly: false,
-            sameSite:"none"
-        },
         resave: false,
         saveUninitialized: false
     })
 );
 
-app.use(cookieParser(process.env.SESSION_SECRET))
-
 // Passport Configuration
 app.use(passport.initialize());
 app.use(passport.session());
-initializePassport(
-    passport,
-    findUserByUsername,
-    findUserById
-)
+initializePassport();
+
+
+app.use(cookieParser(process.env.SESSION_SECRET))
+
+
 
 // Miscellaneous Configurations
 // Express flash to interpret error messages passport authentication method provides
@@ -78,16 +71,20 @@ app.use(flash());
 
 // Mounting Home Routes
 
-app.use('/home', homeRouter)
+app.use('/home', homeRouter);
 
 // Mounting User Routes
 app.use('/user', userRouter);
 
+// Mounting Shopping Session Routes
+
+app.use('/shoppingSession', shoppingSessionRouter);
+
 // Mounting Product Routes
 
-app.use('/product', productRouter)
-app.use('/products', productsRouter)
-app.use('/new', newRouter)
+app.use('/product', productRouter);
+app.use('/products', productsRouter);
+app.use('/new', newRouter);
 
 // Mounting Cart Routes
 

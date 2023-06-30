@@ -78,7 +78,6 @@ const getProductById = async(req, res, next) => {
 const getNewProducts = async(req, res, next) => {
     try {
         const products = await findNewProducts();
-        console.log(products)
         return res.json({products})
     } catch (err) {
         return res.status(500).json({ message: err.message })

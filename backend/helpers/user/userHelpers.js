@@ -97,7 +97,7 @@ const updateField = async (field, newFieldValue, username) => {
 
 // Function to update user info
 const updateUser = async (req, res) => {
-    const { username, password, first_name, last_name, telephone, email } = req.body;
+    const { username, password, first_name, last_name, phone_number, email } = req.body;
     if (password) {
         // PASSWORD STRENGTH; REFER TO DOCUMENTATION WHEN CREATED FRONT END PROMPT
         // if (!validator.isStrongPassword(password)) {
@@ -118,10 +118,10 @@ const updateUser = async (req, res) => {
         res.status(200).json({message:`LAST NAME UPDATED TO: ${updatedUser.last_name}`})
 
     }
-    if (telephone) {
+    if (phone_number) {
         // ADD PHONE VALIDATOR
-        const updatedUser = await updateField('telephone',telephone, username);
-        res.status(200).json({message: `PHONE NUMBER UPDATED TO: ${updatedUser.telephone}`})
+        const updatedUser = await updateField('phone_number',phone_number, username);
+        res.status(200).json({message: `PHONE NUMBER UPDATED TO: ${updatedUser.phone_number}`})
 
     } 
     if (email) {
@@ -143,22 +143,5 @@ const updateUser = async (req, res) => {
     }
 }
 
-// Middleware function to check if user is authenticated
-
-const checkAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next()
-    } else res.redirect('/login')
-}
-
-// Middleware function to check if user is not authenticated
-
-const checkNotAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return res.redirect('/');
-    } else next();
-}
-
-
 // Exports
-module.exports = { passwordHash, findUserByEmail, findUserByUsername, findUserById, updateUser, validateFieldLength, checkAuthenticated, checkNotAuthenticated }
+module.exports = { passwordHash, findUserByEmail, findUserByUsername, findUserById, updateUser, validateFieldLength }

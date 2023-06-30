@@ -51,7 +51,7 @@ const getCartItem = async (req, res) => {
 
 const addCartItemQuery = async (sessionID, productId, quantity) => {
     try {
-        const SQL = 'INSERT INTO cart_item (session_id, product_id, quantity) VALUES ($1, $2, $3)';
+        const SQL = 'INSERT INTO cart_items (session_id, product_id, quantity) VALUES ($1, $2, $3)';
         await pool.query(SQL, [sessionID, productId, quantity]);
     } catch (err) {
         console.log(err);

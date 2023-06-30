@@ -8,11 +8,11 @@ const { passwordHash, findUserByEmail, findUserByUsername, validateFieldLength }
 
 
 // Registration function to create user in database
-const createUser = async (username, password, firstName, lastName, telephone, email) => {
+const createUser = async (username, password, firstName, lastName, phone_number, email) => {
     const hashedPassword = await passwordHash(password, 10);
-    const SQL = 'INSERT INTO users (username, password, first_name, last_name, telephone, email) VALUES ($1, $2, $3, $4, $5, $6)';
+    const SQL = 'INSERT INTO users (username, password, first_name, last_name, phone_number, email) VALUES ($1, $2, $3, $4, $5, $6)';
 
-    pool.query(SQL, [username, hashedPassword, firstName, lastName, telephone, email], (error, results) => {
+    pool.query(SQL, [username, hashedPassword, firstName, lastName, phone_number, email], (error, results) => {
         if (error) {
             throw error
         }
@@ -20,7 +20,7 @@ const createUser = async (username, password, firstName, lastName, telephone, em
 }
 // Callback function for register route that will register user and return success result
 const registerUser = async (req, res) => {
-    const {username, password, firstName, lastName, telephone, email} = req.body;
+    const {username, password, firstName, lastName, phone_number, email} = req.body;
     try {
 
         // DATA VALIDATION AND FORMATTING
@@ -38,7 +38,7 @@ const registerUser = async (req, res) => {
         // if (!validator.isStrongPassword(password)) {
         //     return res.json(message: {'PASSWORD NOT STRONG ENOUGH'});
         // }
-        // if (!validator.isMobilePhone(telephone)) {
+        // if (!validator.isMobilePhone(phone_number)) {
         //     return res.json({message: 'INVALID PHONE NUMBER'});
         //     
         // }
@@ -60,7 +60,7 @@ const registerUser = async (req, res) => {
         }
 
 
-        await createUser(username, password, firstName, lastName, telephone, formattedEmail);
+        await createUser(username, password, firstName, lastName, phone_number, formattedEmail);
         const createdUser = await findUserByEmail(formattedEmail);
 
         return res.status(200).json({message: `User created with ID: ${createdUser.id}`})
