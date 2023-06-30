@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom"
-import { selectisLoggedIn, setToLoggedIn } from "./loginSlice";
-import { useDispatch, useSelector } from "react-redux";
+import {Link, useLocation, useNavigate} from "react-router-dom"
+import { setToLoggedIn } from "./loginSlice";
+import { useDispatch } from "react-redux";
 import { Flash } from "../miscellaneous/flash/Flash";
-import { setUser, selectUser } from "../user/userSlice";
+import { setUser } from "../user/userSlice";
 
 export const LogIn = (props) => {
     const navigate = useNavigate();
@@ -13,13 +13,11 @@ export const LogIn = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch()
-    const user = useSelector(selectUser)
 
-    console.log(flashMessage)
     const handleSubmit = (e) => {
         e.preventDefault();
         const token = sessionStorage.getItem('token');
-        const requestOptions = {
+        const loginRequestOptions = {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -29,26 +27,53 @@ export const LogIn = (props) => {
                 Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
-                username,
-                password
+                username: username,
+                password: password
             })
         };
+        const shoppingSessionRequestOptions = {
+            method:'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
         try {
-            fetch('http://localHost:3000/user/login', requestOptions)
-                .then(async res => await res.json())
-                .then(res => {
-                    if (res.info && res.info.err) {
-                        // ADD FLASH MESSAGE
-                        navigate('/login', {state: {flash: true, flashMessage: res.info.message }} )
-                    } else {
-                        dispatch(setUser(res))
+            fetch('http://localHost:3000/user/login', loginRequestOptions)
+                .then(async res => {
+                    console.log(res)
+                    if (res.ok) {
+                        const response = await res.json();
+                        dispatch(setUser(response.user));
                         dispatch(setToLoggedIn())
-                        navigate('/profile', {state: {flash: true, backgroundColor: 'rgba(0, 117, 0, 0.7)', flashMessage: 'Successfully logged in', flashTimeout: 7000}, replace: true});
+                        navigate('/profile', {
+                            state: {
+                                flash: true, 
+                                backgroundColor: 'rgba(0, 117, 0, 0.7)', 
+                                flashMessage: response.message, 
+                                flashTimeout: 3000},
+                            replace: true});
+                    } else {
+                        const errorResponse = await res.json();
+                        if (errorResponse && errorResponse.message) {
+                            navigate('/login', {state: {flash: true, flashMessage: errorResponse.message }} )
+                        } else {
+                            console.log(errorResponse)
+                        }
                     }
                 })
+                .catch(error => {
+                    console.error(error);
+                });
+            fetch('http://localHost:3000/shoppingSession', shoppingSessionRequestOptions)
+            .then(res => console.log(res))
         } catch (e) {
-            throw e
+            console.log(e)
         }
+            
 
     }
     return (

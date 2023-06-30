@@ -26,7 +26,7 @@ function App() {
             <NavBarSideBar />
             <Routes>
               <Route path='/' element={<HomePage />}/>
-              <Route path='/login' element={<LogIn />}/>
+              <Route path='/login/:status?' element={<LogIn />}/>
               <Route path='/register' element={<Register />}/>
               <Route path='/products/:category?' element={<ProductListing />}/>
               <Route path='/products/new' element={<NewProductListing />}/>

@@ -12,13 +12,11 @@ export const AccountUpdateForm = () => {
     const flash = location.state ? location.state.flash: null
     const backgroundColor = location.state ? location.state.backgroundColor: null
     const flashMessage = location.state ? location.state.flashMessage: null
-    const isLoggedIn = useSelector(selectisLoggedIn)
-
 
     const [firstName, setFirstName] = useState(`${user.first_name}`);
     const [lastName, setLastName] = useState(`${user.last_name}`);
     const [email, setEmail] = useState(`${user.email}`);
-    const [telephone, setTelephone] = useState(`${user.telephone}`);
+    const [phoneNumber, setPhoneNumber] = useState(`${user.phone_number}`);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,7 +29,7 @@ export const AccountUpdateForm = () => {
             first_name: (firstName == user.first_name ? null: firstName),
             last_name: (lastName == user.last_name ? null: lastName),
             email: (email == user.email ? null: email),
-            telephone: (telephone == user.telephone ? null: telephone)
+            phoneNumber: (phoneNumber == user.phone_number ? null: phoneNumber)
         }
         const requestOptions = {
             method: 'PUT',
@@ -48,7 +46,6 @@ export const AccountUpdateForm = () => {
         fetch('http://localHost:3000/user/profile', requestOptions)
         .then(async res => {
             const jsonResponse = await res.json();
-            console.log(jsonResponse)
             const responseObject = {
                 status: res.status,
                 message: jsonResponse.message
@@ -60,7 +57,7 @@ export const AccountUpdateForm = () => {
             if (firstName !== user.first_name) dispatch(updateUserField({field: 'first_name', data: firstName}));
             if (lastName != user.last_name) dispatch(updateUserField({field: 'last_name', data: lastName}));
             if (email !== user.email) dispatch(updateUserField({field: 'email', data: email}))
-            if (telephone !== user.telephone) dispatch(updateUserField({field: 'telephone', data: telephone}))
+            if (phoneNumber !== user.phone_number) dispatch(updateUserField({field: 'phone_number', data: phoneNumber}))
     
             return res
         })
@@ -103,10 +100,10 @@ export const AccountUpdateForm = () => {
                             <input type="text" value={`${lastName}`} name='last-name' onChange={e => setLastName(e.target.value)}></input>
                         </div>
                     </div>
-                    <div className="account-entry-container telephone">
+                    <div className="account-entry-container phone-number">
                         <div className="account-entry">
                             <label><h4>Phone Number</h4></label>
-                            <input type="text" value={`${telephone}`} name='telephone' onChange={e => setTelephone(e.target.value)}></input>
+                            <input type="text" value={`${phoneNumber}`} name='phone-number' onChange={e => setPhoneNumber(e.target.value)}></input>
                         </div>
                     </div>
                     <div className='update-buttons'>

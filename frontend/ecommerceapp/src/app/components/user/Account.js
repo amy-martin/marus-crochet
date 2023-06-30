@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "./userSlice";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { EditAccountButton } from "./EditAccountButton";
 import { Flash } from "../miscellaneous/flash/Flash";
-import { selectisLoggedIn } from "../login/loginSlice";
 
 export const Account = () => {
     const navigate = useNavigate();
@@ -14,15 +13,23 @@ export const Account = () => {
     const flashMessage = location.state ? location.state.flashMessage: null;
     const flashTimeout = location.state ? location.state.flashTimeout: null
     const user = useSelector(selectUser);
-
+    const [isMounted, setIsMounted] = useState(true)
 
     useEffect(() => {
         if (flashTimeout) {
-            setTimeout(() => {
-                navigate('/profile')
-            }, flashTimeout)
+            const timeout = setTimeout(() => {
+                if (isMounted) {
+                  navigate('/profile')  
+                }
+                
+            }, flashTimeout);
+
+            return () => {
+                clearTimeout(timeout);
+                setIsMounted(false)
+            }
         }
-    })
+    }, [flashTimeout, navigate, isMounted])
 
     return (
         <div className="account-container">
@@ -56,10 +63,10 @@ export const Account = () => {
                         <h3>{user.last_name}</h3>
                     </div>
                 </div>
-                <div className="account-entry-container telephone">
+                <div className="account-entry-container phone-number">
                     <div className="account-entry">
                         <h4>Phone Number:</h4>
-                        <h3>{user.telephone}</h3>
+                        <h3>{user.phone_number}</h3>
                     </div>
                 </div>
                 <EditAccountButton />

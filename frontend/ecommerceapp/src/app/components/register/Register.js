@@ -5,7 +5,7 @@ export const Register = () => {
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [telephone, setTelephone] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,7 +24,7 @@ export const Register = () => {
                 body: JSON.stringify({
                     firstName,
                     lastName,
-                    telephone,
+                    phoneNumber,
                     username,
                     email,
                     password
@@ -65,9 +65,9 @@ export const Register = () => {
                         <label>Last Name: </label>
                         <input type="text" placeholder="" name="last-name" onChange={e => setLastName(e.target.value)}></input>
                     </div>
-                    <div className="telephone entry">
+                    <div className="phone-number entry">
                         <label>Phone Number:</label>
-                        <input type="text" placeholder="" name="telephone" onChange={e => {setTelephone(e.target.value)}}></input>
+                        <input type="text" placeholder="" name="phone-number" onChange={e => {setPhoneNumber(e.target.value)}}></input>
                     </div>
                     <div className="username entry">
                         <label>Username:</label>

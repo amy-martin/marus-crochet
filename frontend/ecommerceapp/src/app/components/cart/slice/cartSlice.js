@@ -1,17 +1,29 @@
-// import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-// export const cartSlice = createSlice({
-//     name: 'cart',
-//     initialState: {
-//         quantity: 0
-//     },
-//     reducers: {
-//         clearCartQuantity: state => state.quantity = 0,
-//         changeCartByAmount: (state, action) => state.quantity = action.payload
-//     }
-// });
+export const cartSlice = createSlice({
+    name: 'cart',
+    initialState: {
+        cartItems: [],
+        totalCartQuantity: 0
 
-// export const { clearCartQuantity, changeCartByAmount } = cartSlice.actions;
+    },
+    reducers: {
+        clearCart: state => {
+            state.cartItems = [];
+            state.totalCartQuantity = 0
+        },
+        addToCart: (state, action) => {
+            state.cartItems.push(action.payload)
+            state.totalCartQuantity = state.cartItems.length
+        },
+        deleteFromCart: (state, action) => {
+            state.cartItems.filter((product) => product !== action.payload)
+        }
+    }
+});
+
+export const { clearCart, addToCart, deleteFromCart } = cartSlice.actions;
+export const selectCartItems = state => state.cart.cartItems;
 // export const selectCartQuantity = state => state.cart.quantity;
 
-// export default cartSlice.reducer;
+export default cartSlice.reducer;

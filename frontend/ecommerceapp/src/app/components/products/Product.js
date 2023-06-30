@@ -31,7 +31,7 @@ export const Product = () => {
     return (
         <div className="product-container">
             {checkState(product) ? checkState(product): successRender()}
-            <AddToCart />
+            <AddToCart productId={id}/>
         </div>
     )
 

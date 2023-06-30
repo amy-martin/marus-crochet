@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectisLoggedIn } from "../login/loginSlice";
 import { useNavigate } from "react-router-dom";
 
-export const AddToCartButton = () => {
+export const AddToCartButton = (props) => {
+    const {productId, quantity} = props
     const isLoggedIn = useSelector(selectisLoggedIn)
     const navigate = useNavigate();
     const handleClick = () => {
@@ -11,13 +12,33 @@ export const AddToCartButton = () => {
             navigate('/login', {state: {flash: true, flashMessage: 'Please log in before continuing'}})
         }
         else {
+            const requestOptions = {
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    productId,
+                    quantity
+                })
+            };
+            try {
+                fetch('http://localHost:3000/cart', requestOptions)
+                .then(async res => {
+                    const response = await res.json();
+                    return response
+                })
+            } catch(e) {
+                throw e
+            }
             // ADD TO CART FETCH REQUEST
 
             // Cart view will retrieve database cart data and trotal shown in cart quantity willl 
             // reflect cart item count not item count
-            
+            // TOTAL SHOULD BE SUM OF ITEMS RETRIEVED FROM DATABASE // COULD USE ASYNC THUNK TO STORE STATE OR JUST MAKE INDIVIDUAL CALL IN CART VIEW
             // Remember to change this
-            fetch()
         }
         
     }

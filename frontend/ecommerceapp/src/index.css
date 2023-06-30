@@ -846,6 +846,31 @@ button {
   font-size:16px;
 }
 
-/* NOTES */
+/* REDIRECT STYLING */
 
-/* PADDING TOP FOR MOST MAIN PAGES SHOULD COME TO EQUAL 75PX TO BE CONSTANT */
+.redirect-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  width: 100%
+}
+.redirect-text-container >*{
+  text-align: center;
+  font-size: 15px;
+  height: auto;
+  width: auto;
+  padding: 40px;
+  color: white
+
+}
+.redirect-text-container a {
+  color: white;
+}
+.redirect-text-container {
+  background-color: rgb(216,80,39);
+  width: 75%;
+  border-radius: 20px;
+}
+
+/* NOTES */
