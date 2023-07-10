@@ -2,16 +2,13 @@ import React, { useState }  from "react";
 import { selectUser, updateUserField } from "./userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Flash } from "../miscellaneous/flash/Flash";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BackButton } from "../miscellaneous/BackButton";
-import { selectisLoggedIn } from "../login/loginSlice";
+import { displayFlash } from "../miscellaneous/flash/flashSlice";
 
 export const AccountUpdateForm = () => {
     const user = useSelector(selectUser);
-    const location = useLocation();
-    const flash = location.state ? location.state.flash: null
-    const backgroundColor = location.state ? location.state.backgroundColor: null
-    const flashMessage = location.state ? location.state.flashMessage: null
+
 
     const [firstName, setFirstName] = useState(`${user.first_name}`);
     const [lastName, setLastName] = useState(`${user.last_name}`);
@@ -53,7 +50,6 @@ export const AccountUpdateForm = () => {
             return responseObject;
         })
         .then(res => {
-            console.log(user)
             if (firstName !== user.first_name) dispatch(updateUserField({field: 'first_name', data: firstName}));
             if (lastName != user.last_name) dispatch(updateUserField({field: 'last_name', data: lastName}));
             if (email !== user.email) dispatch(updateUserField({field: 'email', data: email}))
@@ -63,15 +59,17 @@ export const AccountUpdateForm = () => {
         })
         .then(res => {
             if (res.status == 200) {
-                navigate('/profile', {state: {flash: true, backgroundColor: 'rgba(0, 117, 0, 0.7)', flashMessage: 'Account updated successfully', flashTimeout: 7000}, replace: true});
+                navigate('/profile', {replace:true});
+                dispatch(displayFlash({flashMessage: 'Account updated successfully', backgroundColor: 'rgba(0, 117, 0, 0.7)'}))
             } else {
-                navigate('/profile/edit', {state: {flash: true, backgroundColor: 'rgba(216,80,39, 0.7)', flashMessage: `${res.message}`}, replace: true});
+                navigate('/profile/edit', {replace: true})
+                dispatch(displayFlash({flashMessage: `${res.message}`, backgroundColor: 'rgba(216,80,39, 0.7)'}))
             }
          } )
     }
     return (
         <div className="account-container">
-            {flash ? <Flash flash={flash} backgroundColor={backgroundColor} flashMessage={flashMessage}/>: <Flash flash={false} />}
+            <Flash/>
             <h2>MY ACCOUNT</h2>
             <form className='account-update-form' id='account-update-form' onSubmit={handleSubmit}>
                 <div className="account-info">

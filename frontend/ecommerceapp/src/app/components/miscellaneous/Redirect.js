@@ -4,19 +4,18 @@ import { Link } from "react-router-dom";
 
 export const Redirect = () => {
     const navigate = useNavigate();
-    const [isMounted, setIsMounted] = useState(true)
-
+    const [mounted, setMounted] = useState(true)
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            if (isMounted) {
+        if (mounted) {
+            const timeout = setTimeout(() => {
                 navigate('/login')
+            }, 5000);
+            return () => {
+                clearTimeout(timeout);
+                setMounted(false)
             }
-        }, 10000);
-        return () => {
-            clearTimeout(timeout);
-            setIsMounted(false)
         }
-    }, [navigate, isMounted])
+    }, [navigate])
 
     return (
         <div className="redirect-container">

@@ -2,14 +2,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectisLoggedIn } from "../login/loginSlice";
 import { useNavigate } from "react-router-dom";
+import { displayFlash } from "../miscellaneous/flash/flashSlice";
 
 export const AddToCartButton = (props) => {
     const {productId, quantity} = props
     const isLoggedIn = useSelector(selectisLoggedIn)
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const handleClick = () => {
         if (!isLoggedIn) {
-            navigate('/login', {state: {flash: true, flashMessage: 'Please log in before continuing'}})
+            navigate('/login');
+            dispatch(displayFlash({flashMessage: 'Please log in before continuing', backgroundColor: 'rgba(216,80,39, 0.7)'}))
         }
         else {
             const requestOptions = {

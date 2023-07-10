@@ -4,7 +4,7 @@ import sideBarReducer from "./components/navbar/slice/sideBarSlice";
 import categoryReducer from "./components/navbar/slice/categorySlice"
 import loginReducer from "./components/login/loginSlice";
 import userReducer from "./components/user/userSlice";
-
+import flashReducer from "./components/miscellaneous/flash/flashSlice";
 
 export default configureStore({
     reducer: {
@@ -12,7 +12,8 @@ export default configureStore({
         sidebar: sideBarReducer,
         category: categoryReducer,
         login: loginReducer,
-        user: userReducer
+        user: userReducer,
+        flash: flashReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 })

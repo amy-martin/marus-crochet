@@ -5,17 +5,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { selectisLoggedIn } from "../login/loginSlice";
 // import { selectCartQuantity } from "../cart/slice/cartSlice";
 import { LogOut } from '../login/LogOut'
+import { displayFlash, hideFlash, selectFlashConfig } from "../miscellaneous/flash/flashSlice";
 
 export const UserOptions = () => {
     const isLoggedIn = useSelector(selectisLoggedIn)
     // const quantity = useSelector(selectCartQuantity)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const flash = useSelector(selectFlashConfig)
+
+    // useEffect(() => {
+    //     return () => {
+    //         if (flash.display === 'flex') {
+    //             dispatch(hideFlash)
+    //         }
+    //     }
+    // });
     
     const handleLoggedOutClick = (e) => {
         e.preventDefault();
         if (!isLoggedIn) {
-            navigate('/login', {state: {flash:true, flashMessage: 'Please log in before continuing'}})
+            navigate('/login');
+            dispatch(displayFlash({flashMessage: 'Please log in before continuing', backgroundColor: 'rgba(216,80,39, 0.7)'}))
         }
     }
     

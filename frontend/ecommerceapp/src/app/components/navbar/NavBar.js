@@ -12,7 +12,6 @@ export const NavBar = () => {
 
     const handleCategoryClick = () => {
         dispatch(displayDropdown());
-        console.log(display)
     }
     const hideCategoryDropdown = () => {
         dispatch(hideDropdown())

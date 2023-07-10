@@ -21,7 +21,6 @@ const retrieveNewProducts = async () => {
     const response = await fetch('http://localhost:3000/new');
     const json = await response.json();
     const products = json.products
-    console.log(json)
     return products
 }
 

@@ -1,16 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { hideFlash, selectFlashConfig } from './flashSlice';
 
-export const Flash = (props) => {
+export const Flash = () => {
+    const flashConfig = useSelector(selectFlashConfig);
+    const dispatch = useDispatch()
+    let { className, display, flashMessage, backgroundColor } = flashConfig;
 
-    const { className, flash, flashMessage, backgroundColor } = props;
-    let display
-    if (flash) {
-        display = 'flex';
-    } else display = 'none'
-
-
+    useEffect(() => {
+        if (display) {
+            let timeout = setTimeout(() => {
+                dispatch(hideFlash())
+            }, 5000);
+            return () => {
+                clearTimeout(timeout)
+                dispatch(hideFlash())
+            }
+        }
+    }, [])
     return (
         <div className={`flash-message ${className ? className: null}`} style={{display, backgroundColor}}>
             <h4>{flashMessage}</h4>

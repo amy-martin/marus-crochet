@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom"
 import { setToLoggedIn } from "./loginSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Flash } from "../miscellaneous/flash/Flash";
 import { setUser } from "../user/userSlice";
+import { displayFlash, hideFlash, selectFlashConfig } from "../miscellaneous/flash/flashSlice";
 
 export const LogIn = (props) => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const flash = location.state ? location.state.flash: null;
-    const flashMessage = location.state ? location.state.flashMessage: null
+    const flash = useSelector(selectFlashConfig)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     return () => {
+    //         console.log('I have unmounted')
+    //         dispatch(hideFlash);
+    //     }
+    // }, []);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -49,17 +56,18 @@ export const LogIn = (props) => {
                         const response = await res.json();
                         dispatch(setUser(response.user));
                         dispatch(setToLoggedIn())
-                        navigate('/profile', {
-                            state: {
-                                flash: true, 
-                                backgroundColor: 'rgba(0, 117, 0, 0.7)', 
-                                flashMessage: response.message, 
-                                flashTimeout: 3000},
-                            replace: true});
+                        navigate('/profile', {replace: true})
+                        dispatch(displayFlash({
+                            backgroundColor: 'rgba(0, 117, 0, 0.7)', 
+                            flashMessage: response.message
+                        }));
                     } else {
                         const errorResponse = await res.json();
                         if (errorResponse && errorResponse.message) {
-                            navigate('/login', {state: {flash: true, flashMessage: errorResponse.message }} )
+                            dispatch(displayFlash({
+                                backgroundColor: 'rgba(216,80,39, 0.7)',
+                                flashMessage: errorResponse.message
+                            }))
                         } else {
                             console.log(errorResponse)
                         }
@@ -78,8 +86,7 @@ export const LogIn = (props) => {
     }
     return (
         <div className='login flash-message-container'>
-            {flash ? <Flash flash = {flash} flashMessage={flashMessage} backgroundColor ='rgba(216,80,39, .7)'/>: <Flash flash = {false} />}
-
+            <Flash />
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="login-container">
                     <div className="login-inputs login-item">
