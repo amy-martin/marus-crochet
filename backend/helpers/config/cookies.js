@@ -15,7 +15,7 @@ const generateToken = (user) => {
         email: user.email,
         phone_number: user.phone_number
     }
-    const token = jwt.sign(payload, process.env.USER_TOKEN_SECRET, { expiresIn: '1h'})
+    const token = jwt.sign(payload, process.env.USER_TOKEN_SECRET)
     return token
 }
 
@@ -27,11 +27,11 @@ const verifyToken = (req, res, next)=> {
         return res.status(401).json({message: 'Token not provided'})
     }
     try {
-        const decoded = jwt.verify(token, process.env.USER_TOKEN_SECRET);
+        const decoded = jwt.verify(token, process.env.USER_TOKEN_SECRET, { expiresIn: '9999 years' });
         req.user = decoded;
         next();
     } catch(err) {
-        return res.status(401).json({message:'Invalid token'})
+        return res.status(401).json({message:'Session expired. Please refresh and log in again.'})
     }
 }
 
