@@ -323,9 +323,6 @@ nav {
 /* FLASH MESSAGE STYLING */
  
 .flash-message {
-  /* flex-direction: column;
-  justify-content: center;
-  align-items: center; */
   text-align: center;
   margin: 10px;
   padding: 10px;
