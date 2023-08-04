@@ -53,8 +53,7 @@ const getCartItem = async (req, res) => {
 
 const addCartItemQuery = async (shoppingSessionID, productId, quantity) => {
     try {
-        // const SQL = 'INSERT INTO cart_items (session_id, product_id, quantity) VALUES ($1, $2, $3)';
-        const SQL = 'INSERT INTO cart_items (session_id, product_id, quantity) VALUES ($1, $2, $3) ON CONFLICT (product_id) DO UPDATE SET quantity = cart_items.quantity + EXCLUDED.quantity'
+        const SQL = 'INSERT INTO cart_items (session_id, product_id, quantity) VALUES ($1, $2, $3) ON CONFLICT ON CONSTRAINT idx_cart_items_unique_session_product DO UPDATE SET quantity = cart_items.quantity + EXCLUDED.quantity'
         await pool.query(SQL, [shoppingSessionID, productId, quantity]);
     } catch (err) {
         console.log(err);
@@ -79,7 +78,7 @@ const addCartItem = async (req, res) => {
 
 const deleteCartItemQuery = async (cartItemId, shoppingSessionID) => {
     try {
-        const SQL = 'DELETE FROM cart_items WHERE id=$1 AND session_id=$2';
+        const SQL = 'DELETE FROM cart_items WHERE product_id=$1 AND session_id=$2';
         await pool.query(SQL, [cartItemId, shoppingSessionID]);
 
     } catch (err) {
@@ -92,7 +91,7 @@ const deleteCartItemQuery = async (cartItemId, shoppingSessionID) => {
 const deleteCartItem = async (req, res) => {
     try {
         const {shoppingSessionID} = req.params;        
-        const {cartItemId} = req.params;
+        const {productId} = req.params;
         await deleteCartItemQuery(cartItemId, shoppingSessionID);
         return res.status(200).json({message: 'Item deleted from cart'})
     } catch (err) {
