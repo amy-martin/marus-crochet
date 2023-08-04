@@ -17,7 +17,6 @@ export const Flash = () => {
         })}
     }, [display])
 
-    // Create a hide flash helper function for timeout instead
     return (
         <div className={`flash-message ${className ? className: null}`} style={{display, backgroundColor}}>
             <h4>{flashMessage}</h4>

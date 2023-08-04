@@ -49,7 +49,7 @@ export const AddToCartButton = (props) => {
         
     }
     return (
-        <section className="add-to-cart">
+        <section className="button-container">
             <button onClick={handleClick}>Add To Cart</button> 
             <Flash />
         </section>
