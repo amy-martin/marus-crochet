@@ -4,7 +4,7 @@ export const ContactUs = () => {
     return (
         <div className="contact-us">
             <h2>CONTACT US</h2>
-            <p>If you have any questions, comments, or concerns, please feel free to contact us using the information below:</p>
+            <p>If you have any questions, comments, or concerns, please feel free to contact us using any of the means listed below:</p>
             <div className="contact-info">
                 <h3>Email</h3>
                 <p><a href="mailto:customerservice@marucrochet.com">customerservice@marucrochet.com</a></p>

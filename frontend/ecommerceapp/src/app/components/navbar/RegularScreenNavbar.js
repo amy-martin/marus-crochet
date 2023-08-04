@@ -2,7 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { CategoryDropDown } from "./CategoryDropDown";
-import { UserOptions } from "./UserOptions";
+import { UserSpecificNavOptions } from "./UserSpecificNavOptions";
 
 export const RegularScreenNavBar = (props) => {
     const {handleCategoryClick, hideCategoryDropdown} = props
@@ -44,7 +44,7 @@ export const RegularScreenNavBar = (props) => {
                             <h3><Link>SEARCH</Link></h3>
                         </li>
                     </ul>
-                    <UserOptions />
+                    <UserSpecificNavOptions />
                     
                 </div>
             </nav>

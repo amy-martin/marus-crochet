@@ -4,10 +4,10 @@ const flashSlice = createSlice({
     name: 'flash',
     initialState: {
         flashConfig: {
-            display: null, 
+            display: 'none', 
             flashMessage: null,
             backgroundColor: null,
-            className: null
+            className: null,
         }
     },
     reducers: {
@@ -20,7 +20,12 @@ const flashSlice = createSlice({
             }
         },
         hideFlash: state => {
-            state.flashConfig.display = 'none'
+            state.flashConfig = {
+                display: 'none',
+                flashMessage: null,
+                backgroundColor: null,
+                className: null
+            }
         }
     }
 })

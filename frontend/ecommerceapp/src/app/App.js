@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { Account } from './components/user/Account';
 import { Redirect } from './components/miscellaneous/Redirect';
 import { AccountUpdateForm } from './components/user/AccountUpdateForm';
+import { Cart } from './components/cart/Cart';
 // IMPORT IS LOGGED IN AND THEN CONDITIONALLY RENDER ACCOUNT
 function App() {
   const isLoggedIn = useSelector(selectisLoggedIn)
@@ -35,6 +36,7 @@ function App() {
               <Route path='/contact-us' element={<ContactUs />}/>
               <Route path='/profile' element={isLoggedIn ? <Account />: <Redirect />}/>
               <Route path='/profile/edit' element={isLoggedIn ? <AccountUpdateForm />: <Redirect />}/>
+              <Route path='/cart' element={isLoggedIn ? <Cart />: <Redirect/>}/>
             </Routes>
           </main>
         </div>

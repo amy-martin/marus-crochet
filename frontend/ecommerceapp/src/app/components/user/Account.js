@@ -1,25 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "./userSlice";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { EditAccountButton } from "./EditAccountButton";
 import { Flash } from "../miscellaneous/flash/Flash";
-import { hideFlash, selectFlashConfig } from "../miscellaneous/flash/flashSlice";
+import { displayFlash, hideFlash, selectFlashConfig } from "../miscellaneous/flash/flashSlice";
+import { timeout } from "../../helpers/miscellaneous";
 
 export const Account = () => {
-    const navigate = useNavigate();
+    const location = useLocation();
+    const flash = location.state ? location.state.flash: null;
+    const flashMessage = location.state ? location.state.flashMessage: null
+    const backgroundColor = location.state ? location.state.backgroundColor: null
+    
     const user = useSelector(selectUser);
-    const flash = useSelector(selectFlashConfig)
     const dispatch = useDispatch()
+    const flashConfig = useSelector(selectFlashConfig)
 
+    useEffect(() => {
+        if (flash) {
+            dispatch(displayFlash({
+                className: 'success-account-flash',
+                backgroundColor: backgroundColor, 
+                flashMessage: flashMessage
+            }));;
+            
+        };
+        timeout(flashConfig.display, dispatch);
 
-    // useEffect(() => {
-    //     return () => {
-    //         if (flash.display === 'flex') {
-    //             dispatch(hideFlash)
-    //         }
-    //     }
-    // })
+    }, [])
+
 
     return (
         <div className="account-container">

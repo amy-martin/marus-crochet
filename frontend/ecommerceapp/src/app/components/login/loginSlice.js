@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const loginSlice = createSlice({
     name: 'login',
     initialState: {
-        // CHANGE THIS TO NULL ONCE DONE WITH ACCOUNT
         isLoggedIn: null
     },
     reducers: {

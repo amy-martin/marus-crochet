@@ -1,29 +1,54 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+export const fetchCartQuantity = createAsyncThunk(
+    'cart/fetchCartQuantity',
+    async(shoppingSessionID, thunkAPI) => {
+            try {
+                const cartQuantityRequestOptions = {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    Accept: 'application/json',
+                    "Content-Type": "application/json"
+                    }
+                }
+                const url = `http://localHost:3000/cart/${shoppingSessionID}/cartQuantity`;
+
+                const response = await fetch(url, cartQuantityRequestOptions)
+                const data = await response.json();
+                return data.cartQuantity
+            } catch(e) {
+                console.log(e)
+            }
+    }
+)
 export const cartSlice = createSlice({
     name: 'cart',
     initialState: {
-        cartItems: [],
-        totalCartQuantity: 0
-
+        cartQuantity: 0,
+        loading: 'Idle',
+        error: null
     },
-    reducers: {
-        clearCart: state => {
-            state.cartItems = [];
-            state.totalCartQuantity = 0
-        },
-        addToCart: (state, action) => {
-            state.cartItems.push(action.payload)
-            state.totalCartQuantity = state.cartItems.length
-        },
-        deleteFromCart: (state, action) => {
-            state.cartItems.filter((product) => product !== action.payload)
-        }
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCartQuantity.pending, (state, action) => {
+                state.loading = 'Loading'
+            })
+            .addCase(fetchCartQuantity.fulfilled, (state, action) => {
+                state.loading = 'Successful';
+                state.cartQuantity = action.payload
+            })
+            .addCase(fetchCartQuantity.rejected, (state, action) => {
+                state.loading = 'Failed'
+                state.error = action.error.message;
+            })
     }
+    
+    
 });
 
-export const { clearCart, addToCart, deleteFromCart } = cartSlice.actions;
-export const selectCartItems = state => state.cart.cartItems;
-// export const selectCartQuantity = state => state.cart.quantity;
 
+export const selectCartQuantity = state => state.cart.cartQuantity;
+export const selectCartStatus = state => state.cart.loading;
 export default cartSlice.reducer;

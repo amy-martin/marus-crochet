@@ -8,8 +8,6 @@ import { displayFlash } from "../miscellaneous/flash/flashSlice";
 
 export const AccountUpdateForm = () => {
     const user = useSelector(selectUser);
-
-
     const [firstName, setFirstName] = useState(`${user.first_name}`);
     const [lastName, setLastName] = useState(`${user.last_name}`);
     const [email, setEmail] = useState(`${user.email}`);
@@ -20,13 +18,12 @@ export const AccountUpdateForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const token = sessionStorage.getItem('token');
         const bodyToSend = {
             username: user.username,
             first_name: (firstName == user.first_name ? null: firstName),
             last_name: (lastName == user.last_name ? null: lastName),
             email: (email == user.email ? null: email),
-            phoneNumber: (phoneNumber == user.phone_number ? null: phoneNumber)
+            phone_number: (phoneNumber == user.phone_number ? null: phoneNumber)
         }
         const requestOptions = {
             method: 'PUT',
@@ -34,14 +31,18 @@ export const AccountUpdateForm = () => {
             credentials: 'include',
             headers: {
                 Accept: 'application/json',
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(bodyToSend)
         };
 
         fetch('http://localHost:3000/user/profile', requestOptions)
         .then(async res => {
+            if (firstName !== user.first_name) dispatch(updateUserField({field: 'first_name', data: firstName}));
+            if (lastName != user.last_name) dispatch(updateUserField({field: 'last_name', data: lastName}));
+            if (email !== user.email) dispatch(updateUserField({field: 'email', data: email}))
+            if (phoneNumber !== user.phone_number) dispatch(updateUserField({field: 'phone_number', data: phoneNumber}));
+
             const jsonResponse = await res.json();
             const responseObject = {
                 status: res.status,
@@ -50,20 +51,10 @@ export const AccountUpdateForm = () => {
             return responseObject;
         })
         .then(res => {
-            if (firstName !== user.first_name) dispatch(updateUserField({field: 'first_name', data: firstName}));
-            if (lastName != user.last_name) dispatch(updateUserField({field: 'last_name', data: lastName}));
-            if (email !== user.email) dispatch(updateUserField({field: 'email', data: email}))
-            if (phoneNumber !== user.phone_number) dispatch(updateUserField({field: 'phone_number', data: phoneNumber}))
-    
-            return res
-        })
-        .then(res => {
             if (res.status == 200) {
-                navigate('/profile', {replace:true});
-                dispatch(displayFlash({flashMessage: 'Account updated successfully', backgroundColor: 'rgba(0, 117, 0, 0.7)'}))
+                navigate('/profile', {state:{flash: true, flashMessage: 'Account updated successfully', backgroundColor: 'rgba(0, 117, 0, 0.7'}, replace:true});
             } else {
-                navigate('/profile/edit', {replace: true})
-                dispatch(displayFlash({flashMessage: `${res.message}`, backgroundColor: 'rgba(216,80,39, 0.7)'}))
+                navigate('/profile/edit', {state: {flash: true, flashMessage: `${res.message}`, backgroundColor: 'rgba(216,80,39, 0.7)'},replace: true})
             }
          } )
     }

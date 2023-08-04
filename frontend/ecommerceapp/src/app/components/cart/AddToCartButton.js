@@ -2,6 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectisLoggedIn } from "../login/loginSlice";
 import { useNavigate } from "react-router-dom";
+import { selectShoppingSessionID } from "./slice/shoppingSessionSlice";
+import { fetchCartQuantity } from "./slice/cartSlice";
+import { Flash } from "../miscellaneous/flash/Flash";
 import { displayFlash } from "../miscellaneous/flash/flashSlice";
 
 export const AddToCartButton = (props) => {
@@ -9,10 +12,12 @@ export const AddToCartButton = (props) => {
     const isLoggedIn = useSelector(selectisLoggedIn)
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const shoppingSessionID = useSelector(selectShoppingSessionID);
+
+    
     const handleClick = () => {
         if (!isLoggedIn) {
-            navigate('/login');
-            dispatch(displayFlash({flashMessage: 'Please log in before continuing', backgroundColor: 'rgba(216,80,39, 0.7)'}))
+            navigate('/login', {state:{flash: true, flashMessage: 'Please log in before continuing', backgroundColor: 'rgba(216,80,39, 0.7)'}, replace: true});
         }
         else {
             const requestOptions = {
@@ -28,24 +33,26 @@ export const AddToCartButton = (props) => {
                 })
             };
             try {
-                fetch('http://localHost:3000/cart', requestOptions)
+                fetch(`http://localHost:3000/cart/${shoppingSessionID}`, requestOptions)
                 .then(async res => {
-                    const response = await res.json();
-                    return response
-                })
+                    if (res.status === 200) {
+                        dispatch(fetchCartQuantity(shoppingSessionID));
+                        const response = await res.json();
+                        dispatch(displayFlash({flashMessage: response.message, backgroundColor: 'rgba(0, 117, 0, 0.7)', className:'add-to-cart-flash'}))
+                    }
+                });
             } catch(e) {
                 throw e
             }
-            // ADD TO CART FETCH REQUEST
 
-            // Cart view will retrieve database cart data and trotal shown in cart quantity willl 
-            // reflect cart item count not item count
-            // TOTAL SHOULD BE SUM OF ITEMS RETRIEVED FROM DATABASE // COULD USE ASYNC THUNK TO STORE STATE OR JUST MAKE INDIVIDUAL CALL IN CART VIEW
-            // Remember to change this
         }
         
     }
     return (
-        <button onClick={handleClick}>Add To Cart</button>
+        <section className="add-to-cart">
+            <button onClick={handleClick}>Add To Cart</button> 
+            <Flash />
+        </section>
+        
     )
 }

@@ -1,37 +1,51 @@
 import React, { useEffect, useState } from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom"
-import { setToLoggedIn } from "./loginSlice";
+import { selectisLoggedIn, setToLoggedIn } from "./loginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Flash } from "../miscellaneous/flash/Flash";
 import { setUser } from "../user/userSlice";
-import { displayFlash, hideFlash, selectFlashConfig } from "../miscellaneous/flash/flashSlice";
+import { displayFlash } from "../miscellaneous/flash/flashSlice";
+import { selectShoppingSessionID, setShoppingSessionID  } from "../cart/slice/shoppingSessionSlice";
+import { fetchCartQuantity } from "../cart/slice/cartSlice";
 
 export const LogIn = (props) => {
     const navigate = useNavigate();
-    const flash = useSelector(selectFlashConfig)
+    const location = useLocation();
+    const flash = location.state ? location.state.flash: null;
+    const flashMessage = location.state ? location.state.flashMessage: null
+    const backgroundColor = location.state ? location.state.backgroundColor: null
+    const shoppingSessionID = useSelector(selectShoppingSessionID)
+    const isLoggedIn = useSelector(selectisLoggedIn)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     return () => {
-    //         console.log('I have unmounted')
-    //         dispatch(hideFlash);
-    //     }
-    // }, []);
+    
 
+    
+    useEffect(() => {
+        if (flash) {
+            dispatch(displayFlash({
+                backgroundColor, 
+                flashMessage
+            }))
+        }
+    })
+    useEffect(() => {
+        if (isLoggedIn && shoppingSessionID) {
+            dispatch(fetchCartQuantity(shoppingSessionID))
+        }
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const token = sessionStorage.getItem('token');
         const loginRequestOptions = {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
             headers: {
                 Accept: 'application/json',
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 username: username,
@@ -45,23 +59,39 @@ export const LogIn = (props) => {
             headers: {
                 Accept: 'application/json',
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+            }
+        }
+        const shoppingSessionIDRequestOptions = {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json",
             }
         }
         try {
             fetch('http://localHost:3000/user/login', loginRequestOptions)
                 .then(async res => {
-                    console.log(res)
                     if (res.ok) {
                         const response = await res.json();
+
+
                         dispatch(setUser(response.user));
                         dispatch(setToLoggedIn())
-                        navigate('/profile', {replace: true})
-                        dispatch(displayFlash({
-                            backgroundColor: 'rgba(0, 117, 0, 0.7)', 
-                            flashMessage: response.message
-                        }));
-                    } else {
+
+
+                        await fetch('http://localHost:3000/shoppingSession', shoppingSessionRequestOptions);
+
+                        await fetch('http://localHost:3000/shoppingSession', shoppingSessionIDRequestOptions)
+                        .then(res => {
+                            return res.json()
+                        })
+                        .then(resJSON => {
+                            dispatch(setShoppingSessionID(resJSON.id));
+                            return navigate('/profile', {state:{flash: true, flashMessage: response.message, backgroundColor: 'rgba(0, 117, 0, 0.7)'}, replace: true})    
+                        })
+                        } else {
                         const errorResponse = await res.json();
                         if (errorResponse && errorResponse.message) {
                             dispatch(displayFlash({
@@ -73,11 +103,6 @@ export const LogIn = (props) => {
                         }
                     }
                 })
-                .catch(error => {
-                    console.error(error);
-                });
-            fetch('http://localHost:3000/shoppingSession', shoppingSessionRequestOptions)
-            .then(res => console.log(res))
         } catch (e) {
             console.log(e)
         }

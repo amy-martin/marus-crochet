@@ -7,7 +7,7 @@ export const ProductInfo = (props) => {
     return (
         <div className="product-info">
             <h3>{name}</h3>
-            <h5>${price}</h5>
+            <h5>{price}</h5>
         </div>
     )
 }
