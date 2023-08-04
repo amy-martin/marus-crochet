@@ -1,3 +1,4 @@
+const { pool } = require('../db.js');
 const { generateToken, verifyToken } = require('../helpers/config/cookies.js');
 const { checkAuthenticated, checkNotAuthenticated } = require('../helpers/config/passport.js');
 const { addShoppingSession } = require('../helpers/shoppingSession/shoppingSessionHelpers.js');
@@ -40,26 +41,17 @@ userRouter.post('/login', (req, res, next) => {
 
 
 
-
-// PROFILE ROUTES
-
-// userRouter.get('/profile', checkAuthenticated, (req, res) => {
-//     try {
-//         return res.status(200).json({user: req.user})
-//     } catch (err) {
-//         console.log(err)
-//     }
-// });
-
 userRouter.put('/profile', verifyToken, updateUser);
 
 
 // LOGOUT ROUTES
 
-userRouter.get('/logout', verifyToken, (req, res, next) => {
+userRouter.get('/logout', verifyToken, async (req, res, next) => {
+
     req.logout((err) => {
       if (err) { return next(err) };
     });
+    
     res.clearCookie('token');
     res.status(200).json({message: 'Logout successful'})
 });
