@@ -1,7 +1,6 @@
 const express = require('express');
 const { getAllCartItems, deleteCartItem, updateCartItemQuantity, addCartItem, getCartItemTotalPrice, getCartQuantity } = require('../helpers/cart/cartHelpers.js');
 const { checkoutCart } = require('../helpers/cart/checkoutHelpers.js');
-const { checkAuthenticated } = require('../helpers/config/passport.js');
 const { verifyToken } = require('../helpers/config/cookies.js');
 const cartRouter = express.Router();
 
@@ -24,7 +23,7 @@ cartRouter.get('/:shoppingSessionID/cartQuantity', verifyToken, getCartQuantity)
 cartRouter.put('/:shoppingSessionID/updateQuantity', verifyToken, updateCartItemQuantity)
 
 // DELETE Route to Delete Cart Item 
-cartRouter.delete('/:shoppingSessionID/', verifyToken, deleteCartItem)
+cartRouter.delete('/:shoppingSessionID/delete/:productId', verifyToken, deleteCartItem)
 
 // CHECKOUT ROUTES
 

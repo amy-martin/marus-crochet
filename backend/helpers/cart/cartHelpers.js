@@ -76,10 +76,12 @@ const addCartItem = async (req, res) => {
 
 // Function to remove from cart by cart id and product id
 
-const deleteCartItemQuery = async (cartItemId, shoppingSessionID) => {
+const deleteCartItemQuery = async (productId, shoppingSessionID) => {
     try {
+        console.log(productId);
+        console.log(shoppingSessionID);
         const SQL = 'DELETE FROM cart_items WHERE product_id=$1 AND session_id=$2';
-        await pool.query(SQL, [cartItemId, shoppingSessionID]);
+        await pool.query(SQL, [productId, shoppingSessionID]);
 
     } catch (err) {
         console.log(err);
@@ -90,9 +92,8 @@ const deleteCartItemQuery = async (cartItemId, shoppingSessionID) => {
 
 const deleteCartItem = async (req, res) => {
     try {
-        const {shoppingSessionID} = req.params;        
-        const {productId} = req.params;
-        await deleteCartItemQuery(cartItemId, shoppingSessionID);
+        const {shoppingSessionID, productId} = req.params;
+        await deleteCartItemQuery(productId, shoppingSessionID);
         return res.status(200).json({message: 'Item deleted from cart'})
     } catch (err) {
         console.log(err)
