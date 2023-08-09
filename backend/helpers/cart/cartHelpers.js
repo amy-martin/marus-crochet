@@ -78,8 +78,6 @@ const addCartItem = async (req, res) => {
 
 const deleteCartItemQuery = async (productId, shoppingSessionID) => {
     try {
-        console.log(productId);
-        console.log(shoppingSessionID);
         const SQL = 'DELETE FROM cart_items WHERE product_id=$1 AND session_id=$2';
         await pool.query(SQL, [productId, shoppingSessionID]);
 
