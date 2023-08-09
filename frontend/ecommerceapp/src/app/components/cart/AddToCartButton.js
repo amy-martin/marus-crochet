@@ -53,6 +53,5 @@ export const AddToCartButton = (props) => {
             <button onClick={handleClick}>Add To Cart</button> 
             <Flash />
         </section>
-        
     )
 }

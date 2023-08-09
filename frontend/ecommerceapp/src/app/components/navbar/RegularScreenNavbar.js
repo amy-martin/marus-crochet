@@ -26,9 +26,6 @@ export const RegularScreenNavBar = (props) => {
                         <li>
                             <h3><Link to = '/products/new'>NEW</Link></h3>
                         </li>
-                        <li>
-                            <h3><Link to='/about-us'>ABOUT US</Link></h3>
-                        </li>
                     </ul>
                     <ul className="middle generic-nav-component">
                         <li>
@@ -40,8 +37,8 @@ export const RegularScreenNavBar = (props) => {
                         <li>
                             <h3><Link to='/contact-us'>CUSTOMER SERVICE</Link></h3>
                         </li>
-                        <li> 
-                            <h3><Link>SEARCH</Link></h3>
+                        <li>
+                            <h3><Link to='/about-us'>ABOUT US</Link></h3>
                         </li>
                     </ul>
                     <UserSpecificNavOptions />

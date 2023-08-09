@@ -16,7 +16,7 @@ import { Account } from './components/user/Account';
 import { Redirect } from './components/miscellaneous/Redirect';
 import { AccountUpdateForm } from './components/user/AccountUpdateForm';
 import { Cart } from './components/cart/Cart';
-// IMPORT IS LOGGED IN AND THEN CONDITIONALLY RENDER ACCOUNT
+
 function App() {
   const isLoggedIn = useSelector(selectisLoggedIn)
   return (

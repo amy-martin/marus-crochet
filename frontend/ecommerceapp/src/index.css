@@ -9,7 +9,7 @@
 
 body {
   width: 100%;
-  min-width: 300px;
+  min-width: 350px;
   height: 100%;
   background-color: white;
   font-size: 12px;
@@ -267,6 +267,7 @@ nav {
   justify-content: center;
   align-items: center;
 }
+
 
 /* CONTAINER HOLDING USER/SESSION SPECIFIC NAV COMPONENTS */
 
@@ -848,7 +849,7 @@ div.flash-message.add-to-cart-flash {
 
 .account-update-form input {
   font-size: 14px;
-  color: #7B6F64;
+  color: rgb(78, 78, 78);
 }
 
 .update-buttons button {
@@ -931,13 +932,13 @@ div.flash-message.add-to-cart-flash {
 .cart-item-tile-container {
   height: auto;
   padding: 10px;
-  display: flex;
   
 }
 
 .cart-item-tile-container img {
-  width: auto;
-  height: 150px;
+  width: 90px;
+  height: 140px;
+  object-fit: cover;
 }
 
 .cart-item-info {
@@ -949,7 +950,8 @@ div.flash-message.add-to-cart-flash {
 
 .cart-item-info >* {
   height: auto;
-  max-width: 150px;
+  max-width: 200px;
+  padding: 5px;
 }
 
 .cart-quantity-input-container {
@@ -961,6 +963,7 @@ div.flash-message.add-to-cart-flash {
   height: auto;
   justify-content: baseline;
   
+  
 }
 .cart-quantity-form label {
   padding-right: 10px ;
@@ -971,7 +974,38 @@ select#quantitySelect {
   height: fit-content
 }
 
+button.delete-cart-item {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgb(78, 78, 78);
+  background-color: white;
+  border: none;
+  height: fit-content;
+  width: fit-content;
+}
 
+button.delete-cart-item:hover {
+  text-decoration: underline;
+}
+.cart-item-info-piece {
+  display: flex;
+  overflow-wrap: normal;
+}
 
+.empty-cart-view {
+  text-align: center;
+  width: 70%;
+}
+.empty-cart-view a {
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+}
+@media (max-width: 689px) {
+  .cart-item-info {
+    height: 140px;
+    flex-direction: column;
+  }
 
+}
 /* NOTES */

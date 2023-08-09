@@ -34,7 +34,7 @@ function generateNumberList(start, end) {
   
 
 export const  quantityDropdown = (handleSelect, existingQuantity = null) => {
-    const range = generateNumberList(1, 15);
+    const range = generateNumberList(1, 100);
     return (
         <form className="cart-quantity-form">
             <label htmlFor="quantitySelect"><h4>Quantity: </h4></label>

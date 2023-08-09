@@ -1,20 +1,17 @@
-import React, { useState } from "react";
-import { AddToCartButton } from "./AddToCartButton";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectShoppingSessionID } from "./slice/shoppingSessionSlice";
 import { fetchCartQuantity } from "./slice/cartSlice";
-import { Flash } from "../miscellaneous/flash/Flash";
-import { displayFlash } from "../miscellaneous/flash/flashSlice";
 import { quantityDropdown } from "../../helpers/miscellaneous";
 import { useNavigate } from "react-router-dom";
 import { fetchCartItemTotalPrice } from "./slice/cartItemTotalPriceSlice";
 
 export const QuantityUpdateInput = (props) => {
-    const {productId, quantity} = props;
+    const {productId, quantity, className} = props;
 
     const shoppingSessionID = useSelector(selectShoppingSessionID)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleSelect = e => {
         e.preventDefault();
         try {
@@ -44,7 +41,7 @@ export const QuantityUpdateInput = (props) => {
         }
     }
     return (
-        <div className="cart-quantity-input-container">
+        <div className={`cart-quantity-input-container ${className? className: null}`}>
             {quantityDropdown(handleSelect, quantity)}
         </div>
 

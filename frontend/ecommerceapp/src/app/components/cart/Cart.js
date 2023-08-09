@@ -3,60 +3,42 @@ import { useDispatch, useSelector } from "react-redux";
 import { PopulatedCartView } from "./PopulatedCartView";
 import { Loading } from "../miscellaneous/Loading";
 import { selectShoppingSessionID } from "./slice/shoppingSessionSlice";
-import { Flash } from "../miscellaneous/flash/Flash";
-import { displayFlash } from "../miscellaneous/flash/flashSlice";
-import { useLocation } from "react-router-dom";
-import { fetchCartItemTotalPrice } from "./slice/cartItemTotalPriceSlice";
+import { Link, useLocation } from "react-router-dom";
+import { fetchCartItems, fetchCartQuantity, selectCartItems, selectCartItemsStatus, selectCartQuantity } from "./slice/cartSlice";
 
 
 export const Cart = () => {
     const dispatch = useDispatch();
-    const [cartItems, setCartItems] = useState('Loading')
     const shoppingSessionID = useSelector(selectShoppingSessionID);
+    const cartQuantity = useSelector(selectCartQuantity);
+    const cartItems = useSelector(selectCartItems);
+    const cartItemsStatus = useSelector(selectCartItemsStatus)
 
-    const fetchCartItems = async () => {
-        try {
-            const cartItemsRequestOptions = {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                "Content-Type": "application/json"
-                }
-            }
-            await fetch(`http://localHost:3000/cart/${shoppingSessionID}`, cartItemsRequestOptions)
-            .then(res => {
-                return res.json()
-            }).then(res => {
-                setCartItems(res.cartItems);
+   
 
-            })
-        } catch (e) {
-            console.log(e.message)
-            setCartItems('Failed')
-            throw e
-        }
-    }
+
 
     useEffect(() => {
-
         if (shoppingSessionID) {
-            fetchCartItems()
+            dispatch(fetchCartItems(shoppingSessionID));
         }
-        
-    }, [shoppingSessionID])
+    }, [shoppingSessionID, cartQuantity]);
+
+    // useEffect(() => {
+    //     dispatch(fetchCartQuantity(shoppingSessionID))
+    // }, [])
 
     const statusCheck = () => {
-        if (cartItems === 'Loading') {
+        console.log(cartItems)
+        if (cartItemsStatus === 'Loading') {
             return <Loading />
-        } else if (cartItems !== 'Failed') {
+        } else if (cartItemsStatus === 'Successful') {
             if (cartItems.length > 0) {
                 return <PopulatedCartView cartItems={cartItems}/>
             } else {
-                return <h2>Cart is empty</h2>
+                return <h2 className="empty-cart-view">Cart is empty. Click <Link to='/products'>here</Link> to view our entire collection</h2>
             }
-        } else if (cartItems === 'Failed') {
+        } else if (cartItemsStatus === 'Failed') {
             return <h2>Oops! Something went wrong. Please reload or try again later</h2>
         }
     }
