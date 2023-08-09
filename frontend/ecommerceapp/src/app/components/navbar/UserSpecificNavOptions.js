@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { selectisLoggedIn } from "../login/loginSlice";
 import { LogOut } from '../login/LogOut'
-import { selectShoppingSessionID } from "../cart/slice/shoppingSessionSlice";
-import { selectCartQuantity, setInitialCartQuantity } from "../cart/slice/cartSlice";
+import { selectCartQuantity } from "../cart/slice/cartSlice";
 
 export const UserSpecificNavOptions = () => {
     const isLoggedIn = useSelector(selectisLoggedIn);
     const cartQuantity = useSelector(selectCartQuantity)
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const handleLoggedInClick = (e) => {
         e.preventDefault();

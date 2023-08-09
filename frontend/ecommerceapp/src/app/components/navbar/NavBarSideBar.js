@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSideBarDisplay, toggleDisplay, turnOffDisplay } from "./slice/sideBarSlice";
+import { selectSideBarDisplay, turnOffDisplay } from "./slice/sideBarSlice";
 import { Link } from "react-router-dom";
 import { changeDisplayByValue } from "./slice/sideBarSlice";
 import { CategoryDropDown } from "./CategoryDropDown";
-import { displayDropdown, hideDropdown, toggleDropdown } from "./slice/categorySlice";
+import { hideDropdown, toggleDropdown } from "./slice/categorySlice";
 import { selectisLoggedIn } from "../login/loginSlice";
 import { UserSpecificNavOptions } from "./UserSpecificNavOptions";
 

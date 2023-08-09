@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PopulatedCartView } from "./PopulatedCartView";
 import { Loading } from "../miscellaneous/Loading";
 import { selectShoppingSessionID } from "./slice/shoppingSessionSlice";
-import { Link, useLocation } from "react-router-dom";
-import { fetchCartItems, fetchCartQuantity, selectCartItems, selectCartItemsStatus, selectCartQuantity } from "./slice/cartSlice";
+import { Link } from "react-router-dom";
+import { fetchCartItems, selectCartItems, selectCartItemsStatus, selectCartQuantity } from "./slice/cartSlice";
 
 
 export const Cart = () => {
@@ -24,12 +24,8 @@ export const Cart = () => {
         }
     }, [shoppingSessionID, cartQuantity]);
 
-    // useEffect(() => {
-    //     dispatch(fetchCartQuantity(shoppingSessionID))
-    // }, [])
 
     const statusCheck = () => {
-        console.log(cartItems)
         if (cartItemsStatus === 'Loading') {
             return <Loading />
         } else if (cartItemsStatus === 'Successful') {
@@ -39,7 +35,7 @@ export const Cart = () => {
                 return <h2 className="empty-cart-view">Cart is empty. Click <Link to='/products'>here</Link> to view our entire collection</h2>
             }
         } else if (cartItemsStatus === 'Failed') {
-            return <h2>Oops! Something went wrong. Please reload or try again later</h2>
+            return <h2 className="error-cart-view">Oops! Something went wrong. Please reload or try again later</h2>
         }
     }
 

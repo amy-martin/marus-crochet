@@ -1,8 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"
 import { setToLoggedOut } from "./loginSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { resetCartQuantity, selectCartQuantity } from "../cart/slice/cartSlice";
+import { useDispatch } from "react-redux";
 
 
 export const LogOut = () => {

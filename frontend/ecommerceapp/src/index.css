@@ -992,7 +992,7 @@ button.delete-cart-item:hover {
   overflow-wrap: normal;
 }
 
-.empty-cart-view {
+.empty-cart-view, .error-cart-view{
   text-align: center;
   width: 70%;
 }

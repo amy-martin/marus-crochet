@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
 import { selectisLoggedIn } from './components/login/loginSlice';
 import { HomePage } from './components/homepage/HomePage';
 import { LogIn } from './components/login/LogIn';

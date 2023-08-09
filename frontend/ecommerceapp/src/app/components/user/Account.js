@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "./userSlice";
 import { useLocation } from "react-router-dom";
 import { EditAccountButton } from "./EditAccountButton";
 import { Flash } from "../miscellaneous/flash/Flash";
-import { displayFlash, hideFlash, selectFlashConfig } from "../miscellaneous/flash/flashSlice";
+import { displayFlash, selectFlashConfig } from "../miscellaneous/flash/flashSlice";
 import { timeout } from "../../helpers/miscellaneous";
 
 export const Account = () => {

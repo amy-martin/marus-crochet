@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Flash } from "../miscellaneous/flash/Flash";
 import { useNavigate } from "react-router-dom";
 import { BackButton } from "../miscellaneous/BackButton";
-import { displayFlash } from "../miscellaneous/flash/flashSlice";
 
 export const AccountUpdateForm = () => {
     const user = useSelector(selectUser);
