@@ -1,11 +1,10 @@
-// import dotenv from "dotenv";
 const express = require('express');
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = 4242;
 const { pool } = require('./db.js')
 const pgSession = require('connect-pg-simple')(session);
 const dotenv = require('dotenv');
@@ -20,6 +19,8 @@ const { productRouter } = require('./routes/product.js');
 const { newRouter } = require('./routes/new.js');
 const passport = require('passport');
 const {initializePassport} = require('./helpers/config/passport.js');
+const stripe = require('stripe')('pk_test_51Nd4kJI44bPmT5sAJ7COXv0kZGcu48wTkszJVsV3olT6YJYudZLea6nwXvyypZYBnPIUDDMDCecmuL3I5NZXFAvR00Gi89zAfD');
+const {checkoutRouter} = require('./routes/checkout.js')
 
 dotenv.config();
 
@@ -91,8 +92,12 @@ app.use('/new', newRouter);
 app.use('/cart', cartRouter)
 app.use('/orders', ordersRouter)
 
+// Mounting Checkout Routes
+
+app.use('/checkout', checkoutRouter)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 });
 
-module.exports = { passport }
+module.exports = { passport, stripe }

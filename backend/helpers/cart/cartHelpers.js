@@ -99,6 +99,26 @@ const deleteCartItem = async (req, res) => {
     }
 }
 
+const deleteAllCartItemsQuery = async (shoppingSessionID) => {
+    try {
+        const SQL = 'DELETE FROM cart_items WHERE session_id = $1';
+        await pool.query(SQL, [shoppingSessionID])
+    } catch (err) {
+        throw err
+    }
+}
+
+const deleteAllCartItems = async (req, res) => {
+    try {
+        const {shoppingSessionID} = req.params
+        await deleteAllCartItemsQuery(shoppingSessionID);
+        return res.status(200).json({message: 'Cart reset successfully'}) 
+    } catch (err) {
+        return res.status(500).json({message: err})
+
+    }
+}
+
 //Function to update cart item quantity 
 
 const updateCartItemQuantityQuery = async (quantity, productId, shoppingSessionID) => {
@@ -132,18 +152,28 @@ const getCartQuantityQuery = async (shoppingSessionID) => {
     try {
         const SQL = 'SELECT SUM(quantity) as sum_result FROM cart_items WHERE session_id=$1'
         const cartQuantity = await pool.query(SQL, [shoppingSessionID]);
-        return cartQuantity.rows[0]
+        return cartQuantity.rows[0];
     } catch (err) {
         console.log(err);
     }
 }
-
-const getCartQuantity = async (req, res) => {
+const getCartTotalQuery = async (shoppingSessionID) => {
+    try {
+        const SQL ='SELECT SUM(p.price * ci.quantity) AS total_cost FROM cart_items ci JOIN products p ON ci.product_id = p.id WHERE ci.session_id=$1';
+        const cartTotal = await pool.query(SQL, [shoppingSessionID]);
+        return cartTotal.rows[0];
+    } catch (err) {
+        console.log(err)
+    }
+}
+const getCartSumDetails = async (req, res) => {
     try {
         const {shoppingSessionID} = req.params;
-        const queryRes = await getCartQuantityQuery(shoppingSessionID);
-        const cartQuantity = queryRes.sum_result ? queryRes.sum_result: '0';
-        return res.status(200).json({cartQuantity})
+        const quantityQueryRes = await getCartQuantityQuery(shoppingSessionID);
+        const cartQuantity = quantityQueryRes ? quantityQueryRes.sum_result: 0;
+        const totalQueryRes = await getCartTotalQuery(shoppingSessionID);
+        const cartTotal = totalQueryRes ? totalQueryRes.total_cost: 0;
+        return res.status(200).json({cartQuantity, cartTotal})
     } catch (err) {
         console.log(err)
         return res.status(500).json({message: err})        
@@ -154,7 +184,7 @@ const getCartItemTotalPriceQuery = async (shoppingSessionID, productId) => {
     try {
         const SQL = 'SELECT ci.quantity * p.price AS product_total_price FROM cart_items ci JOIN products p on ci.product_id = p.id WHERE ci.session_id = $1 AND ci.product_id = $2';
         const cartItemTotalPrice = await pool.query(SQL, [shoppingSessionID, productId]);
-        return cartItemTotalPrice.rows[0].product_total_price
+        return cartItemTotalPrice ? cartItemTotalPrice.rows[0].product_total_price : null
     } catch (err) {
         console.log(err)
     }
@@ -172,4 +202,4 @@ const getCartItemTotalPrice = async (req, res) => {
     }
 }
 
-module.exports = { getAllCartItems, getCartItem, addCartItem, deleteCartItem, updateCartItemQuantity, getCartQuantity, getCartItemTotalPrice }
+module.exports = { getAllCartItems, getCartItem, addCartItem, deleteCartItem, updateCartItemQuantity, getCartSumDetails, getCartItemTotalPrice, deleteAllCartItemsQuery, deleteAllCartItems }

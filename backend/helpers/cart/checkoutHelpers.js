@@ -1,67 +1,161 @@
 const { pool } = require('../../db.js');
-const { getAllCartItems } = require('./cartHelpers.js');
+const dotenv = require('dotenv');
+dotenv.config();
+const Stripe = require("stripe");
+const { addOrderQuery } = require('../orders/ordersHelpers.js');
+const { deleteShoppingSessionQuery } = require('../shoppingSession/shoppingSessionHelpers.js');
+const { deleteAllCartItemsQuery } = require('./cartHelpers.js');
+const clientSecret = process.env.SECRET_STRIPE_KEY
+const endpointSecret = process.env.ENDPOINT_SECRET
+const stripe = Stripe(clientSecret)
 
-// Function to validate if cart exists (Retrieve cart id from session?)
-const cartExists = (req,res) => {
+
+// Stripe API funtionality
+
+
+const createCheckoutSession = async (req, res) => {
     try {
-        const cartItems =  getAllCartItems;
-        if (cartItems[0].length > 0) {
-            return true
-        } else return false   
-    } catch(err) {
-        console.log(err);
-    }
-}
-// Function to process payment
-const paymentProcessed = () => {
-    let paymentId
-    return paymentId
-    // Will add payment functionality later
-}
-
-// Function to add order to order details table in database //Get user_id from session
-const addOrderDetailsQuery = async (sessionID, user_id, total, payment_id) => {
-    try {
-        const insertSQL = 'INSERT INTO orders_details (user_id, total, payment_id) VALUES ($1, $2, $3)';
-        let orderId
-        await pool.query(insertSQL, [user_id, total, payment_id]).then(res => {
-            orderId = res.rows[0].id
-        });
-        addOrderItemsQuery(sessionID, orderId)
-        return orderId
-        
-    } catch (err) {
-        console.log(err)
-    }
-}
-// Need to get all the items from the cart where ussr i = iser id and then 
-// Function to add each item to order items table // Figure out how to get order items from cart
-const addOrderItemsQuery = async (session_id, order_id) => {
-    try {
-        const selectSQL = 'SELECT * FROM cart WHERE session_id=$1'
-        const orderList = await pool.query(selectSQL, [session_id]).rows
-        const SQL = 'INSERT INTO order_items (order_id, product_id, quantity) VALUES ($1, $2, $3)'
-        orderList.map(async order => await pool.query(SQL, [order_id, order.product_id, order.quantity]) )
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-
-const checkoutCart = async (req, res) => {
-    try {
-        const {sessionID, userID} = req;
-        const {total, paymentId, orderId} = req.body;
-
-        if (cartExists) {
-            if (paymentProcessed) {
-                await addOrderDetailsQuery(sessionID, userID, total, paymentId)
+        const {user} = req
+        const {shoppingSessionID} = req.params
+        //REMEMBER TO SEND THESE ITEMS ON THE FRONT END
+        const {cartItems, total} = req.body
+        let line_items = []
+        cartItems.map(cartItem => line_items.push(
+            {
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: cartItem.name,
+                        images: [cartItem.image1_url],
+                        metadata: {
+                            id: cartItem.id
+                        }
+                    },
+                    unit_amount: (Number((cartItem.price).replace(/[^0-9.-]+/g,""))) * 100
+                },
+                quantity: cartItem.quantity
+    
             }
-        }
+            ) )
+        const session = await stripe.checkout.sessions.create({
+            line_items,
+            mode: 'payment',
+            //MAKE SURE TO LOG USERS IN
+            success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `http://localhost:3000/cart`
+        });
+        await res.json({ url: session.url, user });
     } catch (err) {
-        console.log(err);
+        throw err
     }
-};
+
+}
 
 
-module.exports = { checkoutCart }
+// const fulfillOrder = (
+//     // userID, total, paymentId, 
+//     orderItems) => {
+// }
+ 
+// const webhookHandler = async (req, res) => {
+//     const payload =  req.body;
+//     const sig = req.headers['stripe-signature'];
+
+//     let event;
+    
+//     try {
+//         event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
+//     } catch (err) {
+//         throw err
+//     }
+
+//     if (event.type === 'checkout.session.completed') {
+//         const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+//             event.data.object.id,
+
+//             {expand: ['line_items']}
+//         );
+//         const lineItems = sessionWithLineItems.line_items;
+//         fulfillOrder(lineItems)
+//     }
+//     res.status(200).end()
+// }
+
+module.exports = {createCheckoutSession}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

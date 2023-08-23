@@ -7,6 +7,6 @@ const shoppingSessionRouter = express.Router();
 // SHOPPING SESSION ROUTES
 
 shoppingSessionRouter.post('/', verifyToken, addShoppingSession)
-shoppingSessionRouter.delete('/', verifyToken, deleteShoppingSession);
+// shoppingSessionRouter.delete('/', verifyToken, deleteShoppingSession);
 shoppingSessionRouter.get('/', verifyToken, getShoppingSessionId)
 module.exports = {shoppingSessionRouter}

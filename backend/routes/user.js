@@ -31,9 +31,12 @@ userRouter.post('/login', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            const token = generateToken(user)
-            res.cookie('token', token, {httpOnly: true, secure:true})
-            return res.json({ message: 'Login successful', user })
+            if (req.isAuthenticated()) {
+                const token = generateToken(user)
+                res.cookie('token', token, {httpOnly: true, secure:true, sameSite:'lax'})
+                return res.json({ message: 'Login successful', user })
+            }
+
         });
 
     })(req, res, next)

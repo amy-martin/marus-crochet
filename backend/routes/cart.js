@@ -1,6 +1,5 @@
 const express = require('express');
-const { getAllCartItems, deleteCartItem, updateCartItemQuantity, addCartItem, getCartItemTotalPrice, getCartQuantity } = require('../helpers/cart/cartHelpers.js');
-const { checkoutCart } = require('../helpers/cart/checkoutHelpers.js');
+const { getAllCartItems, deleteCartItem, updateCartItemQuantity, addCartItem, getCartItemTotalPrice, getCartSumDetails, deleteAllCartItems } = require('../helpers/cart/cartHelpers.js');
 const { verifyToken } = require('../helpers/config/cookies.js');
 const cartRouter = express.Router();
 
@@ -17,7 +16,7 @@ cartRouter.get('/:shoppingSessionID/cartItem/:productId', verifyToken, getCartIt
 cartRouter.get('/:shoppingSessionID', verifyToken, getAllCartItems)
 
 // GET Route to Get Cart Quantity
-cartRouter.get('/:shoppingSessionID/cartQuantity', verifyToken, getCartQuantity)
+cartRouter.get('/:shoppingSessionID/cartSumDetails', verifyToken, getCartSumDetails)
 
 // PUT Route to Update Cart Item Quantity
 cartRouter.put('/:shoppingSessionID/updateQuantity', verifyToken, updateCartItemQuantity)
@@ -25,12 +24,8 @@ cartRouter.put('/:shoppingSessionID/updateQuantity', verifyToken, updateCartItem
 // DELETE Route to Delete Cart Item 
 cartRouter.delete('/:shoppingSessionID/delete/:productId', verifyToken, deleteCartItem)
 
-// CHECKOUT ROUTES
-
-// POST Route to Check Cart Out
-
-cartRouter.post('/:cartId/checkout', verifyToken, checkoutCart);
-
+// DELETE Route to Delete All Cart Items
+cartRouter.delete('/:shoppingSessionID', verifyToken, deleteAllCartItems)
 
 
 

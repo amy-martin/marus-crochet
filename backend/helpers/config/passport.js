@@ -9,7 +9,6 @@ const initializePassport = () => {
         new LocalStrategy(async (username, password, done) => {
             try {
                 const user = await findUserByUsername(username);
-
                 if (!user) {
                     return done(null, false, { message: 'Invalid username or password'})
                 }
