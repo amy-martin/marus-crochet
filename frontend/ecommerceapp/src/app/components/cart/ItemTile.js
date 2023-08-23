@@ -3,10 +3,11 @@ import { QuantityUpdateInput } from "./QuantityUpdateInput";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartItemTotalPrice, selectCartItemTotalPrices } from "./slice/cartItemTotalPriceSlice";
 import { selectShoppingSessionID } from "./slice/shoppingSessionSlice";
-import { fetchCartQuantity, selectCartQuantity } from "./slice/cartSlice";
+import { fetchCartSums, selectCartQuantity } from "./slice/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { serverAddress } from "../../App";
 
-export const CartItemTile = (props) => {
+export const ItemTile = (props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const cartQuantity = useSelector(selectCartQuantity)
@@ -29,11 +30,11 @@ export const CartItemTile = (props) => {
                         "Content-Type": "application/json"
                         }
                     }
-                fetch(`http://localHost:3000/cart/${shoppingSessionID}/delete/${productId}`, cartItemDeleteRequestOptions)
+                fetch(`${serverAddress}/cart/${shoppingSessionID}/delete/${productId}`, cartItemDeleteRequestOptions)
                 .then(res => {
                     if (res.ok) {
                         (setDisplay('none'))
-                        dispatch(fetchCartQuantity(shoppingSessionID));
+                        dispatch(fetchCartSums(shoppingSessionID));
                         if (cartQuantity === 0) {
                             navigate('/cart', {replace: true})
                         }

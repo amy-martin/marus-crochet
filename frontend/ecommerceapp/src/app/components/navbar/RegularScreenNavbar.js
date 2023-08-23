@@ -11,21 +11,23 @@ export const RegularScreenNavBar = (props) => {
         <div className="regular-screen" onMouseLeave={hideCategoryDropdown}>
             <nav className="regular-screen-nav-bar">
                 <div className = "regular-screen nav-components">
-                    <ul className='left generic-nav-component' >
-                        <li onMouseOver={handleCategoryClick}>
-                            <h3>
-                                <a>
-                                    
-                                    PRODUCTS
-                                                            
-                                </a>
-                            </h3>
-                            
-                        </li>
-                        <li>
-                            <h3><Link to = '/products/new'>NEW</Link></h3>
-                        </li>
-                    </ul>
+                    <div className='left generic-nav-component' >
+                        <ul>
+                            <li onMouseOver={handleCategoryClick}>
+                                <h3>
+                                    <a>
+                                        
+                                        PRODUCTS
+                                                                
+                                    </a>
+                                </h3>
+                                
+                            </li>
+                            <li>
+                                <h3><Link to = '/products/new'>NEW</Link></h3>
+                            </li>
+                        </ul>
+                    </div>
                     <ul className="middle generic-nav-component">
                         <li>
                             <h1 id="site-title"><Link to='/'>MARU</Link></h1>

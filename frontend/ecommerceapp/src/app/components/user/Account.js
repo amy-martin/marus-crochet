@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { EditAccountButton } from "./EditAccountButton";
 import { Flash } from "../miscellaneous/flash/Flash";
 import { displayFlash, selectFlashConfig } from "../miscellaneous/flash/flashSlice";
-import { timeout } from "../../helpers/miscellaneous";
+
 
 export const Account = () => {
     const location = useLocation();
@@ -15,7 +15,6 @@ export const Account = () => {
     
     const user = useSelector(selectUser);
     const dispatch = useDispatch()
-    const flashConfig = useSelector(selectFlashConfig)
 
     useEffect(() => {
         if (flash) {
@@ -26,14 +25,13 @@ export const Account = () => {
             }));;
             
         };
-        timeout(flashConfig.display, dispatch);
 
-    }, [])
+    }, []);
 
 
     return (
         <div className="account-container">
-            <h2>MY ACCOUNT</h2>
+=            <h2>MY ACCOUNT</h2>
             <div className="account-info-container">
             <Flash />
             <div className="account-info">

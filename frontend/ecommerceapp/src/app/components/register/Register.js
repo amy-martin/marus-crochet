@@ -1,8 +1,14 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom"
+import { serverAddress } from "../../App";
+import { Flash } from "../miscellaneous/flash/Flash";
+import { useDispatch } from "react-redux";
+import { displayFlash } from "../miscellaneous/flash/flashSlice";
+import { timeout, toSentenceCase } from "../../helpers/miscellaneous";
 
 export const Register = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -10,10 +16,20 @@ export const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
+
+    const location = useLocation();
+    const flash = location.state ? location.state.flash: null;
+    const flashMessage = location.state ? location.state.flashMessage: null
+    const backgroundColor = location.state ? location.state.backgroundColor: null
+
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password !== confirmationPassword) {
-            throw new Error('Passwords Do Not Match')
+            dispatch(displayFlash({
+                backgroundColor: 'rgba(216,80,39, 0.7)', 
+                flashMessage: 'Passwords do not match. Please try again.'
+            }));
         } else {
             const requestOptions = {
                 method: 'POST',
@@ -31,7 +47,7 @@ export const Register = () => {
                 })
             };
             try {
-                fetch('http://localHost:3000/user/register', requestOptions)
+                fetch(`${serverAddress}/user/register`, requestOptions)
                 .then(async response => {
                     const responseObject = {
                         status: response.status,
@@ -40,14 +56,16 @@ export const Register = () => {
                     return responseObject})
                 .then(responseData => {
                     if (responseData.status === 409) {
-                        alert(responseData.info.message)
-                        navigate('/register')
+                        dispatch(displayFlash({
+                            backgroundColor: 'rgba(216,80,39, 0.7)', 
+                            flashMessage: toSentenceCase(responseData.info.message)
+                        }));
                     } else if (responseData.status === 200) {  
-                        navigate('/login')
+                        navigate('/login', {state: {flash: true, flashMessage: 'Successfully registered! Please log in to continue', backgroundColor: 'rgba(0, 117, 0, 0.7)'}})
                     } else return responseData.status
                 })
             } catch (e) {
-                throw new e
+                throw e
             }
             
         }
@@ -55,6 +73,7 @@ export const Register = () => {
 
     return (
         <div className="registration">
+            <Flash />
             <form className="registration-form" onSubmit={handleSubmit}>
                 <div className="registration-container">
                     <div className="first-name entry">

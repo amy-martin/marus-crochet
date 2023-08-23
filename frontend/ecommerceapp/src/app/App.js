@@ -10,14 +10,41 @@ import { NavBarSideBar } from './components/navbar/NavBarSideBar';
 import { AboutUs } from './components/aboutUs/AboutUs';
 import { ContactUs } from './components/contactUs/ContactUs';
 import { NewProductListing } from './components/products/NewProductListing';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Account } from './components/user/Account';
 import { Redirect } from './components/miscellaneous/Redirect';
 import { AccountUpdateForm } from './components/user/AccountUpdateForm';
 import { Cart } from './components/cart/Cart';
+import { PaymentSuccess } from './components/checkout/PaymentSuccess';
+import { useEffect } from 'react';
+import { login } from './helpers/login';
+import { fetchCartItems, fetchCartSums } from './components/cart/slice/cartSlice';
+import { selectShoppingSessionID } from './components/cart/slice/shoppingSessionSlice';
 
-function App() {
+export const serverAddress = 'http://localhost:4242';
+
+
+
+export function App() {
+  const shoppingSessionID = useSelector(selectShoppingSessionID)
   const isLoggedIn = useSelector(selectisLoggedIn)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    login(dispatch);
+    if (isLoggedIn && shoppingSessionID) {
+      dispatch(fetchCartItems(shoppingSessionID));
+      dispatch(fetchCartSums(shoppingSessionID));
+    }
+
+  }, [isLoggedIn, shoppingSessionID, dispatch])
+
+  useEffect(() => {
+    if (isLoggedIn && shoppingSessionID) {
+      dispatch(fetchCartSums(shoppingSessionID))
+  }
+  })
+
   return (
       <Router>
         <div>
@@ -35,13 +62,14 @@ function App() {
               <Route path='/contact-us' element={<ContactUs />}/>
               <Route path='/profile' element={isLoggedIn ? <Account />: <Redirect />}/>
               <Route path='/profile/edit' element={isLoggedIn ? <AccountUpdateForm />: <Redirect />}/>
-              <Route path='/cart' element={isLoggedIn ? <Cart />: <Redirect/>}/>
+              <Route path='/cart' element={isLoggedIn ? <Cart />: <Redirect />}/>
+              <Route path='/success' element={<PaymentSuccess />} />
             </Routes>
           </main>
         </div>
-
       </Router>
   );
 }
 
 export default App;
+

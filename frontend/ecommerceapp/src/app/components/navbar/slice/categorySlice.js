@@ -16,7 +16,7 @@ const categorySlice = createSlice({
             state.dropdown.display = 'none'
         },
         toggleDropdown: state => {
-            if (state.dropdown.display == 'none') {
+            if (state.dropdown.display === 'none') {
                 state.dropdown.display = 'flex'
             } else state.dropdown.display = 'none'
         }

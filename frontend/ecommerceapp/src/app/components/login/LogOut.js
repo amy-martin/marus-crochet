@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom"
 import { setToLoggedOut } from "./loginSlice";
 import { useDispatch } from "react-redux";
+import { serverAddress } from "../../App";
 
 
 export const LogOut = () => {
@@ -17,8 +18,9 @@ export const LogOut = () => {
                 "Content-Type": "application/json"
                 }
             }
-        await fetch('http://localHost:3000/user/logout', logOutRequestOptions)
+        await fetch(`${serverAddress}/user/logout`, logOutRequestOptions)
         .then(dispatch(setToLoggedOut()))
+        .then(localStorage.clear())
         .then(navigate('/'))
     }
 

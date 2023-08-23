@@ -10,7 +10,7 @@ const sideBarSlice = createSlice({
             state.display = action.payload
         },
         toggleDisplay: state => {
-            if (state.display == 'none') {
+            if (state.display === 'none') {
                 state.display = 'flex'
             } else state.display = 'none'
         },

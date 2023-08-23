@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { serverAddress } from "../../../App";
 
 export const fetchCartItemTotalPrice = createAsyncThunk(
     'cartItemTotalPrice/fetchCartItemTotalPrice',
@@ -13,7 +14,7 @@ export const fetchCartItemTotalPrice = createAsyncThunk(
                     "Content-Type": "application/json"
                     }
                 }
-                const url = `http://localHost:3000/cart/${shoppingSessionID}/cartItem/${productId}`;
+                const url = `${serverAddress}/cart/${shoppingSessionID}/cartItem/${productId}`;
                 const response = await fetch(url, cartItemTotalPriceRequestOptions)
                 const data = await response.json();
                 return {productId, cartItemTotalPrice: data.cartItemTotalPrice}

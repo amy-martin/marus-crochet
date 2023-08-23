@@ -1,27 +1,28 @@
-const retrieveProduct = async (productID) => {
-    const response = await fetch(`http://localhost:3000/product/${productID}`)
+import { serverAddress } from "../App";
+
+export const retrieveProduct = async (productID) => {
+    const response = await fetch(`${serverAddress}/product/${productID}`)
     const json = await response.json();
     const product = json.product
     return product
 }
 
-const retrieveProducts = async (category=null) => {
+export const retrieveProducts = async (category=null) => {
     let response
     if (category) {
-        response = await fetch(`http://localhost:3000/products/${category}`)
+        response = await fetch(`${serverAddress}/products/${category}`)
     } else {
-        response = await fetch('http://localhost:3000/products');
+        response = await fetch(`${serverAddress}/products`);
     }
     const json = await response.json();
     const products = json.products
     return products
 }
 
-const retrieveNewProducts = async () => {
-    const response = await fetch('http://localhost:3000/new');
+export const retrieveNewProducts = async () => {
+    const response = await fetch(`${serverAddress}/new`);
     const json = await response.json();
     const products = json.products
     return products
 }
 
-module.exports = { retrieveProduct, retrieveProducts, retrieveNewProducts}

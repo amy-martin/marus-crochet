@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { serverAddress } from "../../../App";
 
-export const fetchCartQuantity = createAsyncThunk(
-    'cart/fetchCartQuantity',
+export const fetchCartSums = createAsyncThunk(
+    'cart/fetchSumDetails',
     async (shoppingSessionID, thunkAPI) => {
             try {
-                const cartQuantityRequestOptions = {
+                const cartSumRequestOptions = {
                 method: 'GET',
                 mode: 'cors',
                 credentials: 'include',
@@ -13,11 +14,11 @@ export const fetchCartQuantity = createAsyncThunk(
                     "Content-Type": "application/json"
                     }
                 }
-                const url = `http://localHost:3000/cart/${shoppingSessionID}/cartQuantity`;
+                const url = `${serverAddress}/cart/${shoppingSessionID}/cartSumDetails`;
 
-                const response = await fetch(url, cartQuantityRequestOptions)
+                const response = await fetch(url, cartSumRequestOptions)
                 const data = await response.json();
-                return data.cartQuantity
+                return data
             } catch(e) {
                 console.log(e)
             }
@@ -37,7 +38,7 @@ export const fetchCartItems = createAsyncThunk(
                 "Content-Type": "application/json"
                 }
             }
-            const response = await fetch(`http://localHost:3000/cart/${shoppingSessionID}`, cartItemsRequestOptions)
+            const response = await fetch(`${serverAddress}/cart/${shoppingSessionID}`, cartItemsRequestOptions)
             const data = await response.json();
             return data.cartItems
 
@@ -53,6 +54,7 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState: {
         cartQuantity: 0,
+        cartTotal: null,
         cartItems: null,
         quantityLoading: 'Idle',
         error: null,
@@ -60,14 +62,16 @@ export const cartSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchCartQuantity.pending, (state, action) => {
+            .addCase(fetchCartSums.pending, (state, action) => {
                 state.quantityLoading = 'Loading'
             })
-            .addCase(fetchCartQuantity.fulfilled, (state, action) => {
+            .addCase(fetchCartSums.fulfilled, (state, action) => {
                 state.quantityLoading = 'Successful';
-                state.cartQuantity = action.payload
+                state.cartQuantity = action.payload.cartQuantity ? action.payload.cartQuantity: 0
+                state.cartTotal = action.payload.cartTotal ? action.payload.cartTotal: 0
+
             })
-            .addCase(fetchCartQuantity.rejected, (state, action) => {
+            .addCase(fetchCartSums.rejected, (state, action) => {
                 state.quantityLoading = 'Failed'
                 state.error = action.error.message;
             })
@@ -92,5 +96,6 @@ export const cartSlice = createSlice({
 export const selectCartQuantity = state => state.cart.cartQuantity;
 export const selectCartQuantityStatus = state => state.cart.quantityLoading;
 export const selectCartItemsStatus = state => state.cart.itemsLoading;
+export const selectCartTotal = state => state.cart.cartTotal
 export const selectCartItems = state => state.cart.cartItems
 export default cartSlice.reducer;

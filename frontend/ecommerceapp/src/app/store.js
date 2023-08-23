@@ -18,7 +18,7 @@ export default configureStore({
         user: userReducer,
         flash: flashReducer,
         shoppingSession: shoppingSessionReducer,
-        cartItemTotalPrice: cartItemTotalPriceSliceReducer
+        cartItemTotalPrice: cartItemTotalPriceSliceReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 })

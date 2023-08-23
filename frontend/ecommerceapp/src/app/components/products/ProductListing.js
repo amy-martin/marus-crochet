@@ -32,11 +32,11 @@ export const ProductListing = () => {
         })
     }
 
-    const productPageTitle = (category) => {
-        if (!category) return 'OUR FULL COLLECTION'
-        else if (category == 'accessories') return 'ACCESSORIES'
-        else return `OUR ${category.toUpperCase()}'S COLLECTION`
-    }
+    // const productPageTitle = (category) => {
+    //     if (!category) return 'OUR FULL COLLECTION'
+    //     else if (category === 'accessories') return 'ACCESSORIES'
+    //     else return `OUR ${category.toUpperCase()}'S COLLECTION`
+    // }
 
 
     return ( 

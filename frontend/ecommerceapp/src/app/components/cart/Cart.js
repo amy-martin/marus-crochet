@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PopulatedCartView } from "./PopulatedCartView";
 import { Loading } from "../miscellaneous/Loading";
 import { selectShoppingSessionID } from "./slice/shoppingSessionSlice";
 import { Link } from "react-router-dom";
 import { fetchCartItems, selectCartItems, selectCartItemsStatus, selectCartQuantity } from "./slice/cartSlice";
+import { CheckoutButton } from "./CheckoutButton";
+
 
 
 export const Cart = () => {
@@ -13,8 +15,7 @@ export const Cart = () => {
     const cartQuantity = useSelector(selectCartQuantity);
     const cartItems = useSelector(selectCartItems);
     const cartItemsStatus = useSelector(selectCartItemsStatus)
-
-   
+    const [isPopulated, setIsPopulated] = useState(false)
 
 
 
@@ -24,6 +25,14 @@ export const Cart = () => {
         }
     }, [shoppingSessionID, cartQuantity]);
 
+    useEffect(() => {
+        if (cartItems && cartItems.length > 0) {
+            setIsPopulated(true)
+        }
+        if (cartItems && cartItems.length === 0) {
+            setIsPopulated(false)
+        }
+    })
 
     const statusCheck = () => {
         if (cartItemsStatus === 'Loading') {
@@ -42,7 +51,10 @@ export const Cart = () => {
 
     return (
         <div className="cart-container">
+            <h2>SHOPPING CART</h2>
             {statusCheck()}
+            {/* ADD SUBTOTAL */}
+            {isPopulated ? <CheckoutButton cartItems={cartItems}/>: null}
         </div>
     )
 

@@ -3,10 +3,11 @@ import {Link, useLocation, useNavigate} from "react-router-dom"
 import { selectisLoggedIn, setToLoggedIn } from "./loginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Flash } from "../miscellaneous/flash/Flash";
-import { setUser } from "../user/userSlice";
+import { selectUser, setUser } from "../user/userSlice";
 import { displayFlash } from "../miscellaneous/flash/flashSlice";
 import { selectShoppingSessionID, setShoppingSessionID  } from "../cart/slice/shoppingSessionSlice";
-import { fetchCartQuantity } from "../cart/slice/cartSlice";
+import { fetchCartSums } from "../cart/slice/cartSlice";
+import { serverAddress } from "../../App";
 
 export const LogIn = (props) => {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ export const LogIn = (props) => {
     })
     useEffect(() => {
         if (isLoggedIn && shoppingSessionID) {
-            dispatch(fetchCartQuantity(shoppingSessionID))
+            dispatch(fetchCartSums(shoppingSessionID))
         }
     })
 
@@ -50,6 +51,7 @@ export const LogIn = (props) => {
             body: JSON.stringify({
                 username: username,
                 password: password
+
             })
         };
         const shoppingSessionRequestOptions = {
@@ -71,19 +73,22 @@ export const LogIn = (props) => {
             }
         }
         try {
-            fetch('http://localHost:3000/user/login', loginRequestOptions)
+            fetch(`${serverAddress}/user/login`, loginRequestOptions)
                 .then(async res => {
                     if (res.ok) {
                         const response = await res.json();
 
+                        localStorage.setItem('user', JSON.stringify(response.user))
 
-                        dispatch(setUser(response.user));
-                        dispatch(setToLoggedIn())
+                        const user = localStorage.getItem('user')
+                        ? JSON.parse(localStorage.getItem('user'))
+                        : null;
+                        dispatch(setUser(user));
+                        dispatch(setToLoggedIn());
 
+                        await fetch(`${serverAddress}/shoppingSession`, shoppingSessionRequestOptions);
 
-                        await fetch('http://localHost:3000/shoppingSession', shoppingSessionRequestOptions);
-
-                        await fetch('http://localHost:3000/shoppingSession', shoppingSessionIDRequestOptions)
+                        await fetch(`${serverAddress}/shoppingSession`, shoppingSessionIDRequestOptions)
                         .then(res => {
                             return res.json()
                         })
@@ -91,6 +96,8 @@ export const LogIn = (props) => {
                             dispatch(setShoppingSessionID(resJSON.id));
                             return navigate('/profile', {state:{flash: true, flashMessage: response.message, backgroundColor: 'rgba(0, 117, 0, 0.7)'}, replace: true})    
                         })
+
+                        
                         } else {
                         const errorResponse = await res.json();
                         if (errorResponse && errorResponse.message) {

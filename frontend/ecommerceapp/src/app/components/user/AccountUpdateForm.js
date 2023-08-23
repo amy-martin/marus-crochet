@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Flash } from "../miscellaneous/flash/Flash";
 import { useNavigate } from "react-router-dom";
 import { BackButton } from "../miscellaneous/BackButton";
+import { serverAddress } from "../../App";
 
 export const AccountUpdateForm = () => {
     const user = useSelector(selectUser);
@@ -19,10 +20,10 @@ export const AccountUpdateForm = () => {
         e.preventDefault();
         const bodyToSend = {
             username: user.username,
-            first_name: (firstName == user.first_name ? null: firstName),
-            last_name: (lastName == user.last_name ? null: lastName),
-            email: (email == user.email ? null: email),
-            phone_number: (phoneNumber == user.phone_number ? null: phoneNumber)
+            first_name: (firstName === user.first_name ? null: firstName),
+            last_name: (lastName === user.last_name ? null: lastName),
+            email: (email === user.email ? null: email),
+            phone_number: (phoneNumber === user.phone_number ? null: phoneNumber)
         }
         const requestOptions = {
             method: 'PUT',
@@ -35,10 +36,10 @@ export const AccountUpdateForm = () => {
             body: JSON.stringify(bodyToSend)
         };
 
-        fetch('http://localHost:3000/user/profile', requestOptions)
+        fetch(`${serverAddress}/user/profile`, requestOptions)
         .then(async res => {
             if (firstName !== user.first_name) dispatch(updateUserField({field: 'first_name', data: firstName}));
-            if (lastName != user.last_name) dispatch(updateUserField({field: 'last_name', data: lastName}));
+            if (lastName !== user.last_name) dispatch(updateUserField({field: 'last_name', data: lastName}));
             if (email !== user.email) dispatch(updateUserField({field: 'email', data: email}))
             if (phoneNumber !== user.phone_number) dispatch(updateUserField({field: 'phone_number', data: phoneNumber}));
 
@@ -50,7 +51,7 @@ export const AccountUpdateForm = () => {
             return responseObject;
         })
         .then(res => {
-            if (res.status == 200) {
+            if (res.status === 200) {
                 navigate('/profile', {state:{flash: true, flashMessage: 'Account updated successfully', backgroundColor: 'rgba(0, 117, 0, 0.7'}, replace:true});
             } else {
                 navigate('/profile/edit', {state: {flash: true, flashMessage: `${res.message}`, backgroundColor: 'rgba(216,80,39, 0.7)'},replace: true})

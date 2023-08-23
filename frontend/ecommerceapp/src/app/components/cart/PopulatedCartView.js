@@ -1,12 +1,20 @@
 import React from "react";
-import { CartItemTile } from "./CartItemTile";
+import { ItemTile } from "./ItemTile";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCartTotal } from "./slice/cartSlice";
 
 export const PopulatedCartView = (props) => {
     const {cartItems} = props;
+    const navigate = useNavigate();
+    const cartTotal = useSelector(selectCartTotal)
+
 
     return (
         <div className="cart-items-container">
-            {cartItems.map((item) => <CartItemTile item={item} key={item.product_id}/>)}
+            {cartItems.map((item) => <ItemTile item={item} key={item.product_id}/>)}
+            <h3 className="cart-subtotal">Cart Subtotal: {cartTotal}</h3>
         </div>
+
     )
 }

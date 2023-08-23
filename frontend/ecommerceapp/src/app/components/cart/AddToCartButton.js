@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectisLoggedIn } from "../login/loginSlice";
 import { useNavigate } from "react-router-dom";
 import { selectShoppingSessionID } from "./slice/shoppingSessionSlice";
-import { fetchCartQuantity } from "./slice/cartSlice";
+import { fetchCartSums } from "./slice/cartSlice";
 import { Flash } from "../miscellaneous/flash/Flash";
 import { displayFlash } from "../miscellaneous/flash/flashSlice";
+import { serverAddress } from "../../App";
 
 export const AddToCartButton = (props) => {
     const {productId, quantity} = props
@@ -33,10 +34,10 @@ export const AddToCartButton = (props) => {
                 })
             };
             try {
-                fetch(`http://localHost:3000/cart/${shoppingSessionID}`, requestOptions)
+                fetch(`${serverAddress}/cart/${shoppingSessionID}`, requestOptions)
                 .then(async res => {
                     if (res.status === 200) {
-                        dispatch(fetchCartQuantity(shoppingSessionID));
+                        dispatch(fetchCartSums(shoppingSessionID));
                         const response = await res.json();
                         dispatch(displayFlash({flashMessage: response.message, backgroundColor: 'rgba(0, 117, 0, 0.7)', className:'add-to-cart-flash'}))
                     }
