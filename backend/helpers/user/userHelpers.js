@@ -13,6 +13,7 @@ const passwordHash = async (password, saltRounds) => {
         const hash = await bcrypt.hash(password, salt);
         return hash
     } catch (err) {
+        console.log('Error in passwordHash')
         console.log(err);
     }
     return null;
@@ -25,7 +26,6 @@ const validateFieldLength = (field, fieldValue, min, max) => {
         } else {
             return (`${field} TOO LONG`)
         }
-        return
     }
 }
 
@@ -39,6 +39,7 @@ const findUserByEmail = async (email, cb) => {
         }
         return foundUser.rows[0] ? foundUser.rows[0]: null;
     } catch (err) {
+        console.log('Error in findUserByEmail')
         console.log(err)
         if (cb) {
             cb(err, null);
@@ -56,6 +57,7 @@ const findUserByUsername = async (username, cb) => {
         }
         return foundUser.rows[0] ? foundUser.rows[0]: null;
     } catch (err) {
+        console.log('Error in findUserByUsername')
         console.log(err);
         if (cb) {
             cb(err, null);
@@ -73,6 +75,7 @@ const findUserById = async (id, cb) => {
         }
         return foundUser.rows[0] ? foundUser.rows[0]: null;
     } catch (err) {
+        console.log('Error in findUserById')
         console.log(err);
         if (cb) {
             cb(err, null);
@@ -89,6 +92,7 @@ const updateField = async (field, newFieldValue, username) => {
         await pool.query(SQL, [newFieldValue, username])
         return await findUserByUsername(username);
     } catch (err) {
+        console.log('Error in updateField')
         console.log(err);
     }
 };

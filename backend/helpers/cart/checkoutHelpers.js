@@ -45,6 +45,7 @@ const createCheckoutSession = async (req, res) => {
             cancel_url: `http://localhost:3000/cart`
         });
         await res.json({ url: session.url, user });
+        
     } catch (err) {
         throw err
     }
@@ -52,34 +53,34 @@ const createCheckoutSession = async (req, res) => {
 }
 
 
-// const fulfillOrder = (
-//     // userID, total, paymentId, 
-//     orderItems) => {
-// }
+const fulfillOrder = (
+    // userID, total, paymentId, 
+    orderItems) => {
+}
  
-// const webhookHandler = async (req, res) => {
-//     const payload =  req.body;
-//     const sig = req.headers['stripe-signature'];
+const webhookHandler = async (req, res) => {
+    const payload =  req.body;
+    const sig = req.headers['stripe-signature'];
 
-//     let event;
+    let event;
     
-//     try {
-//         event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
-//     } catch (err) {
-//         throw err
-//     }
+    try {
+        event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
+    } catch (err) {
+        throw err
+    }
 
-//     if (event.type === 'checkout.session.completed') {
-//         const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-//             event.data.object.id,
+    if (event.type === 'checkout.session.completed') {
+        const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+            event.data.object.id,
 
-//             {expand: ['line_items']}
-//         );
-//         const lineItems = sessionWithLineItems.line_items;
-//         fulfillOrder(lineItems)
-//     }
-//     res.status(200).end()
-// }
+            {expand: ['line_items']}
+        );
+        const lineItems = sessionWithLineItems.line_items;
+        fulfillOrder(lineItems)
+    }
+    res.status(200).end()
+}
 
 module.exports = {createCheckoutSession}
 

@@ -8,6 +8,7 @@ const findProductsByCategory = async (category) => {
         return products.rows
         
     } catch (err) {
+        console.log('Error in findProductsByCategory')
         console.log(err)
     }
     
@@ -20,6 +21,7 @@ const findProducts = async () => {
         const products = await pool.query(SQL);
         return products.rows
     } catch (err) {
+        console.log('Error in findProducts')
         console.log(err);
     }
 }
@@ -30,6 +32,7 @@ const findNewProducts = async () => {
         const products = await pool.query(SQL);
         return products.rows
     } catch (err) {
+        console.log('Error in findNewProducts')
         console.log(err);
     }
 }
@@ -46,6 +49,7 @@ const getProducts = async (req, res, next) => {
             return res.json({products});
         };
     } catch (err) {
+
         return res.status(500).json({ message: err.message })
     }
     
@@ -59,6 +63,7 @@ const findProductById = async (productId) => {
         const foundProduct = await pool.query(SQL, [productId]);
         return foundProduct.rows[0]
     } catch (err) {
+        console.log('Error in findProductById')
         console.log(err)
     }
 };

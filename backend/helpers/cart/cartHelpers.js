@@ -8,6 +8,7 @@ const getAllCartItemsQuery = async (shoppingSessionID) => {
         const cart = await pool.query(SQL, [shoppingSessionID]);
         return cart.rows;
     } catch (err) {
+        console.log('Error in getAllCartItemsQuery')
         console.log(err);
     }
 };
@@ -19,6 +20,7 @@ const getAllCartItems = async (req, res) => {
         const cartItems = await getAllCartItemsQuery(shoppingSessionID);
         return res.status(200).json({cartItems})
     } catch (err) {
+        console.log('Error in getAllCartItems')
         console.log(err)
         return res.status(500).json({message: err})
     }
@@ -32,6 +34,7 @@ const getCartItemQuery = async (productId, shoppingSessionID) => {
         const cartItem = await pool.query(SQL, [productId, shoppingSessionID]);
         return cartItem.rows[0];
     } catch (err) {
+        console.log('Error in getCartItemQuery')
         console.log(err)
     }
 } 
@@ -43,6 +46,7 @@ const getCartItem = async (req, res) => {
         const cartItem = await getCartItemQuery(productId, shoppingSessionID);
         return res.status(200).json({cartItem})
     } catch (err) {
+        console.log('Error in getCartItem')
         console.log(err)
         return res.status(500).json({message: err})
     }
@@ -56,6 +60,7 @@ const addCartItemQuery = async (shoppingSessionID, productId, quantity) => {
         const SQL = 'INSERT INTO cart_items (session_id, product_id, quantity) VALUES ($1, $2, $3) ON CONFLICT ON CONSTRAINT idx_cart_items_unique_session_product DO UPDATE SET quantity = cart_items.quantity + EXCLUDED.quantity'
         await pool.query(SQL, [shoppingSessionID, productId, quantity]);
     } catch (err) {
+        console.log('Error in addCartItemQuery')
         console.log(err);
     }
 }
@@ -69,6 +74,7 @@ const addCartItem = async (req, res) => {
         await addCartItemQuery(shoppingSessionID, productId, quantity)
         return res.status(200).json({message: 'Item added to cart'})
     } catch (err) {
+        console.log('Error in  addCartItem')
         console.log(err)
         return res.status(500).json({message: err})
     }
@@ -82,6 +88,7 @@ const deleteCartItemQuery = async (productId, shoppingSessionID) => {
         await pool.query(SQL, [productId, shoppingSessionID]);
 
     } catch (err) {
+        console.log('Error in deleteCartItemQuery')
         console.log(err);
     }
 }
@@ -94,6 +101,7 @@ const deleteCartItem = async (req, res) => {
         await deleteCartItemQuery(productId, shoppingSessionID);
         return res.status(200).json({message: 'Item deleted from cart'})
     } catch (err) {
+        console.log('Error in deleteCartItem')
         console.log(err)
         return res.status(500).json({message: err})
     }
@@ -104,7 +112,8 @@ const deleteAllCartItemsQuery = async (shoppingSessionID) => {
         const SQL = 'DELETE FROM cart_items WHERE session_id = $1';
         await pool.query(SQL, [shoppingSessionID])
     } catch (err) {
-        throw err
+        console.log('Error in deleteAllCartItemsQuery')
+        console.log(err)
     }
 }
 
@@ -129,6 +138,7 @@ const updateCartItemQuantityQuery = async (quantity, productId, shoppingSessionI
         const updatedCartItem = await getCartItemQuery(productId, shoppingSessionID);
         return updatedCartItem.quantity
     } catch (err) {
+        console.log('Error in updateCartItemQuantityQuery')
         console.log(err)
     }
 }
@@ -143,6 +153,7 @@ const updateCartItemQuantity = async (req, res) => {
         return res.status(200).json({message: 'Quantity updated'})
 
     } catch (err) {
+        console.log('Error in updateCartItemQuantity')
         console.log(err)
         return res.status(500).json({message: err})
     }
@@ -154,6 +165,7 @@ const getCartQuantityQuery = async (shoppingSessionID) => {
         const cartQuantity = await pool.query(SQL, [shoppingSessionID]);
         return cartQuantity.rows[0];
     } catch (err) {
+        console.log('Error in getCartQuantityQuery')
         console.log(err);
     }
 }
@@ -163,6 +175,7 @@ const getCartTotalQuery = async (shoppingSessionID) => {
         const cartTotal = await pool.query(SQL, [shoppingSessionID]);
         return cartTotal.rows[0];
     } catch (err) {
+        console.log('Error in getCartTotalQuery')
         console.log(err)
     }
 }
@@ -175,6 +188,7 @@ const getCartSumDetails = async (req, res) => {
         const cartTotal = totalQueryRes ? totalQueryRes.total_cost: 0;
         return res.status(200).json({cartQuantity, cartTotal})
     } catch (err) {
+        console.log('Error in getCartSumDetails')
         console.log(err)
         return res.status(500).json({message: err})        
     }
@@ -184,8 +198,9 @@ const getCartItemTotalPriceQuery = async (shoppingSessionID, productId) => {
     try {
         const SQL = 'SELECT ci.quantity * p.price AS product_total_price FROM cart_items ci JOIN products p on ci.product_id = p.id WHERE ci.session_id = $1 AND ci.product_id = $2';
         const cartItemTotalPrice = await pool.query(SQL, [shoppingSessionID, productId]);
-        return cartItemTotalPrice ? cartItemTotalPrice.rows[0].product_total_price : null
+        return (cartItemTotalPrice && cartItemTotalPrice.rows[0]) ? cartItemTotalPrice.rows[0].product_total_price : null
     } catch (err) {
+        console.log('Error in getCartItemTotalPriceQuery')
         console.log(err)
     }
 }
@@ -197,6 +212,7 @@ const getCartItemTotalPrice = async (req, res) => {
         const cartItemTotalPrice = await getCartItemTotalPriceQuery(shoppingSessionID, productId);
         return res.status(200).json({cartItemTotalPrice});
     } catch(err) {
+        console.log('Error in getCartItemTotalPrice')
         console.log(err)
         return res.status(500).json({message: err})
     }
