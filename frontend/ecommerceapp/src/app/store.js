@@ -7,6 +7,8 @@ import userReducer from "./components/user/userSlice";
 import flashReducer from "./components/miscellaneous/flash/flashSlice";
 import shoppingSessionReducer from "./components/cart/slice/shoppingSessionSlice";
 import cartItemTotalPriceSliceReducer from "./components/cart/slice/cartItemTotalPriceSlice";
+import orderReducer from "./components/order/slice/orderSlice";
+import ordersReducer from "./components/order/allOrdersSlice";
 
 
 export default configureStore({
@@ -19,6 +21,8 @@ export default configureStore({
         flash: flashReducer,
         shoppingSession: shoppingSessionReducer,
         cartItemTotalPrice: cartItemTotalPriceSliceReducer,
+        order: orderReducer,
+        orders:ordersReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
 })

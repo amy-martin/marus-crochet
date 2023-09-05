@@ -11,8 +11,8 @@ export const ItemTile = (props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const cartQuantity = useSelector(selectCartQuantity)
-    const shoppingSessionID = useSelector(selectShoppingSessionID)
-    const {item} = props;
+    const shoppingSessionID = useSelector(selectShoppingSessionID) 
+    const {type, item} = props;
     const {image1_url, quantity, name, product_id: productId} = item;
     const productTotalPrices = useSelector(selectCartItemTotalPrices);
     const productTotalPrice = productTotalPrices[productId];
@@ -54,13 +54,13 @@ export const ItemTile = (props) => {
     }, []);
     
     return (
-        <div className="cart-item-tile-container" style={{display:`${display}`}}>
+        <div className="item-tile-container" style={{display:`${display}`}}>
            <img src={image1_url}></img>
-           <div className="cart-item-info">
-                <h4 className="cart-item-info-piece">{name}</h4>
-                <QuantityUpdateInput productId={productId} quantity = {quantity} className='cart-item-info-piece'/>
-                <h4 className="cart-item-info-piece">{productTotalPrice}</h4>
-                <button className='delete-cart-item cart-item-info-piece"' onClick={handleClick}>Delete</button>
+           <div className="item-info">
+                <h4 className="item-info-piece">{name}</h4>
+                {type === 'cart-item' ? <QuantityUpdateInput productId={productId} quantity = {quantity} className='cart-item-info-piece'/>: <h4>Quantity: {quantity}</h4>}
+                <h4 className="item-info-piece">{productTotalPrice}</h4>
+                {type === 'cart-itme' ? <button className='delete-cart-item cart-item-info-piece"' onClick={handleClick}>Delete</button>: null}
            </div>
         </div>
     )

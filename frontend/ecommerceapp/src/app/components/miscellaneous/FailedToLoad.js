@@ -3,7 +3,7 @@ import React from "react";
 export const FailedToLoad = () => {
     return (
         <div className="failed-container">
-            <p>Content Failed To Load</p>
+            <h2>Content Failed To Load</h2>
         </div>
     )
 }

@@ -217,7 +217,7 @@ nav {
   .regular-screen .category-dropdown ul {
     display: flex;
     list-style: none;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     width: 100%
   }
@@ -441,8 +441,7 @@ button {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   font-size:  15px;
 }
 
@@ -965,26 +964,28 @@ div.flash-message.add-to-cart-flash {
 }
 
 
-.cart-item-tile-container {
+.item-tile-container {
   height: auto;
   padding: 10px;
+  width: 100%;
   
 }
 
-.cart-item-tile-container img {
+.item-tile-container img {
   width: 90px;
   height: 140px;
   object-fit: cover;
 }
 
-.cart-item-info {
+.item-info {
   height: auto;
   padding: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
-.cart-item-info >* {
+.item-info >* {
   height: auto;
   max-width: 200px;
   padding: 5px;
@@ -1019,12 +1020,13 @@ button.delete-cart-item {
   height: fit-content;
   width: fit-content;
   padding: 0;
+  margin: 5px;
 }
 
 button.delete-cart-item:hover {
   text-decoration: underline;
 }
-.cart-item-info-piece {
+.item-info-piece {
   display: flex;
   overflow-wrap: normal;
 }
@@ -1058,12 +1060,53 @@ button.delete-cart-item:hover {
 }
 
 
-/* LOADING STYLING */
-.loading-container {
-  width: fit-content;
-  height: fit-content
+/* ORDER CONFIRMAMTION PAGE AND ORDER STYLING */
+
+.order-confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-/* ORDER STYLING (ORDER CONFIRMATION PAGE AND ORDERS PAGE) */
+.order-confirmation >* {
+  height: auto;
+  width: auto;
+}
+
+.order-listing-container {
+  margin: 20px;
+  padding: 10px;
+  width: 90%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 1px rgb(189, 189, 189);
+  
+}
+
+.order-listing-container h3 {
+  width: auto;
+  font-weight: 500;
+  
+}
+
+/* LOADING */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-container img {
+  width: 25%;
+  height: auto
+}
+
+.failed-container {
+  text-align: center;
+}
 
 
 /* NOTES */
+
+

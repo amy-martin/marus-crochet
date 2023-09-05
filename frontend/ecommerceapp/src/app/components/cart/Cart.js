@@ -38,9 +38,9 @@ export const Cart = () => {
         if (cartItemsStatus === 'Loading') {
             return <Loading />
         } else if (cartItemsStatus === 'Successful') {
-            if (cartItems.length > 0) {
+            if (cartItems && cartItems.length > 0) {
                 return <PopulatedCartView cartItems={cartItems}/>
-            } else {
+            } else if  (cartItems && cartItems.length === 0) {
                 return <h2 className="empty-cart-view">Cart is empty. Click <Link to='/products'>here</Link> to view our entire collection</h2>
             }
         } else if (cartItemsStatus === 'Failed') {
@@ -53,7 +53,6 @@ export const Cart = () => {
         <div className="cart-container">
             <h2>SHOPPING CART</h2>
             {statusCheck()}
-            {/* ADD SUBTOTAL */}
             {isPopulated ? <CheckoutButton cartItems={cartItems}/>: null}
         </div>
     )

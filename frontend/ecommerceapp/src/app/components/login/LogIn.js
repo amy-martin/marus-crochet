@@ -93,7 +93,11 @@ export const LogIn = (props) => {
                             return res.json()
                         })
                         .then(resJSON => {
-                            dispatch(setShoppingSessionID(resJSON.id));
+                            localStorage.setItem('shoppingSessionID', resJSON.id);
+                            const shoppingSessionID = localStorage.getItem('shoppingSessionID')
+                                ? JSON.parse(localStorage.getItem('shoppingSessionID'))
+                                : null;
+                            if (shoppingSessionID) dispatch(setShoppingSessionID(shoppingSessionID));
                             return navigate('/profile', {state:{flash: true, flashMessage: response.message, backgroundColor: 'rgba(0, 117, 0, 0.7)'}, replace: true})    
                         })
 

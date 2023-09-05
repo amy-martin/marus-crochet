@@ -24,7 +24,7 @@ export const CategoryDropDown = () => {
                       ACCESSORIES  
                     </Link>
                 </li>
-                <br></br>
+                {/* <br></br> */}
                 <li>
                     <Link to='/products'>
                       ALL  

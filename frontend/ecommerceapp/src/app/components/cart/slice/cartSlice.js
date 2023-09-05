@@ -49,6 +49,22 @@ export const fetchCartItems = createAsyncThunk(
     }
     
 )
+export const resetCart = createAsyncThunk(
+    'cart/resetCart',
+    async (shoppingSessionID, thunkAPI) => {
+    const options = {
+        method: 'DELETE',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+            Accept: 'application/json',
+            "Content-Type": "application/json"
+            },
+    }
+    await fetch(`${serverAddress}/cart/${shoppingSessionID}`, options)
+    // return success message possibly?
+}
+)
 
 export const cartSlice = createSlice({
     name: 'cart',
@@ -57,12 +73,14 @@ export const cartSlice = createSlice({
         cartTotal: null,
         cartItems: null,
         quantityLoading: 'Idle',
+        itemsLoading: 'Idle',
+        resetLoading: 'Idle',
         error: null,
-        itemsLoading: 'Idle'
+        
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchCartSums.pending, (state, action) => {
+            .addCase(fetchCartSums.pending, (state) => {
                 state.quantityLoading = 'Loading'
             })
             .addCase(fetchCartSums.fulfilled, (state, action) => {
@@ -76,7 +94,7 @@ export const cartSlice = createSlice({
                 state.error = action.error.message;
             })
             builder
-            .addCase(fetchCartItems.pending, (state, action) => {
+            .addCase(fetchCartItems.pending, (state) => {
                 state.itemsLoading = 'Loading'
             })
             .addCase(fetchCartItems.fulfilled, (state, action) => {
@@ -85,6 +103,19 @@ export const cartSlice = createSlice({
             })
             .addCase(fetchCartItems.rejected, (state, action) => {
                 state.itemsLoading = 'Failed'
+                state.error = action.error.message;
+            })
+            .addCase(resetCart.pending, (state) => {
+                state.resetLoading = 'Loading'
+            })
+            .addCase(resetCart.fulfilled, (state) => {
+                state.resetLoading = 'Successful';
+                state.cartQuantity = 0;
+                state.cartTotal = null;
+                state.cartItems = null;
+            })
+            .addCase(resetCart.rejected, (state, action) => {
+                state.resetLoading = 'Failed'
                 state.error = action.error.message;
             })
     }

@@ -15,7 +15,7 @@ import { Account } from './components/user/Account';
 import { Redirect } from './components/miscellaneous/Redirect';
 import { AccountUpdateForm } from './components/user/AccountUpdateForm';
 import { Cart } from './components/cart/Cart';
-import { PaymentSuccess } from './components/checkout/PaymentSuccess';
+import { PaymentSuccess } from './components/order/PaymentSuccess';
 import { useEffect } from 'react';
 import { login } from './helpers/login';
 import { fetchCartItems, fetchCartSums } from './components/cart/slice/cartSlice';

@@ -3,7 +3,8 @@ import { serverAddress } from "../../../App";
 
 export const fetchCartItemTotalPrice = createAsyncThunk(
     'cartItemTotalPrice/fetchCartItemTotalPrice',
-    async({shoppingSessionID, productId}, thunkAPI) => {
+    async( options, thunkAPI) => {
+        const {shoppingSessionID, productId} = options
             try {
                 const cartItemTotalPriceRequestOptions = {
                 method: 'GET',
