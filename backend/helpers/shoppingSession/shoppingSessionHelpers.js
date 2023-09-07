@@ -16,6 +16,7 @@ const getShoppingSessionId = async (req, res) => {
         const userID = req.user.id;
         const SQL = 'SELECT id FROM shopping_session WHERE user_id=$1'
         const response = await pool.query(SQL, [userID]);
+        
         return res.json({id: response.rows[0].id})
     } catch (err) {
         console.log('Error in getShoppingSessionId')

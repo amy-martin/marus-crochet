@@ -196,6 +196,8 @@ const getCartSumDetails = async (req, res) => {
 
 const getCartItemTotalPriceQuery = async (shoppingSessionID, productId) => {
     try {
+        console.log('ShoppingSessionID: ' + shoppingSessionID);
+        console.log('ProductID: ' + productId)
         const SQL = 'SELECT ci.quantity * p.price AS product_total_price FROM cart_items ci JOIN products p on ci.product_id = p.id WHERE ci.session_id = $1 AND ci.product_id = $2';
         const cartItemTotalPrice = await pool.query(SQL, [shoppingSessionID, productId]);
         return (cartItemTotalPrice && cartItemTotalPrice.rows[0]) ? cartItemTotalPrice.rows[0].product_total_price : null

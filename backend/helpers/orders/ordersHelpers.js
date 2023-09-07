@@ -15,19 +15,17 @@ const addOrderQuery = async (userID, total, paymentId, orderItems) => {
 
 const addOrder = async (req, res) => {
     try {
-
         const {shoppingSessionID, userID, total, paymentID, orderItems} = req.body
-        const result = await addOrderQuery(userID, total, paymentID, orderItems) ;
-        let order
         
-        // IF NEWLY ADDED (NO CONFLICT)
-        if (result.rows.length > 0) {
-            await deleteAllCartItemsQuery(shoppingSessionID)
-            order = result
-        } else if (result.rows.length === 0) {
-            order = await getOrderDetailsByPaymentIdQuery(userID, paymentID)
+        let order = await getOrderDetailsByPaymentIdQuery(userID, paymentID);
+
+        if (!order) {
+            await addOrderQuery(userID, total, paymentID, orderItems)
+            
+            return res.status(200).json({orderDetails: order, queryType: 'POST'})
         }
-        return res.status(200).json({orderDetails: order})
+
+        return res.status(200).json({orderDetails: order, queryType: 'GET'})
     } catch (err) {
         console.log('Error in addOrder')
         console.log(err)
@@ -49,8 +47,8 @@ const getAllOrdersQuery = async (user_id) => {
 
 const getAllOrders = async (req, res) => {
     try {
-        const {user_ID} = req.params
-        const orders = await getAllOrdersQuery(user_ID)
+        const {userID} = req.params
+        const orders = await getAllOrdersQuery(userID)
         res.status(200).send({orders})
     } catch (err) {
         return res.status(500).json({message: err})
