@@ -37,9 +37,12 @@ export const AddToCartButton = (props) => {
                 fetch(`${serverAddress}/cart/${shoppingSessionID}`, requestOptions)
                 .then(async res => {
                     if (res.status === 200) {
-                        dispatch(fetchCartSums(shoppingSessionID));
-                        const response = await res.json();
-                        dispatch(displayFlash({flashMessage: response.message, backgroundColor: 'rgba(0, 117, 0, 0.7)', className:'add-to-cart-flash'}))
+                        if (shoppingSessionID) {
+                            dispatch(fetchCartSums(shoppingSessionID));
+                            const response = await res.json();
+                            dispatch(displayFlash({flashMessage: response.message, backgroundColor: 'rgba(0, 117, 0, 0.7)', className:'add-to-cart-flash'}))
+    
+                        }
                     }
                 });
             } catch(e) {

@@ -31,7 +31,7 @@ export const Account = () => {
 
     return (
         <div className="account-container">
-=            <h2>MY ACCOUNT</h2>
+            <h2>MY ACCOUNT</h2>
             <div className="account-info-container">
             <Flash />
             <div className="account-info">

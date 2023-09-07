@@ -23,7 +23,7 @@ export const addOrder = createAsyncThunk(
         }
         const data = await fetch(`${serverAddress}/orders`, options);
         const dataJSON = await data.json()
-        const order = dataJSON.orderDetails;
+        const order = {order: dataJSON.orderDetails, queryType: dataJSON.queryType}
     
         return order
     
@@ -60,7 +60,16 @@ export const orderSlice = createSlice({
     initialState: {
         orderDetails: null,
         loading: 'Idle',
-        error: null
+        error: null,
+        queryType: null
+    },
+    reducers: {
+        setTotalToSend: (state, action) => {
+            state.totalToSend = action.payload
+        },
+        setItemsToSend: (state, action) => {
+            state.itemsToSend = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -69,7 +78,8 @@ export const orderSlice = createSlice({
             })
             .addCase(addOrder.fulfilled, (state, action) => {
                 state.loading = 'Successful';
-                state.orderDetails = action.payload;
+                state.orderDetails = action.payload.order;
+                state.queryType = action.payload.queryType;
             })
             .addCase(addOrder.rejected, (state, action) => {
                 state.loading = 'Failed';
@@ -96,7 +106,8 @@ export const orderSlice = createSlice({
 
 export const selectOrderDetails = state => state.order.orderDetails;
 export const selectOrderDetailsStatus = state => state.order.loading;
+export const selectOrderQueryType = state => state.order.queryType
+export const {setTotalToSend, setItemsToSend} = orderSlice.actions
 export default orderSlice.reducer;
-// dispatch(fetchCartSums(shoppingSessionID))
 
 

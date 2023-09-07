@@ -21,7 +21,14 @@ export const Register = () => {
     const flash = location.state ? location.state.flash: null;
     const flashMessage = location.state ? location.state.flashMessage: null
     const backgroundColor = location.state ? location.state.backgroundColor: null
-
+    useEffect(() => {
+        if (flash) {
+            dispatch(displayFlash({
+                backgroundColor, 
+                flashMessage
+            }))
+        }
+    })
     
     const handleSubmit = (e) => {
         e.preventDefault();

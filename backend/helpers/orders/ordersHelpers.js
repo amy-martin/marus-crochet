@@ -29,7 +29,7 @@ const addOrder = async (req, res) => {
         }
         return res.status(200).json({orderDetails: order})
     } catch (err) {
-        console.log('Error in addorder')
+        console.log('Error in addOrder')
         console.log(err)
         return res.status(500).json({message: err})
     }

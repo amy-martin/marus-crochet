@@ -1,15 +1,24 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { selectisLoggedIn } from "../login/loginSlice";
 import { LogOut } from '../login/LogOut'
-import { selectCartQuantity } from "../cart/slice/cartSlice";
+import { fetchCartSums, selectCartQuantity } from "../cart/slice/cartSlice";
+import { selectShoppingSessionID } from "../cart/slice/shoppingSessionSlice";
 
 export const UserSpecificNavOptions = () => {
     const isLoggedIn = useSelector(selectisLoggedIn);
     const cartQuantity = useSelector(selectCartQuantity)
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const shoppingSessionID = useSelector(selectShoppingSessionID)
 
+    useEffect(() => {
+        if (shoppingSessionID) {
+            dispatch(fetchCartSums(shoppingSessionID))
+
+        }
+    }, [dispatch])
     const handleLoggedInClick = (e) => {
         e.preventDefault();
         navigate('cart')
@@ -26,6 +35,9 @@ export const UserSpecificNavOptions = () => {
         <ul className="user-specific-options">
             <li>
                 <h4><NavLink to='/profile'>ACCOUNT </NavLink></h4>
+            </li>
+            <li>
+                <h4><NavLink to ='/orders'>ORDERS</NavLink></h4>
             </li>
             <li>
                 <h4><a onClick={handleLoggedInClick} href="/"> CART ({cartQuantity}) </a></h4>

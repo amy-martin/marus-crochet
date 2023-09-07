@@ -9,41 +9,19 @@ import { setShoppingSessionID } from "../components/cart/slice/shoppingSessionSl
 export const login = async (dispatch) => {
     
     const user = localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user'))
-    : null;
+        ? JSON.parse(localStorage.getItem('user'))
+        : null;
 
-    if (user) {
-        setUser(user);
-        const shoppingSessionRequestOptions = {
-            method:'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                "Content-Type": "application/json",
-            }
-        }
-        const shoppingSessionIDRequestOptions = {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                "Content-Type": "application/json",
-            }
-        }
+        const shoppingSessionID = localStorage.getItem('shoppingSessionID')
+        ? JSON.parse(localStorage.getItem('shoppingSessionID'))
+        : null;        
+
+    if (user && shoppingSessionID) {
         try {
             dispatch(setUser(user));
             dispatch(setToLoggedIn());
-            await fetch(`${serverAddress}/shoppingSession`, shoppingSessionRequestOptions);
-            await fetch(`${serverAddress}/shoppingSession`, shoppingSessionIDRequestOptions)
-                .then(res => {
-                    return res.json()
-                    })
-                .then(resJSON => {
-                    dispatch(setShoppingSessionID(resJSON.id));
-                    })
-                    }
+            dispatch(setShoppingSessionID(shoppingSessionID))
+            }
         catch (e) {
             console.log(e)
         }

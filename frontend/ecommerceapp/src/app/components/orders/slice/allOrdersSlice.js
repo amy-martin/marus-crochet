@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { serverAddress } from "../../App";
+import { serverAddress } from "../../../App";
 
 
 
@@ -15,10 +15,11 @@ export const getAllOrders = createAsyncThunk(
                 "Content-Type": "application/json"
             }
         }
+        console.log(user.id)
         const data = await fetch(`${serverAddress}/orders/${user.id}`, options);
         const dataJSON = await data.json()
         const orders = dataJSON.orders;
-
+        
         return orders
     }
 )
@@ -37,7 +38,7 @@ export const allOrdersSlice = createSlice({
             })
             .addCase(getAllOrders.fulfilled, (state, action) => {
                 state.loading = 'Successful';
-                state.orderDetails = action.payload;
+                state.orders = action.payload;
             })
             .addCase(getAllOrders.rejected, (state, action) => {
                 state.loading = 'Failed';

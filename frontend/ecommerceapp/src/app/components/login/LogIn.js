@@ -31,7 +31,7 @@ export const LogIn = (props) => {
                 flashMessage
             }))
         }
-    })
+    }, [])
     useEffect(() => {
         if (isLoggedIn && shoppingSessionID) {
             dispatch(fetchCartSums(shoppingSessionID))
@@ -97,7 +97,9 @@ export const LogIn = (props) => {
                             const shoppingSessionID = localStorage.getItem('shoppingSessionID')
                                 ? JSON.parse(localStorage.getItem('shoppingSessionID'))
                                 : null;
-                            if (shoppingSessionID) dispatch(setShoppingSessionID(shoppingSessionID));
+                            if (shoppingSessionID) {
+                                dispatch(setShoppingSessionID(shoppingSessionID));
+                            }
                             return navigate('/profile', {state:{flash: true, flashMessage: response.message, backgroundColor: 'rgba(0, 117, 0, 0.7)'}, replace: true})    
                         })
 

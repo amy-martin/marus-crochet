@@ -34,7 +34,9 @@ export const ItemTile = (props) => {
                 .then(res => {
                     if (res.ok) {
                         (setDisplay('none'))
-                        dispatch(fetchCartSums(shoppingSessionID));
+                        if (shoppingSessionID) {
+                            dispatch(fetchCartSums(shoppingSessionID));
+                        }                        
                         if (cartQuantity === 0) {
                             navigate('/cart', {replace: true})
                         }
@@ -50,7 +52,10 @@ export const ItemTile = (props) => {
 
 
     useEffect(() => {
-        dispatch(fetchCartItemTotalPrice({shoppingSessionID, productId}))
+        if (shoppingSessionID) {
+            dispatch(fetchCartItemTotalPrice({shoppingSessionID, productId}))
+
+        }
     }, []);
     
     return (
@@ -60,7 +65,7 @@ export const ItemTile = (props) => {
                 <h4 className="item-info-piece">{name}</h4>
                 {type === 'cart-item' ? <QuantityUpdateInput productId={productId} quantity = {quantity} className='cart-item-info-piece'/>: <h4>Quantity: {quantity}</h4>}
                 <h4 className="item-info-piece">{productTotalPrice}</h4>
-                {type === 'cart-itme' ? <button className='delete-cart-item cart-item-info-piece"' onClick={handleClick}>Delete</button>: null}
+                {type === 'cart-item' ? <button className='delete-cart-item cart-item-info-piece"' onClick={handleClick}>Delete</button>: null}
            </div>
         </div>
     )

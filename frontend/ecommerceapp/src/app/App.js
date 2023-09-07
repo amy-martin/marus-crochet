@@ -20,6 +20,7 @@ import { useEffect } from 'react';
 import { login } from './helpers/login';
 import { fetchCartItems, fetchCartSums } from './components/cart/slice/cartSlice';
 import { selectShoppingSessionID } from './components/cart/slice/shoppingSessionSlice';
+import { Orders } from './components/orders/Orders';
 
 export const serverAddress = 'http://localhost:4242';
 
@@ -63,7 +64,8 @@ export function App() {
               <Route path='/profile' element={isLoggedIn ? <Account />: <Redirect />}/>
               <Route path='/profile/edit' element={isLoggedIn ? <AccountUpdateForm />: <Redirect />}/>
               <Route path='/cart' element={isLoggedIn ? <Cart />: <Redirect />}/>
-              <Route path='/success' element={<PaymentSuccess />} />
+              <Route path='/success' element={isLoggedIn ? <PaymentSuccess />: <Redirect />}/>
+              <Route path='/orders' element={isLoggedIn ? <Orders />: <Redirect />}/>
             </Routes>
           </main>
         </div>

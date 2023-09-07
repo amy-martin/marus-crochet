@@ -30,7 +30,7 @@ export const QuantityUpdateInput = (props) => {
             };
             fetch(`${serverAddress}/cart/${shoppingSessionID}/updateQuantity`, requestOptions)
             .then(async res => {
-                if (res.status === 200) {
+                if (res.status === 200 && shoppingSessionID) {
                     dispatch(fetchCartSums(shoppingSessionID));
                     dispatch(fetchCartItemTotalPrice({shoppingSessionID, productId}))
                     const response = await res.json();     

@@ -8,7 +8,7 @@ import flashReducer from "./components/miscellaneous/flash/flashSlice";
 import shoppingSessionReducer from "./components/cart/slice/shoppingSessionSlice";
 import cartItemTotalPriceSliceReducer from "./components/cart/slice/cartItemTotalPriceSlice";
 import orderReducer from "./components/order/slice/orderSlice";
-import ordersReducer from "./components/order/allOrdersSlice";
+import ordersReducer from "./components/orders/slice/allOrdersSlice";
 
 
 export default configureStore({
