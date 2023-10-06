@@ -1,14 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectUser } from "../user/userSlice";
 import { serverAddress } from "../../App";
-import { setItemsToSend, setTotalToSend } from "../order/slice/orderSlice";
 
 
 
 export const CheckoutButton = (props) => {
-    const dispatch = useDispatch()
     const user = useSelector(selectUser)
     const navigate = useNavigate();
     const {cartItems} = props
@@ -27,10 +25,8 @@ export const CheckoutButton = (props) => {
             const url = `${serverAddress}/checkout/create-checkout-session`;
             const response = await fetch(url, options);
             const responseJSON = await response.json()
-        
-            
             if (responseJSON && responseJSON.url) {
-              window.location.href = responseJSON.url
+                window.location.href = responseJSON.url
             }
                     
         } catch (err) {

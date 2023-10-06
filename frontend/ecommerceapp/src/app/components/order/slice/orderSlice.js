@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { serverAddress } from "../../../App";
+import { resetCart } from "../../cart/slice/cartSlice";
 
 export const addOrder = createAsyncThunk(
     'order/addOrder',
@@ -21,14 +22,30 @@ export const addOrder = createAsyncThunk(
                 orderItems: cartItems
             })
         }
-        const data = await fetch(`${serverAddress}/orders`, options);
-        const dataJSON = await data.json()
-        const order = {order: dataJSON.orderDetails, queryType: dataJSON.queryType}
+        let order
+        await fetch(`${serverAddress}/orders`, options)
+        .then(res => res.json())
+        .then(resJSON => {
+            order = resJSON.orderDetails
+        })
+        .then(async () => {
+            const options = {
+                method: 'DELETE',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    Accept: 'application/json',
+                    "Content-Type": "application/json"
+                    },
+            }
+            await fetch(`${serverAddress}/cart/${shoppingSessionID}`, options)
+        })
     
         return order
     
     }
 )
+
 
 export const getOrderDetails = createAsyncThunk(
     'order/getOrderDetails',
@@ -59,6 +76,8 @@ export const orderSlice = createSlice({
     name:'order',
     initialState: {
         orderDetails: null,
+        totalToSend: null,
+        itemsToSend: null,
         loading: 'Idle',
         error: null,
         queryType: null
@@ -78,8 +97,7 @@ export const orderSlice = createSlice({
             })
             .addCase(addOrder.fulfilled, (state, action) => {
                 state.loading = 'Successful';
-                state.orderDetails = action.payload.order;
-                state.queryType = action.payload.queryType;
+                state.orderDetails = action.payload
             })
             .addCase(addOrder.rejected, (state, action) => {
                 state.loading = 'Failed';
@@ -107,6 +125,8 @@ export const orderSlice = createSlice({
 export const selectOrderDetails = state => state.order.orderDetails;
 export const selectOrderDetailsStatus = state => state.order.loading;
 export const selectOrderQueryType = state => state.order.queryType
+export const selectItemsToSend = state => state.order.itemsToSend;
+export const selectTotalToSend = state => state.order.totalToSend;
 export const {setTotalToSend, setItemsToSend} = orderSlice.actions
 export default orderSlice.reducer;
 

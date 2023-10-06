@@ -7,7 +7,7 @@ import { selectUser } from "../user/userSlice";
 import { selectShoppingSessionID } from "../cart/slice/shoppingSessionSlice";
 import { Loading } from "../miscellaneous/Loading";
 import { OrderListing } from "./OrderListing";
-import { addOrder, getOrderDetails, selectOrderDetails, selectOrderDetailsStatus, selectOrderQueryType } from "./slice/orderSlice";
+import { addOrder, getOrderDetails, selectOrderDetails, selectOrderDetailsStatus } from "./slice/orderSlice";
 import { FailedToLoad } from "../miscellaneous/FailedToLoad";
 
 
@@ -21,34 +21,55 @@ export const PaymentSuccess = () => {
     const cartItems = useSelector(selectCartItems);
     const cartTotal = useSelector(selectCartTotal);
     const user = useSelector(selectUser);
-    const orderQueryType = useSelector(selectOrderQueryType)
 
 
 
     useEffect(() => {
+        console.log(shoppingSessionID)
+        dispatch(fetchCartItems(shoppingSessionID));
         dispatch(fetchCartSums(shoppingSessionID));
-        dispatch(fetchCartItems(shoppingSessionID))
+        
+        if (user && localStorage.getItem(`${paymentID}`)) {
+            dispatch(getOrderDetails({user, paymentID}))
 
-        if (user && shoppingSessionID && paymentID) {
+        }
+        if (user && !localStorage.getItem(paymentID)) {
 
-            dispatch(addOrder({shoppingSessionID, user, cartTotal, paymentID, cartItems}));
-            if (orderQueryType === 'POST') {
-                dispatch(resetCart(shoppingSessionID))
+
+
+            if (shoppingSessionID && user && cartTotal && paymentID && cartItems ) {
+                dispatch(addOrder({shoppingSessionID, user, cartTotal, paymentID, cartItems}));
+                localStorage.setItem(`${paymentID}`, true)
+                console.log('heeerrre')
+
             }
         }
+    }, [user, paymentID, localStorage])
+
+//     useEffect(() => {
+//         // DO WHAT YOU DID IN THE BACK END IN THE FRONT. CHECK IF SOMETHING EXISTS IN THE DATABASE, 
+//         // IF IT DOES, RETURN THAT, IF IT DOESNN'T, MAKE A CALL TO ADD
+//         // dispatch(fetchCartSums(shoppingSessionID));
+//         // dispatch(fetchCartItems(shoppingSessionID));
+
+
+//         // if (user) {
+//         //     dispatch(getOrderDetails({user, paymentID}))
+
+//         //     if (!orderDetails && shoppingSessionID && user && cartTotal && paymentID && cartItems ) {
+//         //         dispatch(addOrder({shoppingSessionID, user, cartTotal, paymentID, cartItems}));
+//         //         dispatch(resetCart(shoppingSessionID))
+//         //     }
+//         // };
+
     
-        
-    }, [shoppingSessionID, user, paymentID])
+// }, [])
 
 
 
     const checkForOrderCompletion = () => {
-        if (orderDetailsStatus === 'Loading') {
-            return (
-                <div className="order-confirmation">
-                  <Loading />
-                </div>)
-        } else if (orderDetailsStatus === 'Failed') {
+        console.log(orderDetailsStatus)
+        if (orderDetailsStatus === 'Failed') {
             return (
                 <FailedToLoad />
             )
@@ -62,7 +83,13 @@ export const PaymentSuccess = () => {
                     <h3>Click <Link to='/orders'>here</Link> to view all orders</h3>
                 </div>
             )}
+        } else if (orderDetailsStatus === 'Loading' || orderDetailsStatus === 'Idle') {
+            return (
+                <div className="order-confirmation">
+                  <Loading />
+                </div>)
         }
+        // debugger;
     }
 
     return (

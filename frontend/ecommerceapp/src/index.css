@@ -16,10 +16,11 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
 }
+
 main {
   min-height: 100%;
   position: absolute;
-  top: 220px;
+  top: 210px;
 }
 /* TEXT STYLING */
 
@@ -516,12 +517,12 @@ button {
   height: auto;
 }
 .categories {
-  margin-top: 10px;
   width: 100%;
   height: auto;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 .categories >* {
   overflow: scroll;
