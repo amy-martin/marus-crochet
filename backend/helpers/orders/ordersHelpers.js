@@ -1,5 +1,4 @@
 const { pool } = require('../../db.js');
-const {deleteAllCartItemsQuery} = require('../cart/cartHelpers.js')
 const addOrderQuery = async (userID, total, paymentId, orderItems) => {
     try {
         const orderItemsJSON = JSON.stringify(orderItems)
@@ -15,17 +14,12 @@ const addOrderQuery = async (userID, total, paymentId, orderItems) => {
 
 const addOrder = async (req, res) => {
     try {
-        const {shoppingSessionID, userID, total, paymentID, orderItems} = req.body
         
-        let order = await getOrderDetailsByPaymentIdQuery(userID, paymentID);
+        const { userID, total, paymentID, orderItems} = req.body
+        
+        const order = await addOrderQuery(userID, total, paymentID, orderItems)
 
-        if (!order) {
-            await addOrderQuery(userID, total, paymentID, orderItems)
-            
-            return res.status(200).json({orderDetails: order, queryType: 'POST'})
-        }
-
-        return res.status(200).json({orderDetails: order, queryType: 'GET'})
+        return res.status(200).json({orderDetails: order})
     } catch (err) {
         console.log('Error in addOrder')
         console.log(err)
@@ -59,6 +53,9 @@ const getOrderDetailsByPaymentIdQuery = async (user_id, payment_id) => {
     try {
         const SQL = 'SELECT * FROM orders WHERE payment_id=$1 AND user_id=$2'
         const orderDetails = await pool.query(SQL, [payment_id, user_id])
+        if (orderDetails.rows.length === 0) {
+            return null
+        }
         return orderDetails.rows[0]
     } catch (err) {
         console.log('Error in getOrderDetailsByPaymentId')

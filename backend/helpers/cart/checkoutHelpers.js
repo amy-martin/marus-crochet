@@ -2,9 +2,7 @@ const { pool } = require('../../db.js');
 const dotenv = require('dotenv');
 dotenv.config();
 const Stripe = require("stripe");
-const { addOrderQuery } = require('../orders/ordersHelpers.js');
-const { deleteShoppingSessionQuery } = require('../shoppingSession/shoppingSessionHelpers.js');
-const { deleteAllCartItemsQuery } = require('./cartHelpers.js');
+
 const clientSecret = process.env.SECRET_STRIPE_KEY
 const endpointSecret = process.env.ENDPOINT_SECRET
 const stripe = Stripe(clientSecret)
