@@ -10,8 +10,6 @@ const pgObject = {
     port: process.env.PORT
 }
 
-console.log(pgObject.passoword)
-
 const pool = new Pool(pgObject);
 
 module.exports = { pool }
