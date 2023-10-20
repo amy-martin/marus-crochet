@@ -22,8 +22,7 @@ import { fetchCartItems, fetchCartSums } from './components/cart/slice/cartSlice
 import { selectShoppingSessionID } from './components/cart/slice/shoppingSessionSlice';
 import { Orders } from './components/orders/Orders';
 
-export const serverAddress = 'http://localhost:4242';
-
+export const serverAddress = 'https://marus-crochet.onrender.com';
 
 
 export function App() {
