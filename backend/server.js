@@ -35,7 +35,7 @@ app.use(
 // CORS Configuration
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'http://localhost:3001'],
+        origin: ['http://localhost:3000', 'http://localhost:3001', 'https://maru-crochet-fe.onrender.com'],
         credentials: true,
         methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE']
     })
