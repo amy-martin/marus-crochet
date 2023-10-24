@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const app = express();
-const port = 4242;
 const { pool } = require('./db.js')
 const pgSession = require('connect-pg-simple')(session);
 const dotenv = require('dotenv');
@@ -96,7 +95,9 @@ app.use('/orders', ordersRouter)
 
 app.use('/checkout', checkoutRouter)
 
-app.listen(port, () => {
+const port = process.env.PORT || 10000;
+
+app.listen(port, '0.0.0.0', () => {
     console.log(`App running on port ${port}.`)
 });
 
