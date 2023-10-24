@@ -5,7 +5,7 @@ import { setShoppingSessionID } from "../components/cart/slice/shoppingSessionSl
 
 
 export const login = async (dispatch) => {
-    const user = localStorage.getItem('user') ? (localStorage.getItem('user') !== 'undefined' ? localStorage.getItem('user'): null): null;
+    const user = localStorage.getItem('user') ? (localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')): null): null;
     const shoppingSessionID = localStorage.getItem('shoppingSessionID') ? (localStorage.getItem('shoppingSessionID') !== 'undefined' ? localStorage.getItem('shoppingSessionID'): null): null;
 
 
@@ -19,7 +19,5 @@ export const login = async (dispatch) => {
             console.log(e)
         }
 
-        } else {
-            throw new Error('User not set in Local Storage')
-        }
+        } 
     }

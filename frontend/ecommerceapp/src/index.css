@@ -1114,7 +1114,9 @@ button.delete-cart-item:hover {
   flex-direction: column;
   align-items: center;
 }
-
+.empty-order-page-header {
+  text-align: center;
+}
 .orders-listing-container {
   display: flex;
   flex-direction: column;

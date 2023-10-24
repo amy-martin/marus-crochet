@@ -25,7 +25,6 @@ export const PaymentSuccess = () => {
 
 
     useEffect(() => {
-        console.log(shoppingSessionID)
         dispatch(fetchCartItems(shoppingSessionID));
         dispatch(fetchCartSums(shoppingSessionID));
         
@@ -40,7 +39,6 @@ export const PaymentSuccess = () => {
             if (shoppingSessionID && user && cartTotal && paymentID && cartItems ) {
                 dispatch(addOrder({shoppingSessionID, user, cartTotal, paymentID, cartItems}));
                 localStorage.setItem(`${paymentID}`, true)
-                console.log('heeerrre')
 
             }
         }
@@ -68,7 +66,7 @@ export const PaymentSuccess = () => {
 
 
     const checkForOrderCompletion = () => {
-        console.log(orderDetailsStatus)
+
         if (orderDetailsStatus === 'Failed') {
             return (
                 <FailedToLoad />

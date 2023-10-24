@@ -15,7 +15,6 @@ export const Orders = () => {
     const shoppingSessionID = useSelector(selectShoppingSessionID)
     useEffect(() => {
         dispatch(getAllOrders(user));
-        console.log(shoppingSessionID)
     }, [user])
  
     const retrieveOrders = () => {
@@ -24,7 +23,7 @@ export const Orders = () => {
         } else if (ordersStatus=== 'Failed') {
             return <FailedToLoad />
         } else if (!orders || orders.length === 0) {
-            return <h2>No order has been placed</h2>
+            return <h2 className="empty-order-page-header">No order has been placed</h2>
         } else {
             return (
                 <div className="orders-listing-container">

@@ -77,12 +77,11 @@ export const LogIn = (props) => {
                 .then(async res => {
                     if (res.ok) {
                         const response = await res.json();
-
+                        
                         localStorage.setItem('user', JSON.stringify(response.user))
+                        
+                        const user = JSON.parse(localStorage.getItem('user'));
 
-                        const user = localStorage.getItem('user')
-                        ? JSON.parse(localStorage.getItem('user'))
-                        : null;
                         dispatch(setUser(user));
                         dispatch(setToLoggedIn());
 

@@ -15,7 +15,6 @@ export const getAllOrders = createAsyncThunk(
                 "Content-Type": "application/json"
             }
         }
-        console.log(user.id)
         const data = await fetch(`${serverAddress}/orders/${user.id}`, options);
         const dataJSON = await data.json()
         const orders = dataJSON.orders;
