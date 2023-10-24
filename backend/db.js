@@ -7,7 +7,7 @@ const pgObject = {
     password: process.env.PW ? process.env.PW: null,
     host: process.env.HOST,
     database: process.env.DB,
-    port: process.env.PORT
+    port: process.env.DB_PORT
 }
 
 const pool = new Pool(pgObject);
