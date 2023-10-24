@@ -60,7 +60,7 @@ nav {
 
 /* MEDIA QUERIES FOR DIFFERENT SCREEN SIZES */
 
-@media (max-width: 689px) {
+@media screen and (max-width: 689px) {
   .regular-screen {
     display: none;
   }
@@ -192,7 +192,7 @@ nav {
 
 
 }
-@media (min-width: 690px) {
+@media screen and (min-width: 690px) {
   header .small-screen {
     display: none;
   }
@@ -1042,7 +1042,7 @@ button.delete-cart-item:hover {
   color: inherit;
   font-weight: inherit;
 }
-@media (max-width: 689px) {
+@media screen and (max-width: 689px) {
   .cart-item-info {
     height: 140px;
     flex-direction: column;
