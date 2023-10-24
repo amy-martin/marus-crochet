@@ -52,7 +52,7 @@ export const UserSpecificNavOptions = () => {
     const loggedOutDisplay = (
         <ul className="user-specific-options">
             <li>
-                <h4><a href="/login">LOG IN / SIGN UP</a></h4>
+                <h4><NavLink to="/login">LOG IN / SIGN UP</NavLink></h4>
             </li>
             <li>
                 <h4><a onClick={handleLoggedOutClick}>CART</a></h4>

@@ -10,6 +10,7 @@ const pgObject = {
     port: process.env.DB_PORT
 }
 
+
 const pool = new Pool(pgObject);
 
 module.exports = { pool }
