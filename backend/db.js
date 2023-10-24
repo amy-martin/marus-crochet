@@ -3,11 +3,11 @@ dotenv.config();
 const { Pool } = require('pg')
 
 const pgObject = {
-    user: process.env.USER,
-    password: process.env.PW ? process.env.PW: null,
-    host: process.env.HOST,
-    database: process.env.DB,
-    port: process.env.DB_PORT
+    user: 'amymartin',
+    // password: process.env.PW ? process.env.PW: null,
+    host: 'localHost',
+    database: 'Crochet ECommerce Database',
+    port: '5433'
 }
 
 
