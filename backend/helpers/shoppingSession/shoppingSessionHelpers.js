@@ -3,8 +3,7 @@ const { pool } = require('../../db.js');
 const addShoppingSession = async (req, res) => {
     try {
         const SQL = 'INSERT INTO shopping_session (user_id) SELECT ($1) WHERE NOT EXISTS ( SELECT  1 FROM shopping_session WHERE user_id = ($1))';
-        const res = await pool.query(SQL, [req.user.id])
-        console.log(res)
+        await pool.query(SQL, [req.user.id])
         return res.status(200).json({message: 'Shopping session successfully started'})
     } catch (err) {
         console.log('Error in addShoppingSession')
