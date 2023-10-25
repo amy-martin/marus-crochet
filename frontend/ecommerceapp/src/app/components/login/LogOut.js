@@ -21,10 +21,12 @@ export const LogOut = () => {
         await fetch(`${serverAddress}/user/logout`, logOutRequestOptions)
         .then(dispatch(setToLoggedOut()))
         .then(localStorage.clear())
-        .then(navigate('/'))
+        .then(navigate('/login', {state:{flash: true, flashMessage: "You've successfully logged out. Please log back in to continue shopping.", backgroundColor: 'rgba(0, 117, 0, 0.7)'}, replace: true}))
     }
 
     return (
         <a onClick={handleClick} className="log-out-button"><h4>LOG OUT</h4></a>
     )
 }
+
+
