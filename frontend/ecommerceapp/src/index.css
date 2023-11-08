@@ -118,9 +118,9 @@ nav {
   /* STYLING FOR NAV SIDEBAR */
 
   .sidebar {
-    position: absolute;
+    position: fixed;
     /* ----------------------------------- */
-    top: -60px;
+    top: 160px;
     /* ----------------------------------- */
     z-index: 1;
     background-color: rgba(189, 189, 189, .75);
