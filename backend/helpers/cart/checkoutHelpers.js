@@ -51,9 +51,11 @@ const createCheckoutSession = async (req, res) => {
 }
 
 
-const fulfillOrder = (
-    // userID, total, paymentId, 
-    orderItems) => {
+const saveOrder = () => {
+    try {
+
+    }
+
 }
  
 const webhookHandler = async (req, res) => {
@@ -65,7 +67,7 @@ const webhookHandler = async (req, res) => {
     try {
         event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
     } catch (err) {
-        throw err
+        res.status(400).send(`Webhook Error: ${err.message}`)
     }
 
     if (event.type === 'checkout.session.completed') {
@@ -73,6 +75,7 @@ const webhookHandler = async (req, res) => {
             event.data.object.id,
 
             {expand: ['line_items']}
+            // SEND ORDER TO DATABSE PROBABLY THROUGH FULFILL ORDER FUNCTION
         );
         const lineItems = sessionWithLineItems.line_items;
         fulfillOrder(lineItems)
@@ -80,7 +83,7 @@ const webhookHandler = async (req, res) => {
     res.status(200).end()
 }
 
-module.exports = {createCheckoutSession}
+module.exports = {createCheckoutSession, webhookHandler}
 
 
 
@@ -94,6 +97,7 @@ module.exports = {createCheckoutSession}
 
 
 
+// WOINT RETRIEVE ORDER DETAILS FROM WHAT WAS LATEST BUT FROM THE DATABSE USING WEBHOOK ID
 
 
 

@@ -25,6 +25,7 @@ const generateToken = (user) => {
 const verifyToken = (req, res, next)=> {
     const token = req.cookies.token;
     if (!token) {
+        console.log('Token invalid or not provided')
         return res.status(401).json({message: 'Token not provided'})
     }
     try {
