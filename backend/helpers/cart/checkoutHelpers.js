@@ -54,8 +54,9 @@ const createCheckoutSession = async (req, res) => {
 const saveOrder = () => {
     try {
 
+    } catch (e) {
+        throw e
     }
-
 }
  
 const webhookHandler = async (req, res) => {
