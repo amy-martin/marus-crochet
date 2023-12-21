@@ -20,29 +20,35 @@ userRouter.post('/register', checkNotAuthenticated, registerUser);
 // LOGIN ROUTES
 
 userRouter.post('/login', (req, res, next) => {
-    passport.authenticate('local', {session: true}, (err, user, info) => {
-        if (err) {
-            throw err
-        }
-        if (!user) {
-            return res.status(401).json({message: info.message})
-        }
-        req.login(user, (err) => {
+    const allowedOrigins = ['https://maru-crochet-fe.onrender.com', 'http://localhost:3000/' ];
+    const origin = req.get('Origin');
+    const isCrossSiteRequest = origin && !allowedOrigins.includes(origin);
+    if (isCrossSiteRequest) {
+        passport.authenticate('local', {session: true}, (err, user, info) => {
             if (err) {
-                return next(err);
+                throw err
             }
-            if (req.isAuthenticated()) {
-                const token = generateToken(user)
-                console.log('Generated Token:', token);
-                console.log('Setting Cookies:', res.getHeaders()['set-cookie']);
-
-                res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'lax' });
-                return res.json({ message: 'Login successful', user });
+            if (!user) {
+                return res.status(401).json({message: info.message})
             }
+            req.login(user, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                if (req.isAuthenticated()) {
+                    const token = generateToken(user)
+                    res.cookie('token', token, {httpOnly: true, secure:true, sameSite:'None'})
+                    return res.json({ message: 'Login successful', user })
+                }
+    
+            });
+    
+        })(req, res, next)
+    }
+    else {
+        console.log('Not from allowed origin')
+    }
 
-        });
-
-    })(req, res, next)
 });
 
 
