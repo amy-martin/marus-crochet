@@ -33,8 +33,11 @@ userRouter.post('/login', (req, res, next) => {
             }
             if (req.isAuthenticated()) {
                 const token = generateToken(user)
-                res.cookie('token', token, {httpOnly: true, secure:true, sameSite:'lax'})
-                return res.json({ message: 'Login successful', user })
+                console.log('Generated Token:', token);
+                console.log('Setting Cookies:', res.getHeaders()['set-cookie']);
+
+                res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'lax' });
+                return res.json({ message: 'Login successful', user });
             }
 
         });
