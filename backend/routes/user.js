@@ -20,9 +20,9 @@ userRouter.post('/register', checkNotAuthenticated, registerUser);
 // LOGIN ROUTES
 
 userRouter.post('/login', (req, res, next) => {
-    const allowedOrigins = ['https://maru-crochet-fe.onrender.com', 'http://localhost:3000/' ];
+    const allowedOrigins = ['https://maru-crochet-fe.onrender.com', 'http://localhost:3000' ];
     const origin = req.get('Origin');
-    const isCrossSiteRequest = origin && !allowedOrigins.includes(origin);
+    const isCrossSiteRequest = origin && allowedOrigins.includes(origin);
     console.log(origin)
     if (isCrossSiteRequest) {
         passport.authenticate('local', {session: true}, (err, user, info) => {
