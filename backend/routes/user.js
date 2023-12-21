@@ -22,9 +22,8 @@ userRouter.post('/register', checkNotAuthenticated, registerUser);
 userRouter.post('/login', (req, res, next) => {
     const allowedOrigins = ['https://maru-crochet-fe.onrender.com', 'http://localhost:3000' ];
     const origin = req.get('Origin');
-    const isCrossSiteRequest = origin && allowedOrigins.includes(origin);
-    console.log(origin)
-    if (isCrossSiteRequest) {
+    const isValidCrossSiteRequest = origin && allowedOrigins.includes(origin);
+    if (isValidCrossSiteRequest) {
         passport.authenticate('local', {session: true}, (err, user, info) => {
             if (err) {
                 throw err
@@ -47,7 +46,7 @@ userRouter.post('/login', (req, res, next) => {
         })(req, res, next)
     }
     else {
-        console.log('Not from allowed origin')
+        throw new Error('Not from allowed origin')
     }
 
 });

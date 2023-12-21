@@ -39,6 +39,7 @@ const createCheckoutSession = async (req, res) => {
             line_items,
             mode: 'payment',
             //MAKE SURE TO LOG USERS IN
+            //USE SOMETHING TO EDIT WHAT THE DOMAIN SHOULD BE USE AN ENV VARIABLE HERE
             success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `http://localhost:3000/cart`
         });

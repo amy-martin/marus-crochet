@@ -76,28 +76,14 @@ export const LogIn = (props) => {
             fetch(`${serverAddress}/user/login`, loginRequestOptions)
                 .then(async res => {
                     if (res.ok) {
-                        console.log('Entered login callback')
-
-
                         const response = await res.json();
 
 
-                        console.log('Response Data:');
-                        console.log(response)
-
-
                         localStorage.setItem('user', JSON.stringify(response.user))
-                        
-                        
-                        console.log(localStorage.getItem('user'))
-                        
+                                        
                         
                         const user = JSON.parse(localStorage.getItem('user'));
                         
-                        
-                        console.log('User data:');
-                        console.log(user)
-
                         
                         dispatch(setUser(user));
                         dispatch(setToLoggedIn());
