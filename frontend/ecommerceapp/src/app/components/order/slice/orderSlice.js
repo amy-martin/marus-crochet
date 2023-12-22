@@ -2,55 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { serverAddress } from "../../../App";
 import { resetCart } from "../../cart/slice/cartSlice";
 
-export const addOrder = createAsyncThunk(
-    'order/addOrder',
-    async (params, thunKAPI) => {
-        const {shoppingSessionID, user, cartTotal, paymentID, cartItems} = params
-        const options = {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                "Content-Type": "application/json"
-                },
-            body: JSON.stringify({
-                shoppingSessionID,
-                userID: user.id,
-                total: cartTotal,
-                paymentID,
-                orderItems: cartItems
-            })
-        }
-        let order
-        await fetch(`${serverAddress}/orders`, options)
-        .then(res => res.json())
-        .then(resJSON => {
-            order = resJSON.orderDetails
-        })
-        .then(async () => {
-            const options = {
-                method: 'DELETE',
-                mode: 'cors',
-                credentials: 'include',
-                headers: {
-                    Accept: 'application/json',
-                    "Content-Type": "application/json"
-                    },
-            }
-            await fetch(`${serverAddress}/cart/${shoppingSessionID}`, options)
-        })
-    
-        return order
-    
-    }
-)
 
-
-export const getOrderDetails = createAsyncThunk(
-    'order/getOrderDetails',
+export const retreiveOrder = createAsyncThunk(
+    'order/retreiveOrder',
     async (params, thunKAPI) => {
-        const {user, paymentID} = params
+        const {user, orderID} = params
         const options = {
             method: 'GET',
             mode: 'cors',
@@ -60,7 +16,7 @@ export const getOrderDetails = createAsyncThunk(
                 "Content-Type": "application/json"
             }
         }
-        const data = await fetch(`${serverAddress}/orders/${user.id}/${paymentID}`, options);
+        const data = await fetch(`${serverAddress}/orders/${orderID}`, options);
         const dataJSON = await data.json()
 
         const order = dataJSON.orderDetails;
@@ -92,26 +48,14 @@ export const orderSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(addOrder.pending, (state) => {
+            .addCase(retreiveOrder.pending, (state) => {
                 state.loading = 'Loading'
             })
-            .addCase(addOrder.fulfilled, (state, action) => {
-                state.loading = 'Successful';
-                state.orderDetails = action.payload
-            })
-            .addCase(addOrder.rejected, (state, action) => {
-                state.loading = 'Failed';
-                state.error = action.error.message
-                console.log(state.error)
-            })
-            .addCase(getOrderDetails.pending, (state) => {
-                state.loading = 'Loading'
-            })
-            .addCase(getOrderDetails.fulfilled, (state, action) => {
+            .addCase(retreiveOrder.fulfilled, (state, action) => {
                 state.loading = 'Successful';
                 state.orderDetails = action.payload;
             })
-            .addCase(getOrderDetails.rejected, (state, action) => {
+            .addCase(retreiveOrder.rejected, (state, action) => {
                 state.loading = 'Failed';
                 state.error = action.error.message
                 console.log(state.error)

@@ -7,15 +7,12 @@ const clientSecret = process.env.SECRET_STRIPE_KEY
 const endpointSecret = process.env.ENDPOINT_SECRET
 const stripe = Stripe(clientSecret)
 
-
 // Stripe API funtionality
 
 
 const createCheckoutSession = async (req, res) => {
     try {
         const {user} = req
-        const {shoppingSessionID} = req.params
-        //REMEMBER TO SEND THESE ITEMS ON THE FRONT END
         const {cartItems, total} = req.body
         let line_items = []
         cartItems.map(cartItem => line_items.push(
@@ -38,10 +35,8 @@ const createCheckoutSession = async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             line_items,
             mode: 'payment',
-            //MAKE SURE TO LOG USERS IN
-            //USE SOMETHING TO EDIT WHAT THE DOMAIN SHOULD BE USE AN ENV VARIABLE HERE
             success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `http://localhost:3000/cart`
+            cancel_url:`http://localhost:3000/cart`
         });
         await res.json({ url: session.url, user, cartItems, total });
         
@@ -52,15 +47,40 @@ const createCheckoutSession = async (req, res) => {
 }
 
 
-const saveOrder = () => {
-    try {
 
-    } catch (e) {
-        throw e
+
+
+
+const addOrderQuery = async (orderID, userID, total, paymentId, orderItems) => {
+    try {
+        const orderItemsJSON = JSON.stringify(orderItems)
+        const SQL = 'INSERT INTO orders (id, user_id, total, payment_id, order_items) VALUES ($1, $2, $3, $4) ON CONFLICT (payment_id) DO NOTHING RETURNING *;'
+        return await pool.query(SQL, [orderID, userID, total, paymentId, orderItemsJSON])
+    } catch (err) {
+        console.log('Error in addOrderQuery')
+        console.log(err)
     }
 }
- 
+const saveOrderToDatabase = async (userID, session) => {
+    
+    try {    
+        const orderID = session.id;
+        const total = session.amount_total;
+        const orderItems = session.display_items
+        const paymentID = session.payment_intent
+
+        const order = await addOrderQuery(orderID, userID, total, paymentID, orderItems)
+        return res.status(200).json({orderDetails: order})
+    } catch (err) {
+        console.log('Error in saveOrderToDatabase')
+        console.log(err)
+        return res.status(500).json({message: err})
+
+    }
+}
 const webhookHandler = async (req, res) => {
+    const userID = req.user.id;
+    console.log(userID)
     const payload =  req.body;
     const sig = req.headers['stripe-signature'];
 
@@ -73,18 +93,11 @@ const webhookHandler = async (req, res) => {
     }
 
     if (event.type === 'checkout.session.completed') {
-        const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-            event.data.object.id,
-
-            {expand: ['line_items']}
-            // SEND ORDER TO DATABSE PROBABLY THROUGH FULFILL ORDER FUNCTION
-        );
-        const lineItems = sessionWithLineItems.line_items;
-        fulfillOrder(lineItems)
+        const session = event.data.object;
+        saveOrderToDatabase(userID, session)
     }
-    res.status(200).end()
+    res.status(200).json({received: true})
 }
-
 module.exports = {createCheckoutSession, webhookHandler}
 
 
