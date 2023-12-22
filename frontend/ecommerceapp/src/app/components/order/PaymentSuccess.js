@@ -14,13 +14,14 @@ import { FailedToLoad } from "../miscellaneous/FailedToLoad";
 export const PaymentSuccess = () => {
     const dispatch = useDispatch();
     const orderDetailsStatus = useSelector(selectOrderDetailsStatus)
-    const orderDetails = useSelector(selectOrderDetails)
+    const orderDetails = useSelector(selectOrderDetails);
+    const shoppingSessionID = useSelector(selectShoppingSessionID)
     const [queryParameters] = useSearchParams()
     const orderID = queryParameters.get('session_id');
     const user = useSelector(selectUser);
 
     useEffect(() => {
-        dispatch(resetCart());
+        dispatch(resetCart(shoppingSessionID));
         dispatch(retreiveOrder({user, orderID}))
         console.log('Order Details (Sent by webhooks):')
         console.log(orderDetails)
