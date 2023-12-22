@@ -12,7 +12,7 @@ const stripe = Stripe(clientSecret)
 
 const createCheckoutSession = async (req, res) => {
     try {
-        const {user} = req
+        const {user} = req;
         const {cartItems, total} = req.body
         let line_items = []
         cartItems.map(cartItem => line_items.push(
@@ -36,7 +36,10 @@ const createCheckoutSession = async (req, res) => {
             line_items,
             mode: 'payment',
             success_url: `https://maru-crochet-fe.onrender.com/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url:`https://maru-crochet-fe.onrender.com/cart`
+            cancel_url:`https://maru-crochet-fe.onrender.com/cart`,
+            metadata: {
+                userID: user.id
+            }
         });
         await res.json({ url: session.url, user, cartItems, total });
         
@@ -61,9 +64,10 @@ const addOrderQuery = async (orderID, userID, total, paymentId, orderItems) => {
         console.log(err)
     }
 }
-const saveOrderToDatabase = async (userID, session) => {
+const saveOrderToDatabase = async (session) => {
     
-    try {    
+    try {  
+        const userID = session.metadata.userID
         const orderID = session.id;
         const total = session.amount_total;
         const orderItems = session.display_items
@@ -79,8 +83,6 @@ const saveOrderToDatabase = async (userID, session) => {
     }
 }
 const webhookHandler = async (req, res) => {
-    const userID = req.user.id;
-    console.log(userID)
     const payload =  req.body;
     const sig = req.headers['stripe-signature'];
 
@@ -94,7 +96,7 @@ const webhookHandler = async (req, res) => {
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
-        saveOrderToDatabase(userID, session)
+        saveOrderToDatabase(session)
     }
     res.status(200).json({received: true})
 }
