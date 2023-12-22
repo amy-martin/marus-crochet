@@ -84,7 +84,6 @@ const saveOrderToDatabase = async (session) => {
 }
 const webhookHandler = async (req, res) => {
     const payload =  req.body;
-    console.log(payload)
     const sig = req.headers['stripe-signature'];
 
     let event;

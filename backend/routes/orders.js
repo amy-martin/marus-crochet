@@ -1,6 +1,5 @@
 const express = require('express');
-const { getAllOrders, getOrderById, getOrderByOrderId } = require('../helpers/orders/ordersHelpers');
-const { checkAuthenticated } = require('../helpers/config/passport.js');
+const { getAllOrders, getOrderByOrderId } = require('../helpers/orders/ordersHelpers');
 const { verifyToken } = require('../helpers/config/cookies');
 const ordersRouter = express.Router();
 

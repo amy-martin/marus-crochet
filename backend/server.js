@@ -20,9 +20,14 @@ const passport = require('passport');
 const {initializePassport} = require('./helpers/config/passport.js');
 const stripe = require('stripe')('pk_test_51Nd4kJI44bPmT5sAJ7COXv0kZGcu48wTkszJVsV3olT6YJYudZLea6nwXvyypZYBnPIUDDMDCecmuL3I5NZXFAvR00Gi89zAfD');
 const {checkoutRouter} = require('./routes/checkout.js')
+const {webhookHandler} = require('./helpers/cart/checkoutHelpers.js')
 
 dotenv.config();
 
+
+// Webhook handling
+
+checkoutRouter.post('/webhook', express.raw({type: 'application/json'}), webhookHandler)
 
 // BodyParser Configuration
 app.use(bodyParser.json());
