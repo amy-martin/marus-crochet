@@ -42,6 +42,8 @@ const getOrderDetailsByIdQuery = async (orderID, userID) => {
 const getOrderByOrderId = async (req, res) => {
     try {
         const userID = req.user.id
+        console.log('User:')
+        console.log(userID)
         const {orderID} = req.params;
         const response = await getOrderDetailsByIdQuery(userID, paymentID)
         res.status(200).json({orderDetails: response})
