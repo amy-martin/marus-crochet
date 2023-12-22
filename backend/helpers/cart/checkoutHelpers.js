@@ -35,8 +35,8 @@ const createCheckoutSession = async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             line_items,
             mode: 'payment',
-            success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url:`http://localhost:3000/cart`
+            success_url: `https://maru-crochet-fe.onrender.com/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url:`https://maru-crochet-fe.onrender.com/cart`
         });
         await res.json({ url: session.url, user, cartItems, total });
         
