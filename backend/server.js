@@ -27,7 +27,7 @@ dotenv.config();
 
 // Webhook handling
 
-checkoutRouter.post('/webhook', express.raw({type: 'application/json'}), webhookHandler)
+app.post('/webhook', express.raw({type: 'application/json'}), webhookHandler)
 
 // BodyParser Configuration
 app.use(bodyParser.json());
