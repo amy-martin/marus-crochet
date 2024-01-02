@@ -64,7 +64,7 @@ const addOrderQuery = async (orderID, userID, total, paymentId, orderItems) => {
         console.log(err)
     }
 }
-const saveOrderToDatabase = async (session) => {
+const saveOrderToDatabase = async (session, res) => {
     
     try {  
         const userID = session.metadata.userID
@@ -96,7 +96,7 @@ const webhookHandler = async (req, res) => {
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
-        saveOrderToDatabase(session)
+        saveOrderToDatabase(session, res)
     }
     res.status(200).json({received: true})
 }
