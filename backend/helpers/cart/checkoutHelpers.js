@@ -68,11 +68,11 @@ const saveOrderToDatabase = async (webhookData, res) => {
     try {  
         const userID = webhookData.metadata.userID
         const orderID = webhookData.id;
-        const total = webhookData.amount_total;
+        const total = (webhookData.amount_total * .01);
         const paymentID = webhookData.payment_intent;
 
-        const stripeSession = await stripe.checkout.sessions.retrieve(webhookData.id);
-        const orderItems = stripeSession.line_items;
+        console.log('Order ID: ' + orderID)
+        const orderItems = await stripe.checkout.sessions.listLineItems(orderID);
         console.log('Within saveOrderToDatabase - Order Items: ');
         console.log(orderItems)
 
