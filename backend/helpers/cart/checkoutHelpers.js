@@ -56,22 +56,25 @@ const createCheckoutSession = async (req, res) => {
 
 const addOrderQuery = async (orderID, userID, total, paymentId, orderItems) => {
     try {
-        const orderItemsJSON = JSON.stringify(orderItems)
         const SQL = 'INSERT INTO orders (id, user_id, total, payment_id, order_items) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (payment_id) DO NOTHING RETURNING *;'
-        return await pool.query(SQL, [orderID, userID, total, paymentId, orderItemsJSON])
+        return await pool.query(SQL, [orderID, userID, total, paymentId, orderItems])
     } catch (err) {
         console.log('Error in addOrderQuery')
         console.log(err)
     }
 }
-const saveOrderToDatabase = async (session, res) => {
+const saveOrderToDatabase = async (webhookData, res) => {
     
     try {  
-        const userID = session.metadata.userID
-        const orderID = session.id;
-        const total = session.amount_total;
-        const orderItems = session.display_items
-        const paymentID = session.payment_intent
+        const userID = webhookData.metadata.userID
+        const orderID = webhookData.id;
+        const total = webhookData.amount_total;
+        const paymentID = webhookData.payment_intent;
+
+        const stripeSession = await stripe.checkout.sessions.retrieve(webhookData.id);
+        const orderItems = stripeSession.line_items;
+        console.log('Within saveOrderToDatabase - Order Items: ');
+        console.log(orderItems)
 
         const order = await addOrderQuery(orderID, userID, total, paymentID, orderItems)
         return res.status(200).json({orderDetails: order})
@@ -95,8 +98,9 @@ const webhookHandler = async (req, res) => {
     }
 
     if (event.type === 'checkout.session.completed') {
-        const session = event.data.object;
-        saveOrderToDatabase(session, res)
+        const webhookData = event.data.object;
+
+        saveOrderToDatabase(webhookData, res)
     }
     res.status(200).json({received: true})
 }
