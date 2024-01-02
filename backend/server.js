@@ -25,17 +25,6 @@ const {webhookHandler} = require('./helpers/cart/checkoutHelpers.js')
 dotenv.config();
 
 
-// Webhook handling
-
-app.post('/webhook', express.raw({type: 'application/json'}), webhookHandler)
-
-// BodyParser Configuration
-app.use(bodyParser.json());
-app.use(
-    bodyParser.urlencoded({
-        extended: true
-    })
-)
 
 // CORS Configuration
 app.use(
@@ -68,6 +57,17 @@ initializePassport();
 app.use(cookieParser(process.env.SESSION_SECRET))
 
 
+// Webhook handling
+
+app.post('/webhook', express.raw({type: 'application/json'}), webhookHandler)
+
+// BodyParser Configuration
+app.use(bodyParser.json());
+app.use(
+    bodyParser.urlencoded({
+        extended: true
+    })
+)
 
 // Miscellaneous Configurations
 // Express flash to interpret error messages passport authentication method provides
