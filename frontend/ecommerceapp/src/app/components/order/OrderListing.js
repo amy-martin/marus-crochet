@@ -1,4 +1,4 @@
-import React from "react"; 
+import React, { useEffect } from "react"; 
 import { ItemTile } from "../cart/ItemTile";
 import { Loading } from "../miscellaneous/Loading";
 import { serverAddress } from "../../App";
@@ -7,7 +7,9 @@ export const OrderListing = (props) => {
     const {orderDetails, orderDetailsStatus} =  props;
     const {order_items: orderItems} = orderDetails
     let orderList = []
-
+    useEffect(() => {
+        ifOrderItems(orderItems);
+    }, [orderItems])
     const fetchOrderItemDetails = async (desc) => {
         try {
             const options = {
@@ -35,18 +37,16 @@ export const OrderListing = (props) => {
                 const order = await fetchOrderItemDetails(item.description);
                 orderList.push(order)
             })
-
-            orderList.map(item => {
-                return <ItemTile type='order-item' item={item} key={item.id}/>
-            })
-        } else {
-            return <h4>Nothing to show</h4>
         }
+        console.log('OrderList within ifOrderItems')
+        console.log(orderList)
     }
     return (
         <div className="order-listing-container"> 
             <h3>Order #: {orderDetails.id}</h3>
-            {ifOrderItems(orderItems)}
+            {orderList.length > 0 ? orderList.map(item => {
+                return <ItemTile type='order-item' item={item} key={item.id}/>
+            }): <Loading />}
             <h3>Total: {orderDetails.total}</h3>
         </div>
     )

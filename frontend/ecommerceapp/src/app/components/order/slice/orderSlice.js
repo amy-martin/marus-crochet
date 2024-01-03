@@ -18,11 +18,7 @@ export const retrieveOrder = createAsyncThunk(
         }
         const data = await fetch(`${serverAddress}/orders/${orderID}`, options);
         const dataJSON = await data.json()
-        console.log('DataJSON from retrieveOrder call:')
-        console.log(dataJSON)
         const order = dataJSON.orderDetails;
-        console.log('Order from retrieveOrder call:')
-        console.log(order)
         return order
     
     }
