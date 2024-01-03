@@ -79,7 +79,28 @@ const getProductById = async(req, res, next) => {
     }
 }
 
-
+// Function To Find Product From Database By ID
+const getProductByDescriptionQuery = async (desc) => {
+    try {
+        const SQL = 'SELECT * FROM products WHERE desc=$1'
+        const foundProduct = await pool.query(SQL, [desc]);
+        return foundProduct.rows[0]
+    } catch (err) {
+        console.log('Error in findProductById')
+        console.log(err)
+    }
+};
+const getProductByDescription = async (req,res) => {
+    try {
+        const {desc} = req.params;
+        const descWithoutUnderscore = desc.replace(/_/g, ' ')
+        const product = await getProductByDescriptionQuery(descWithoutUnderscore);
+        return product
+    } catch (err) {
+        console.log('Error in findProductById')
+        console.log(err)
+    }
+};
 
 // Function to Get Products in Reverse Id Order (Newest Added First)
 const getNewProducts = async(req, res, next) => {
@@ -91,4 +112,4 @@ const getNewProducts = async(req, res, next) => {
     }
 }
 
-module.exports = { getProducts, getProductById, getNewProducts }
+module.exports = { getProducts, getProductById, getNewProducts, getProductByDescription }
