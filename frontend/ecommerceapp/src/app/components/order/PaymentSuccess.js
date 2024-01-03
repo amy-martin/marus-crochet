@@ -29,43 +29,6 @@ export const PaymentSuccess = () => {
     }, [user, orderID])
 
 
-    // useEffect(() => {
-        
-    //     if (user && localStorage.getItem(`${paymentID}`)) {
-    //         dispatch(getOrderDetails({user, paymentID}))
-
-    //     }
-    //     if (user && !localStorage.getItem(paymentID)) {
-
-
-
-    //         if (shoppingSessionID && user && cartTotal && paymentID && cartItems ) {
-    //             dispatch(addOrder({shoppingSessionID, user, cartTotal, paymentID, cartItems}));
-    //             localStorage.setItem(`${paymentID}`, true)
-
-    //         }
-    //     }
-    // }, [user, paymentID, localStorage])
-
-//     useEffect(() => {
-//         // DO WHAT YOU DID IN THE BACK END IN THE FRONT. CHECK IF SOMETHING EXISTS IN THE DATABASE, 
-//         // IF IT DOES, RETURN THAT, IF IT DOESNN'T, MAKE A CALL TO ADD
-//         // dispatch(fetchCartSums(shoppingSessionID));
-//         // dispatch(fetchCartItems(shoppingSessionID));
-
-
-//         // if (user) {
-//         //     dispatch(getOrderDetails({user, paymentID}))
-
-//         //     if (!orderDetails && shoppingSessionID && user && cartTotal && paymentID && cartItems ) {
-//         //         dispatch(addOrder({shoppingSessionID, user, cartTotal, paymentID, cartItems}));
-//         //         dispatch(resetCart(shoppingSessionID))
-//         //     }
-//         // };
-
-    
-// }, [])
-
 
 
     const checkForOrderCompletion = () => {

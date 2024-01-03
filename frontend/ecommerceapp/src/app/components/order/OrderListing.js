@@ -4,14 +4,38 @@ import { Loading } from "../miscellaneous/Loading";
 
 export const OrderListing = (props) => {
     const {orderDetails, orderDetailsStatus} =  props;
-
     const {order_items: orderItems} = orderDetails
+    let orderList = []
 
+    const fetchOrderItemDetails = async (desc) => {
+        try {
+            const options = {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    Accept: 'application/json',
+                    "Content-Type": "application/json"
+                    }
+                }
+            const descWithUnderscores = desc.replace(/ /g, '_')
+            const url = `${serverAddress}/product/desc/${descWithUnderscores}`;
+            
+            const response = await fetch(url, options);
+            const data = response.json();
+            return data
+        } catch (e) {
+            throw e
+        }
+    }
     const ifOrderItems = (orderItems) => {
         if (orderItems) {
-            orderItems.map(item => {
-                console.log('Item metadata:');
-                console.log(item.metadata)
+            orderItems.map(async item => {
+                const order = await fetchOrderItemDetails(item.description);
+                orderList.push(order)
+            })
+
+            orderList.map(item => {
                 return <ItemTile type='order-item' item={item} key={item.id}/>
             })
         } else {
