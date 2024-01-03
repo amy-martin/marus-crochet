@@ -3,8 +3,8 @@ import { serverAddress } from "../../../App";
 import { resetCart } from "../../cart/slice/cartSlice";
 
 
-export const retreiveOrder = createAsyncThunk(
-    'order/retreiveOrder',
+export const retrieveOrder = createAsyncThunk(
+    'order/retrieveOrder',
     async (params, thunKAPI) => {
         const {user, orderID} = params
         const options = {
@@ -18,10 +18,10 @@ export const retreiveOrder = createAsyncThunk(
         }
         const data = await fetch(`${serverAddress}/orders/${orderID}`, options);
         const dataJSON = await data.json()
-        console.log('DataJSON from retreiveOrder call:')
+        console.log('DataJSON from retrieveOrder call:')
         console.log(dataJSON)
         const order = dataJSON.orderDetails;
-        console.log('Order from retreiveOrder call:')
+        console.log('Order from retrieveOrder call:')
         console.log(order)
         return order
     
@@ -50,14 +50,14 @@ export const orderSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(retreiveOrder.pending, (state) => {
+            .addCase(retrieveOrder.pending, (state) => {
                 state.loading = 'Loading'
             })
-            .addCase(retreiveOrder.fulfilled, (state, action) => {
+            .addCase(retrieveOrder.fulfilled, (state, action) => {
                 state.loading = 'Successful';
                 state.orderDetails = action.payload;
             })
-            .addCase(retreiveOrder.rejected, (state, action) => {
+            .addCase(retrieveOrder.rejected, (state, action) => {
                 state.loading = 'Failed';
                 state.error = action.error.message
                 console.log(state.error)

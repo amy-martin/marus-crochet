@@ -7,7 +7,7 @@ import { selectUser } from "../user/userSlice";
 import { selectShoppingSessionID } from "../cart/slice/shoppingSessionSlice";
 import { Loading } from "../miscellaneous/Loading";
 import { OrderListing } from "./OrderListing";
-import { addOrder, getOrderDetails, retreiveOrder, selectOrderDetails, selectOrderDetailsStatus } from "./slice/orderSlice";
+import { addOrder, getOrderDetails, retrieveOrder, selectOrderDetails, selectOrderDetailsStatus } from "./slice/orderSlice";
 import { FailedToLoad } from "../miscellaneous/FailedToLoad";
 
 
@@ -22,7 +22,7 @@ export const PaymentSuccess = () => {
 
     useEffect(() => {
         dispatch(resetCart(shoppingSessionID));
-        dispatch(retreiveOrder({user, orderID}))
+        dispatch(retrieveOrder({user, orderID}))
         console.log('Order Details (Sent by webhooks):')
         console.log(orderDetails)
 

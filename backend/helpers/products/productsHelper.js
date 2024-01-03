@@ -79,6 +79,8 @@ const getProductById = async(req, res, next) => {
     }
 }
 
+
+
 // Function to Get Products in Reverse Id Order (Newest Added First)
 const getNewProducts = async(req, res, next) => {
     try {

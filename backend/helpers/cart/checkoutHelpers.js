@@ -23,7 +23,8 @@ const createCheckoutSession = async (req, res) => {
                         name: cartItem.name,
                         images: [cartItem.image1_url],
                         metadata: {
-                            id: cartItem.id
+                            id: cartItem.id,
+                            imageUrl: cartItem.image1_url
                         }
                     },
                     unit_amount: (Number((cartItem.price).replace(/[^0-9.-]+/g,""))) * 100
