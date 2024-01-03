@@ -82,22 +82,25 @@ const getProductById = async(req, res, next) => {
 // Function To Find Product From Database By ID
 const getProductByDescriptionQuery = async (desc) => {
     try {
+        console.log('Filtered desc within getProductByDescQuery: ');
+        console.log(desc)
         const SQL = 'SELECT * FROM products WHERE desc=$1'
         const foundProduct = await pool.query(SQL, [desc]);
         return foundProduct.rows[0]
     } catch (err) {
-        console.log('Error in findProductById')
+        console.log('Error in getProductByDescrptionQuery')
         console.log(err)
     }
 };
 const getProductByDescription = async (req,res) => {
     try {
         const {desc} = req.params;
+        console.log('Unfiltered desc from within getProductByDesc')
         const descWithoutUnderscore = desc.replace(/_/g, ' ')
         const product = await getProductByDescriptionQuery(descWithoutUnderscore);
         return product
     } catch (err) {
-        console.log('Error in findProductById')
+        console.log('Error in getProductByDescription')
         console.log(err)
     }
 };
