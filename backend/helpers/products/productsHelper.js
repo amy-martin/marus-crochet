@@ -84,7 +84,7 @@ const getProductByDescriptionQuery = async (desc) => {
     try {
         console.log('Filtered desc within getProductByDescQuery: ');
         console.log(desc)
-        const SQL = 'SELECT * FROM products WHERE desc=$1'
+        const SQL = 'SELECT * FROM products WHERE "desc"=$1'
         const foundProduct = await pool.query(SQL, [desc]);
         return foundProduct.rows[0]
     } catch (err) {
