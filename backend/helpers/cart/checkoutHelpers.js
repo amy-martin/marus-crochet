@@ -57,7 +57,7 @@ const createCheckoutSession = async (req, res) => {
 const addOrderQuery = async (orderID, userID, total, paymentId, orderItems) => {
     try {
         const SQL = 'INSERT INTO orders (id, user_id, total, payment_id, order_items) VALUES ($1, $2, $3, $4, $5) ON CONFLICT (payment_id) DO NOTHING RETURNING *;'
-        return await pool.query(SQL, [orderID, userID, total, paymentId, orderItems])
+        return await pool.query(SQL, [orderID, userID, total, paymentId, JSON.stringify(orderItems)])
     } catch (err) {
         console.log('Error in addOrderQuery')
         console.log(err)
