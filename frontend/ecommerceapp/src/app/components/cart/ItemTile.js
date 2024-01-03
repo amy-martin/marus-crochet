@@ -62,7 +62,7 @@ export const ItemTile = (props) => {
         <div className="item-tile-container" style={{display:`${display}`}}>
            <img src={image1_url}></img>
            <div className="item-info">
-                <h4 className="item-info-piece">{name}</h4>
+                <h4 className="item-info-piece">{desc}</h4>
                 {type === 'cart-item' ? <QuantityUpdateInput productId={productId} quantity = {quantity} className='cart-item-info-piece'/>: <h4>Quantity: {quantity}</h4>}
                 <h4 className="item-info-piece">{productTotalPrice}</h4>
                 {type === 'cart-item' ? <button className='delete-cart-item cart-item-info-piece"' onClick={handleClick}>Delete</button>: null}
