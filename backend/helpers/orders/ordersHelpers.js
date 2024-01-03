@@ -32,7 +32,7 @@ const getOrderDetailsByIdQuery = async (orderID, userID) => {
         }
         return orderDetails.rows[0]
     } catch (err) {
-        console.log('Error in getOrderDetailsByPaymentId')
+        console.log('Error in getOrderDetailsById')
         console.log(err);        
     }
 }
@@ -43,7 +43,7 @@ const getOrderByOrderId = async (req, res) => {
     try {
         const userID = req.user.id
         const {orderID} = req.params;
-        const response = await getOrderDetailsByIdQuery(userID, orderID)
+        const response = await getOrderDetailsByIdQuery(orderID, userID)
         res.status(200).json({orderDetails: response})
     } catch (err) {
         return res.status(500).json({message: err})

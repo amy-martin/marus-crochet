@@ -71,9 +71,6 @@ const saveOrderToDatabase = async (webhookData) => {
         const total = (webhookData.amount_total * .01);
         const paymentID = webhookData.payment_intent;
         const orderItems = await stripe.checkout.sessions.listLineItems(orderID);
-        console.log('inside saveOrderToDatabase function');
-        console.log('orderItems: ')
-        console.log(orderItems.data)
         const order = await addOrderQuery(orderID, userID, total, paymentID, orderItems.data)
         return order
     } catch (err) {
