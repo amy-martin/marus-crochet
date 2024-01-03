@@ -63,7 +63,7 @@ const addOrderQuery = async (orderID, userID, total, paymentId, orderItems) => {
         console.log(err)
     }
 }
-const saveOrderToDatabase = async (webhookData, res) => {
+const saveOrderToDatabase = async (webhookData) => {
     
     try {  
         const userID = webhookData.metadata.userID
@@ -77,7 +77,7 @@ const saveOrderToDatabase = async (webhookData, res) => {
         console.log(orderItems)
 
         const order = await addOrderQuery(orderID, userID, total, paymentID, orderItems)
-        return res.status(200).json({orderDetails: order})
+        return order
     } catch (err) {
         console.log('Error in saveOrderToDatabase')
         console.log(err)
@@ -92,17 +92,17 @@ const webhookHandler = async (req, res) => {
     let event;
     
     try {
-        event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
+        event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+        if (event.type === 'checkout.session.completed') {
+            const webhookData = event.data.object;
+            await saveOrderToDatabase(webhookData, res);
+            res.status(200).json({received: true})
+        }
+        
     } catch (err) {
         res.status(400).send(`Webhook Error: ${err.message}`)
     }
 
-    if (event.type === 'checkout.session.completed') {
-        const webhookData = event.data.object;
-
-        saveOrderToDatabase(webhookData, res)
-    }
-    res.status(200).json({received: true})
 }
 module.exports = {createCheckoutSession, webhookHandler}
 
