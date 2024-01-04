@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectShoppingSessionID } from "./slice/shoppingSessionSlice";
 import { fetchCartSums } from "./slice/cartSlice";
-import { quantityDropdown } from "../../helpers/miscellaneous";
 import { useNavigate } from "react-router-dom";
 import { fetchCartItemTotalPrice } from "./slice/cartItemTotalPriceSlice";
 import { serverAddress } from "../../App";
-import { QuantityDropdown } from "../miscellaneous/QuantityDropdown";
+import { QuantityDropdown } from "../miscellaneous/QuantityDropdown"
 
 export const QuantityUpdateInput = (props) => {
     const { productId, quantity, className } = props;

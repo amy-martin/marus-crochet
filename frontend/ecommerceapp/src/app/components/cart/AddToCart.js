@@ -1,8 +1,6 @@
 import { React, useState } from 'react';
 import { AddToCartButton } from './AddToCartButton';
-import { quantityDropdown } from '../../helpers/miscellaneous';
 import { QuantityDropdown } from '../miscellaneous/QuantityDropdown';
-
 export const AddToCart = (props) => {
     const {productId} = props;
     const [productQuantity, setProductQuantity] = useState(1)
