@@ -33,20 +33,6 @@ function generateNumberList(start, end) {
   
   
 
-export const  quantityDropdown = (handleSelect, existingQuantity = null) => {
-    const range = generateNumberList(1, 100);
-    return (
-        <form className="cart-quantity-form">
-            <label htmlFor="quantitySelect"><h4>Quantity: </h4></label>
-            <select id="quantitySelect" name="quantity" onChange={handleSelect} defaultValue={existingQuantity}>
-                {range.map(num => {
-                    return <option value = {`${num}`} key={num}>{num}</option>
-                })}
-            </select>
-        </form>
-    )
-}
-
 export const toSentenceCase = (str) => {
     return str.toLowerCase().charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }

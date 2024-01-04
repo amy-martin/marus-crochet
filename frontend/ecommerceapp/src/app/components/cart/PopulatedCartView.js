@@ -12,7 +12,7 @@ export const PopulatedCartView = (props) => {
 
     return (
         <div className="cart-items-container">
-            {cartItems.map((item) => <ItemTile type='cart-item' item={item} key={item.product_id}/>)}
+            {cartItems.map((item) => <ItemTile type='cart-item' item={item} quantity={item.quantity} key={item.product_id}/>)}
             <h3 className="cart-subtotal">Cart Subtotal: {cartTotal}</h3>
         </div>
 

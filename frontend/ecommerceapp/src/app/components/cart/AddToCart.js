@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { AddToCartButton } from './AddToCartButton';
 import { quantityDropdown } from '../../helpers/miscellaneous';
+import { QuantityDropdown } from '../miscellaneous/QuantityDropdown';
 
 export const AddToCart = (props) => {
     const {productId} = props;
@@ -11,7 +12,7 @@ export const AddToCart = (props) => {
     }
     return (
         <div className="add-to-cart">
-            {quantityDropdown(handleSelect)}
+            {<QuantityDropdown handleSelect={handleSelect} />}
             <AddToCartButton productId={productId} quantity={productQuantity}/>
         </div>
     )
