@@ -35,7 +35,11 @@ export const OrderListing = (props) => {
 
         const mapToOrderList = async () => {
             const promises = orderItems.map(async item => {
-                return await fetchOrderItemDetails(item.description);
+                const productDetails = await fetchOrderItemDetails(item.description);
+                return {
+                    product: productDetails,
+                    quantity: item.quantity
+                }
             });
 
             const result = await Promise.all(promises);
@@ -50,8 +54,8 @@ export const OrderListing = (props) => {
     return (
         <div className="order-listing-container"> 
             <h3>Order #: {orderDetails.id}</h3>
-            {orderList.length > 0 ? orderList.map(item => (
-                <ItemTile type='order-item' item={item} key={item.id} />
+            {orderList.length > 0 ? orderList.map(({ product, quantity }) => (
+                <ItemTile type='order-item' item={product} key={item.id} quantity={quantity} />
             )) : <Loading />}
             <h3>Total: {orderDetails.total}</h3>
         </div>

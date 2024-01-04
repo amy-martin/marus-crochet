@@ -12,8 +12,8 @@ export const ItemTile = (props) => {
     const navigate = useNavigate()
     const cartQuantity = useSelector(selectCartQuantity)
     const shoppingSessionID = useSelector(selectShoppingSessionID) 
-    const {type, item} = props;
-    const {image1_url, quantity, name, product_id: productId} = item;
+    const {type, item, quantity} = props;
+    const {image1_url, name, product_id: productId} = item;
     const productTotalPrices = useSelector(selectCartItemTotalPrices);
     const productTotalPrice = productTotalPrices[productId];
     const [display, setDisplay] = useState('flex');
