@@ -32,6 +32,7 @@ export const OrderListing = (props) => {
         }
     }
     const ifOrderItems = (orderItems) => {
+        console.log(orderItems)
         if (orderItems) {
             orderItems.map(async item => {
                 await fetchOrderItemDetails(item.description)
@@ -41,8 +42,6 @@ export const OrderListing = (props) => {
                 })
             })
         }
-        console.log('OrderList within ifOrderItems')
-        console.log(orderList)
     }
     return (
         <div className="order-listing-container"> 
