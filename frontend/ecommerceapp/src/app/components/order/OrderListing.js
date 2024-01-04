@@ -36,10 +36,11 @@ export const OrderListing = (props) => {
     }
     const mapToOrderList = (orderItems) => {
             orderItems.map(async item => {
+                console.log(item)
                 await fetchOrderItemDetails(item.description)
                 .then(res => {
-                    console.log(res)
-                    orderList.push(res)
+                    console.log(res.json())
+                    orderList.push(res.json())
                 })
             })
         
