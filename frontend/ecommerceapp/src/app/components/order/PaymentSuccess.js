@@ -23,9 +23,6 @@ export const PaymentSuccess = () => {
     useEffect(() => {
         dispatch(resetCart(shoppingSessionID));
         dispatch(retrieveOrder({user, orderID}))
-        console.log('Order Details (Sent by webhooks):')
-        console.log(orderDetails)
-
     }, [user, orderID])
 
 
