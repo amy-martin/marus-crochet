@@ -55,7 +55,7 @@ export const OrderListing = (props) => {
         <div className="order-listing-container"> 
             <h3>Order #: {orderDetails.id}</h3>
             {orderList.length > 0 ? orderList.map(({ product, quantity }) => (
-                <ItemTile type='order-item' item={product} key={item.id} quantity={quantity} />
+                <ItemTile type='order-item' item={product} key={product.id} quantity={quantity} />
             )) : <Loading />}
             <h3>Total: {orderDetails.total}</h3>
         </div>
