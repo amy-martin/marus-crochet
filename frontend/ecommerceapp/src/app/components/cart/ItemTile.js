@@ -51,12 +51,11 @@ export const ItemTile = (props) => {
     }
 
 
-    useEffect(() => {
-        if (shoppingSessionID) {
-            dispatch(fetchCartItemTotalPrice({shoppingSessionID, productId}))
-
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (shoppingSessionID && type==='cart-item') {
+    //         dispatch(fetchCartItemTotalPrice({shoppingSessionID, productId}))
+    //     }
+    // }, []);
     
     return (
         <div className="item-tile-container" style={{display:`${display}`}}>
