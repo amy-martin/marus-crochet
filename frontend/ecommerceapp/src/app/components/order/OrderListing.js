@@ -8,7 +8,10 @@ export const OrderListing = (props) => {
     const {order_items: orderItems} = orderDetails
     let orderList = []
     useEffect(() => {
-        mapToOrderList(orderItems);
+        console.log(orderItems.length > 0)
+        if (orderItems.length > 0) {
+            mapToOrderList(orderItems);
+        }
     }, [orderItems])
     const fetchOrderItemDetails = async (desc) => {
         try {
