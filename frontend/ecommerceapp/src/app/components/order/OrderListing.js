@@ -8,7 +8,7 @@ export const OrderListing = (props) => {
     const {order_items: orderItems} = orderDetails
     let orderList = []
     useEffect(() => {
-        ifOrderItems(orderItems);
+        mapToOrderList(orderItems);
     }, [orderItems])
     const fetchOrderItemDetails = async (desc) => {
         try {
@@ -31,9 +31,7 @@ export const OrderListing = (props) => {
             throw e
         }
     }
-    const ifOrderItems = (orderItems) => {
-        console.log(orderItems)
-        if (orderItems) {
+    const mapToOrderList = (orderItems) => {
             orderItems.map(async item => {
                 await fetchOrderItemDetails(item.description)
                 .then(res => {
@@ -41,7 +39,7 @@ export const OrderListing = (props) => {
                     orderList.push(res)
                 })
             })
-        }
+        
     }
     return (
         <div className="order-listing-container"> 
