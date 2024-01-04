@@ -22,7 +22,8 @@ export const PaymentSuccess = () => {
 
     useEffect(() => {
         dispatch(resetCart(shoppingSessionID));
-        dispatch(retrieveOrder({user, orderID}))
+        dispatch(retrieveOrder({user, orderID}));
+        
     }, [user, orderID])
 
 

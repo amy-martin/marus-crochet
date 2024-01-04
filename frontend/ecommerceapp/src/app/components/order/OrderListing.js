@@ -34,8 +34,11 @@ export const OrderListing = (props) => {
     const ifOrderItems = (orderItems) => {
         if (orderItems) {
             orderItems.map(async item => {
-                const order = await fetchOrderItemDetails(item.description);
-                orderList.push(order)
+                await fetchOrderItemDetails(item.description)
+                .then(res => {
+                    console.log(res)
+                    orderList.push(res)
+                })
             })
         }
         console.log('OrderList within ifOrderItems')
