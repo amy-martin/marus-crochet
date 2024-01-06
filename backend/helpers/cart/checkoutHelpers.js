@@ -2,6 +2,7 @@ const { pool } = require('../../db.js');
 const dotenv = require('dotenv');
 dotenv.config();
 const Stripe = require("stripe");
+const { getProductByDescription } = require('../products/productsHelpers.js');
 
 const clientSecret = process.env.SECRET_STRIPE_KEY
 const endpointSecret = process.env.ENDPOINT_SECRET
@@ -72,7 +73,15 @@ const saveOrderToDatabase = async (webhookData) => {
         const total = (webhookData.amount_total * .01);
         const paymentID = webhookData.payment_intent;
         const orderItems = await stripe.checkout.sessions.listLineItems(orderID);
-        const order = await addOrderQuery(orderID, userID, total, paymentID, orderItems.data)
+        const orderProducts = await Promise.all(orderItems.map(async item => {
+            const productList = await getProductByDescription(item.description);
+            const quantity = item.quantity;
+            return {
+                productList,
+                quantity
+            };
+        }));        
+        const order = await addOrderQuery(orderID, userID, total, paymentID, await orderProducts)
         return order
     } catch (err) {
         console.log('Error in saveOrderToDatabase')

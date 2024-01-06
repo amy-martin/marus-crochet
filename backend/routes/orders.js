@@ -6,7 +6,6 @@ const ordersRouter = express.Router();
 // GET Route to Retrieve All Orders
 ordersRouter.get('/', verifyToken, getAllOrders)
 
-// ordersRouter.post('/', verifyToken, addOrder)
 
 ordersRouter.get('/:orderID', verifyToken, getOrderByOrderId)
 

@@ -1,4 +1,4 @@
-const { getProductById, getProductByDescription } = require('../helpers/products/productsHelper.js')
+const { getProductById, getProductByDescription } = require('../helpers/products/productsHelpers.js')
 const express = require('express');
 const productRouter = express.Router();
 
