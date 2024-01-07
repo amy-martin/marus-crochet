@@ -78,11 +78,11 @@ const saveOrderToDatabase = async (webhookData) => {
             console.log('Item description:')
             console.log(item.description)
             console.log('Product List:')
-            console.log(productList)
+            console.log(await productList)
             
             const quantity = item.quantity;
             return {
-                productList,
+                productList: await productList,
                 quantity
             };
         }));        
