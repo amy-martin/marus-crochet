@@ -75,14 +75,9 @@ const saveOrderToDatabase = async (webhookData) => {
         const orderItems = await stripe.checkout.sessions.listLineItems(orderID);
         const orderProducts = (orderItems.data.map(async item => {
             const productList = await getProductByDescription(item.description);
-            console.log('Item description:')
-            console.log(item.description)
-            console.log('Product List:')
-            console.log(await productList)
-            
             const quantity = item.quantity;
             return {
-                productList: await Promise.all(productList),
+                productList: await productList,
                 quantity
             };
         }));        

@@ -9,47 +9,47 @@ export const OrderListing = (props) => {
 
     const [orderList, setOrderList] = useState([]);
 
-    useEffect(() => {
-        const fetchOrderItemDetails = async (desc) => {
-            try {
-                const options = {
-                    method: 'GET',
-                    mode: 'cors',
-                    credentials: 'include',
-                    headers: {
-                        Accept: 'application/json',
-                        "Content-Type": "application/json"
-                    }
-                };
+    // useEffect(() => {
+    //     const fetchOrderItemDetails = async (desc) => {
+    //         try {
+    //             const options = {
+    //                 method: 'GET',
+    //                 mode: 'cors',
+    //                 credentials: 'include',
+    //                 headers: {
+    //                     Accept: 'application/json',
+    //                     "Content-Type": "application/json"
+    //                 }
+    //             };
 
-                const descWithUnderscores = desc.replace(/ /g, '_');
-                const url = `${serverAddress}/product/desc/${descWithUnderscores}`;
+    //             const descWithUnderscores = desc.replace(/ /g, '_');
+    //             const url = `${serverAddress}/product/desc/${descWithUnderscores}`;
 
-                const response = await fetch(url, options);
-                const data = await response.json();
-                return data.product;
-            } catch (e) {
-                throw e;
-            }
-        };
+    //             const response = await fetch(url, options);
+    //             const data = await response.json();
+    //             return data.product;
+    //         } catch (e) {
+    //             throw e;
+    //         }
+    //     };
 
-        const mapToOrderList = async () => {
-            const promises = orderItems.map(async item => {
-                const productDetails = await fetchOrderItemDetails(item.description);
-                return {
-                    product: productDetails,
-                    quantity: item.quantity
-                };
-            });
+    //     const mapToOrderList = async () => {
+    //         const promises = orderItems.map(async item => {
+    //             const productDetails = await fetchOrderItemDetails(item.description);
+    //             return {
+    //                 product: productDetails,
+    //                 quantity: item.quantity
+    //             };
+    //         });
 
-            const result = await Promise.all(promises);
-            setOrderList(result);
-        };
+    //         const result = await Promise.all(promises);
+    //         setOrderList(result);
+    //     };
 
-        if (orderItems.length > 0) {
-            mapToOrderList();
-        }
-    }, [orderItems]);
+    //     if (orderItems.length > 0) {
+    //         mapToOrderList();
+    //     }
+    // }, [orderItems]);
 
     const displayOrder = () => {
         return (
