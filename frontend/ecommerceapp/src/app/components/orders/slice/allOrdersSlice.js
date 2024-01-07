@@ -6,20 +6,26 @@ import { serverAddress } from "../../../App";
 export const getAllOrders = createAsyncThunk(
     'order/getAllOrders',
     async (user, thunkAPI) => {
-        const options = {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                "Content-Type": "application/json"
+        try {
+            const options = {
+                method: 'GET',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    Accept: 'application/json',
+                    "Content-Type": "application/json"
+                }
             }
+            const data = await fetch(`${serverAddress}/orders/`, options);
+            
+            const dataJSON = await data.json()
+            const orders = dataJSON.orders;
+            
+            return orders
+        } catch (e) {
+            throw e
         }
-        const data = await fetch(`${serverAddress}/orders/${user.id}`, options);
-        const dataJSON = await data.json()
-        const orders = dataJSON.orders;
-        
-        return orders
+            
     }
 )
 

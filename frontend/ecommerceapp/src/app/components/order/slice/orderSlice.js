@@ -67,8 +67,6 @@ export const orderSlice = createSlice({
 export const selectOrderDetails = state => state.order.orderDetails;
 export const selectOrderDetailsStatus = state => state.order.loading;
 export const selectOrderQueryType = state => state.order.queryType
-export const selectItemsToSend = state => state.order.itemsToSend;
-export const selectTotalToSend = state => state.order.totalToSend;
 export const {setTotalToSend, setItemsToSend} = orderSlice.actions
 export default orderSlice.reducer;
 

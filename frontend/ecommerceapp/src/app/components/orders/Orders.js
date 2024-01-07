@@ -6,16 +6,20 @@ import { Loading } from "../miscellaneous/Loading"
 import { FailedToLoad } from "../miscellaneous/FailedToLoad"
 import { OrderListing } from "../order/OrderListing"
 import { selectShoppingSessionID } from "../cart/slice/shoppingSessionSlice"
+import { retrieveOrder } from "../order/slice/orderSlice"
 
 export const Orders = () => {
     const user = useSelector(selectUser)
     const dispatch = useDispatch()
     const orders = useSelector(selectOrders);
     const ordersStatus = useSelector(selectOrdersStatus)
-    const shoppingSessionID = useSelector(selectShoppingSessionID)
+
     useEffect(() => {
         dispatch(getAllOrders(user));
-    }, [user])
+    }, [user, dispatch]);
+
+    useEffect(() => {
+    }, [user, orders])
  
     const retrieveOrders = () => {
         if (ordersStatus === 'Loading') {
@@ -24,7 +28,7 @@ export const Orders = () => {
             return <FailedToLoad />
         } else if (!orders || orders.length === 0) {
             return <h2 className="empty-order-page-header">No order has been placed</h2>
-        } else {
+        } else if (orders.length > 0) {
             return (
                 <div className="orders-listing-container">
                     <h2>Your Orders:</h2>
@@ -36,7 +40,6 @@ export const Orders = () => {
 
     return (
         <div className="orders-container">
-            
             {retrieveOrders()}
         </div>
     )
