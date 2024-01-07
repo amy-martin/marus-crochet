@@ -1,4 +1,4 @@
-const { getProducts } = require('../helpers/products/productsHelpers.js')
+const { getProducts } = require('../helpers/products/productsHelper.js')
 const express = require('express');
 const productsRouter = express.Router();
 

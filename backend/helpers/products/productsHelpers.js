@@ -90,12 +90,10 @@ const getProductByDescriptionQuery = async (desc) => {
         console.log(err)
     }
 };
-const getProductByDescription = async (req,res) => {
+const getProductByDescription = async (desc) => {
     try {
-        const {desc} = req.params;
-        const descWithoutUnderscore = desc.replace(/_/g, ' ')
-        const product = await getProductByDescriptionQuery(descWithoutUnderscore);
-        return res.json({product})
+        const product = await getProductByDescriptionQuery(desc);
+        return product
     } catch (err) {
         console.log('Error in getProductByDescription')
         console.log(err)
