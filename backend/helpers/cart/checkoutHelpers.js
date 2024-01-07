@@ -73,6 +73,8 @@ const saveOrderToDatabase = async (webhookData) => {
         const total = (webhookData.amount_total * .01);
         const paymentID = webhookData.payment_intent;
         const orderItems = await stripe.checkout.sessions.listLineItems(orderID);
+        console.log('orderItems in saveOrderToDatabase:')
+        console.log(orderItems)
         const orderProducts = await Promise.all(orderItems.map(async item => {
             const productList = await getProductByDescription(item.description);
             const quantity = item.quantity;
