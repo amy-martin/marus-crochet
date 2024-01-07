@@ -16,6 +16,7 @@ export const Orders = () => {
 
     useEffect(() => {
         dispatch(getAllOrders(user));
+
     }, [user, dispatch]);
 
     useEffect(() => {

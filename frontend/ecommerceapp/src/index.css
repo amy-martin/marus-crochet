@@ -478,15 +478,7 @@ button {
   height: auto;
   color: rgb(78, 78, 78)
 }
-/* .registration-form button {
-  width: auto;
-  height: auto;
-  font-size: 15px;
-  color: rgb(78, 78, 78);
-  margin: 10px;
-  padding-left: 2.5px;
-  padding-right: 2.5px;
-} */
+
 .registration-form .entry {
   padding: 10px;
   height: auto
@@ -954,7 +946,8 @@ div.flash-message.add-to-cart-flash {
 
 .cart-container h2 {
   height: auto;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
+  color: #555; /* Dark gray text color */
 }
 
 .cart-items-container {
@@ -962,24 +955,31 @@ div.flash-message.add-to-cart-flash {
   height: fit-content;
   display: flex;
   flex-direction: column;
-  border: solid 1px rgb(189, 189, 189);
+  border: solid 1px #ddd; /* Light gray border */
+  background-color: #fff; /* White background */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
 }
-
 
 .item-tile-container {
   height: auto;
-  padding: 10px;
+  padding: 15px;
   width: 100%;
-  
+  display: flex;
+  align-items: center;
+  border-bottom: solid 1px #ddd; /* Light gray border between items */
 }
 
 .item-tile-container img {
-  width: 90px;
-  height: 140px;
+  width: 80px;
+  height: 120px;
   object-fit: cover;
+  border-radius: 8px;
 }
 
 .item-info {
+  text-align: left;
   height: auto;
   padding: 10px;
   display: flex;
@@ -987,109 +987,129 @@ div.flash-message.add-to-cart-flash {
   justify-content: space-between;
 }
 
-.item-info >* {
+.item-info > * {
   height: auto;
   max-width: 200px;
   padding: 5px;
+  color: #333; /* Dark text color */
 }
 
 .cart-quantity-input-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  padding: 5px;
 }
+
 .cart-quantity-form {
   display: flex;
   height: auto;
-  justify-content: baseline;
-  
-  
+  align-items: baseline;
 }
+
 .cart-quantity-form label {
-  padding-right: 10px ;
-  width:auto
+  padding-right: 10px;
 }
+
 select#quantitySelect {
   width: 40px;
-  height: fit-content
+  height: fit-content;
 }
 
 button.delete-cart-item {
   font-size: 12px;
-  font-weight: 300;
-  color: rgb(78, 78, 78);
-  background-color: white;
+  font-weight: 500;
+  color: #e44d4d; /* Red delete button color */
+  background-color: #fff;
   border: none;
   height: fit-content;
   width: fit-content;
   padding: 0;
   margin: 5px;
+  cursor: pointer;
 }
 
 button.delete-cart-item:hover {
   text-decoration: underline;
 }
-.item-info-piece {
-  display: flex;
-  overflow-wrap: normal;
-}
 
-.empty-cart-view, .error-cart-view{
+.empty-cart-view,
+.error-cart-view {
   text-align: center;
   width: 70%;
+  padding: 20px;
 }
+
 .empty-cart-view a {
   font-size: inherit;
-  color: inherit;
-  font-weight: inherit;
-}
-@media screen and (max-width: 689px) {
-  .cart-item-info {
-    height: 140px;
-    flex-direction: column;
-  }
-
+  color: rgb(189, 189, 189); 
+  font-weight: 500;
 }
 
 .cart-subtotal {
   font-weight: 500;
   padding: 10px;
+  color: #333;
 }
-
 
 .checkout-button {
-  border: solid 1px rgb(255, 255, 255);
+  border: none;
   border-radius: 10px;
+  background-color: rgb(189, 189, 189); 
+  color: #fff; /* White text color */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+  background-color: #217dbb; /* Darker blue on hover */
 }
 
 
-/* ORDER CONFIRMAMTION PAGE AND ORDER STYLING */
+/* ORDER CONFIRMATION PAGE AND ORDER STYLING */
 
 .order-confirmation {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f8f8f8; /* Soft background color */
+  padding: 20px;
 }
-.order-confirmation >* {
+
+.order-confirmation > * {
   height: auto;
   width: auto;
 }
 
 .order-listing-container {
   margin: 20px;
-  padding: 10px;
+  padding: 20px;
   width: 90%;
   height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: solid 1px rgb(189, 189, 189);
-  
+  border: solid 1px #ddd; /* Light gray border */
+  background-color: #fff; /* White background */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
 }
+
 .order-listing-container h3 {
+  padding-top: 10px;
+  text-align: center;
   width: auto;
   font-weight: 500;
-  
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: #333; /* Dark text color */
 }
+
 
 /* LOADING */
 .loading-container {
