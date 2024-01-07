@@ -81,9 +81,8 @@ const saveOrderToDatabase = async (webhookData) => {
                 quantity
             };
         }));
+        const order = await addOrderQuery(orderID, userID, total, paymentID, await Promise.all(orderProducts))
         
-        console.log(await Promise.all(orderProducts))
-        const order = await addOrderQuery(orderID, userID, total, paymentID, await orderProducts)
         return order
     } catch (err) {
         console.log('Error in saveOrderToDatabase')
