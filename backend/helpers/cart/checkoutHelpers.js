@@ -82,7 +82,7 @@ const saveOrderToDatabase = async (webhookData) => {
             };
         }));
         
-        console.log(await orderProducts)
+        console.log(await Promise.all(orderProducts))
         const order = await addOrderQuery(orderID, userID, total, paymentID, await orderProducts)
         return order
     } catch (err) {
