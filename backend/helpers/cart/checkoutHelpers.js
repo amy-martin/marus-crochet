@@ -80,7 +80,9 @@ const saveOrderToDatabase = async (webhookData) => {
                 productList: await productList,
                 quantity
             };
-        }));        
+        }));
+        
+        console.log(await orderProducts)
         const order = await addOrderQuery(orderID, userID, total, paymentID, await orderProducts)
         return order
     } catch (err) {
