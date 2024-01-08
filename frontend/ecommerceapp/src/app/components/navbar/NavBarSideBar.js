@@ -35,7 +35,7 @@ export const NavBarSideBar = () => {
     // UseEffect to Stop Display Past Certain Width
 
     useEffect(() => {
-        if (screenWidth >= 690) {
+        if (screenWidth >= 1100) {
             dispatch(changeDisplayByValue('none'))
         }
     })
@@ -43,13 +43,13 @@ export const NavBarSideBar = () => {
     return (
         <div className="sidebar" id='sidebar' style={{display:`${display}`}}>
             <div className="sidebar-content"  onMouseLeave = {handleSidebarExit}>
-                <h3 className="nav-component" onClick = {handleClick} onMouseLeave={hideCategoryDropdown}>
+                <h3 className="generic nav-component" onClick = {handleClick} onMouseLeave={hideCategoryDropdown}>
                     <a>PRODUCTS</a>
                     <CategoryDropDown />
                 </h3>
-                <h3 className="nav-component"><Link to = '/products/new'>NEW</Link></h3>
-                <h3 className="nav-component"><Link to='/about-us'>ABOUT US</Link></h3>
-                <h3 className="nav-component"><Link to='/contact-us'>CUSTOMER SERVICE</Link></h3>
+                <h3 className="generic nav-component"><Link to = '/products/new'>NEW</Link></h3>
+                <h3 className="generic nav-component"><Link to='/about-us'>ABOUT US</Link></h3>
+                <h3 className="generic nav-component"><Link to='/contact-us'>CUSTOMER SERVICE</Link></h3>
                 <UserSpecificNavOptions />
             </div>
         </div>

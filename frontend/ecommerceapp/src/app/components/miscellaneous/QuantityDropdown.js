@@ -5,17 +5,18 @@ export const QuantityDropdown = ({ handleSelect, selectedQuantity }) => {
 
     return (
         <form className="cart-quantity-form">
-            <label htmlFor="quantitySelect">
+            <label className="quantity-label" htmlFor="quantitySelect">
                 <h4>Quantity: </h4>
             </label>
             <select
+                className="quantity-select"
                 id="quantitySelect"
                 name="quantity"
                 onChange={handleSelect}
                 value={selectedQuantity}
             >
                 {range.map((num) => (
-                    <option value={`${num}`} key={num}>
+                    <option className="quantity-option" value={`${num}`} key={num}>
                         {num}
                     </option>
                 ))}

@@ -8,8 +8,8 @@ export const CategoryTile = (props) => {
 
     return (<div className={`${category} category-container`}>
         <Link to={`/products/${category}`} className={`${category} link`}>
-            {checkState(url) ? checkState(url): <ProductImage imageURL = {url}/>}
-            <h2>{category.toUpperCase()}</h2>
+            {checkState(url) ? checkState(url): <ProductImage imageURL = {url} className='clickable'/>}
+            <div className="category-name"><h2>{category.toUpperCase()}</h2></div>
         </Link>
     </div>)
 }

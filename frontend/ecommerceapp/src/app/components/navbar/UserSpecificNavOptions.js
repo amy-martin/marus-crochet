@@ -19,10 +19,6 @@ export const UserSpecificNavOptions = () => {
 
         }
     }, [dispatch])
-    const handleLoggedInClick = (e) => {
-        e.preventDefault();
-        navigate('cart')
-    }
     
     const handleLoggedOutClick = (e) => {
         e.preventDefault();
@@ -34,13 +30,13 @@ export const UserSpecificNavOptions = () => {
     const loggedInDisplay = (
         <ul className="user-specific-options">
             <li>
-                <h4><NavLink to='/profile'>ACCOUNT </NavLink></h4>
+               <NavLink to='/profile'><h4>ACCOUNT </h4></NavLink>
             </li>
             <li>
-                <h4><NavLink to ='/orders'>ORDERS</NavLink></h4>
+                <NavLink to ='/orders'><h4>ORDERS</h4></NavLink>
             </li>
             <li>
-                <h4><a onClick={handleLoggedInClick} href="/"> CART ({cartQuantity}) </a></h4>
+                <NavLink to = '/cart'><h4> CART ({cartQuantity}) </h4></NavLink>
             </li>
             <li>
                 <LogOut />
@@ -52,10 +48,10 @@ export const UserSpecificNavOptions = () => {
     const loggedOutDisplay = (
         <ul className="user-specific-options">
             <li>
-                <h4><NavLink to="/login">LOG IN / SIGN UP</NavLink></h4>
+                <NavLink to="/login"><h4>LOG IN /<br/> SIGN UP</h4></NavLink>
             </li>
             <li>
-                <h4><a onClick={handleLoggedOutClick}>CART</a></h4>
+                <a onClick={handleLoggedOutClick}><h4> CART</h4></a>
             </li>
         </ul>
     )
