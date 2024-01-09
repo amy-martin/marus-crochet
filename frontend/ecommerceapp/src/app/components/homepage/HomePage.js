@@ -27,7 +27,7 @@ export const HomePage = () => {
     return (
         <div className="home-page">
             <div className="categories">
-                <CategoryTile category='home-decor' url={homeImageURL}/>
+                <CategoryTile category='home decor' url={homeImageURL}/>
                 <CategoryTile category='plushies' url={plushiesImageURL}/>
                 <CategoryTile category='accessories' url={accessoriesImageURL}/>
             </div>
