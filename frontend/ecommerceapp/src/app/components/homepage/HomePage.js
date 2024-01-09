@@ -32,6 +32,10 @@ export const HomePage = () => {
                 <CategoryTile category='accessories' url={accessoriesImageURL}/>
             </div>
             <h3 id="view-all-link"><Link to='/products'>VIEW ALL</Link></h3>
+            <div className="disclaimer">
+                <h3>DISCLAIMER:</h3>
+                <p id='home-page-bottom'>This site is created purely for demonstration purposes to showcase my development skills. It is not a real business or e-commerce website. Any products, services, or features displayed on this site are fictional and not intended for real-world use.</p>
+          </div>
         </div>
     )
 }

@@ -54,6 +54,23 @@ export const Cart = () => {
             <h2>SHOPPING CART</h2>
             {statusCheck()}
             {isPopulated ? <CheckoutButton cartItems={cartItems}/>: null}
+            <div className="disclaimer">
+
+                <h4>REGARDING CREDIT CARD INFORMATION:</h4>
+
+                <p>Pressing checkout will navigate you to a page prompting for credit card information. Please be aware that this is solely part of the demonstration. Do not enter any real credit card information. For testing purposes, you can use the following trial credit card number:</p>
+
+                <p><strong>Card Number:</strong> 4242 4242 4242 4242</p>
+                <p><strong>Expiration Date:</strong> Any future date</p>
+                <p><strong>CVC:</strong> Any three-digit number</p>
+
+                <p>Again, this site does not process real transactions, and any information you provide is for demonstration purposes only. Thank you for your understanding.</p>
+
+                <p id='home-page-bottom'>If you have any questions or concerns, feel free to contact me at <a href="mailto:amymartinm97@gmail.com">amymartinm97@gmail.com</a>.</p>
+
+
+
+            </div>
         </div>
     )
 
