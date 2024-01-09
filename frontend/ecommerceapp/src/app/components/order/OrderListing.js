@@ -10,7 +10,7 @@ export const OrderListing = (props) => {
     const displayOrder = () => {
         return (
             <div className="order-container">
-                <h3>Order #: {(orderDetails.id).substr(-5)}</h3>
+                <h3>Order #: {(orderDetails.id).substr(-10)}</h3>
                 {orderItems.length > 0 ? (
                     orderItems.map(({ product, quantity }) => (
                         product ? (
