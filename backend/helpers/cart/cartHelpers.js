@@ -72,7 +72,7 @@ const addCartItem = async (req, res) => {
         const {shoppingSessionID} = req.params
         const {productId, quantity} = req.body;
         await addCartItemQuery(shoppingSessionID, productId, quantity)
-        return res.status(200).json({message: 'Item added to cart'})
+        return res.status(200).json({message: 'Item added'})
     } catch (err) {
         console.log('Error in  addCartItem')
         console.log(err)
