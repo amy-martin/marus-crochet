@@ -45,6 +45,7 @@ header {
 nav {
   width: 100%;
   min-height: 160px;
+  min-width: 300px;
   background-color: rgb(189, 189, 189);
   display: flex;
   justify-content: center;
@@ -1390,6 +1391,9 @@ button.delete-cart-item:hover {
 }
 
 @media screen and (max-width:500px) {
+  .sidebar {
+    top: 125px;
+  }
   nav.small-screen.navbar {
     z-index: 2;
     min-height: 125px;
