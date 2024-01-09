@@ -9,8 +9,8 @@ export const OrderListing = (props) => {
 
     const displayOrder = () => {
         return (
-            <div>
-                <h3>Order #: {orderDetails.id}</h3>
+            <div className="order-container">
+                <h3>Order #: {(orderDetails.id).substr(-5)}</h3>
                 {orderItems.length > 0 ? (
                     orderItems.map(({ product, quantity }) => (
                         product ? (
@@ -29,8 +29,6 @@ export const OrderListing = (props) => {
 
     return (
         <div className="order-listing-container">
-            {console.log('Products:')}
-            {(orderItems.map(order => console.log(order.product)))}
             {orderItems.length > 0 ? displayOrder(): <Loading />}
         </div>);
 };
