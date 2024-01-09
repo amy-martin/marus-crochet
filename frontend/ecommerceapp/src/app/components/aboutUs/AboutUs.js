@@ -5,22 +5,22 @@ export const AboutUs = () => {
         <div className="about-us">
             <h2>ABOUT US</h2>
             <p>
-                Welcome to Maru! We are a team of passionate designers who are dedicated to creating unique, high-quality crochet pieces that fuse the timeless art of crochet with modern fashion sensibilities.
+                
+                Welcome to Maru's Crochet! We are a team of skilled artisans who are passionate about creating high-quality, handmade crochet items that add a touch of elegance and warmth to your home and wardrobe.
                 <br/>
                 <br/>
-                Our journey began with a love for the intricate and delicate beauty of crochet. As we explored the endless possibilities of the craft, we realized that crochet could be more than just a hobby or a traditional craft. It could be a medium for creating stunning, fashion-forward pieces that stand out in a sea of mass-produced clothing.
+                Our journey began with a simple desire to share our love of crochet with the world. As we honed our craft, we quickly realized that our creations had the power to evoke a sense of comfort and joy in those who used them. That's when we decided to turn our hobby into a full-fledged business, with the goal of spreading that same feeling to as many people as possible.
                 <br/>
                 <br/>
-                At our business, we take pride in every aspect of the design process. From sourcing the finest materials to hand-crocheting each piece, we are dedicated to creating garments and accessories that reflect our commitment to quality and luxury.
+                Every item we create is made with the utmost care and attention to detail. We use only the finest materials, from luxurious fibers to eco-friendly yarns, ensuring that our products not only look beautiful but also stand the test of time. Whether you're looking for a cozy blanket to curl up with on a chilly evening or a stylish accessory to complete your outfit, we've got you covered.
                 <br/>
                 <br/>
-                We believe that crochet has the power to transform the way people think about fashion. It can be playful and whimsical, yet also sophisticated and elegant. It can be a statement piece or a subtle accent, adding texture and depth to any outfit.
+                At the heart of our business is a commitment to quality and sustainability. We believe that handmade items have the power to reduce waste and promote a more conscious approach to consumption. That's why we take pride in creating heirloom-quality pieces that can be cherished for generations to come.
                 <br/>
                 <br/>
-                At the heart of our business is a passion for sustainability and conscious consumption. By creating handmade crochet pieces that are designed to last, we are promoting a more thoughtful approach to fashion that values quality over quantity.
+                Thank you for choosing our small luxury crochet business. We hope our creations bring you as much joy and comfort as they have brought us in making them.
                 <br/>
                 
-                Thank you for choosing our small luxury crochet fashion business. We hope our creations inspire you to embrace the beauty and versatility of crochet in your own wardrobe.
             </p>
         </div>
 
