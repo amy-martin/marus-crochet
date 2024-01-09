@@ -6,7 +6,7 @@ import { CategoryTile } from "./CategoryTile";
 
 export const HomePage = () => {
     const [homeImageURL, setHomeImageURL] = useState('Loading');
-    const [toysImageURL, setToysImageURL] = useState('Loading');
+    const [plushiesImageURL, setPlushiesImageURL] = useState('Loading');
     const [accessoriesImageURL, setAccessoriesImageURL] = useState('Loading');
 
     useEffect(() => {
@@ -15,20 +15,20 @@ export const HomePage = () => {
             setHomeImageURL(homeProducts[0] ? homeProducts[0].image1_url : 'Failed to Load')
         })
         // Toys Icon
-        retrieveProducts('toys').then(toysProducts => {
-            setToysImageURL(toysProducts ? toysProducts[0].image1_url : 'Failed to Load')
+        retrieveProducts('plushies').then(plushiesProducts => {
+            setPlushiesImageURL(plushiesProducts ? plushiesProducts[0].image1_url : 'Failed to Load')
         })
         // Accessories Icon
         retrieveProducts('accessories').then(accessoriesProducts => {
             setAccessoriesImageURL(accessoriesProducts ? accessoriesProducts[0].image1_url : 'Failed to Load')
         })
-    }, [homeImageURL, toysImageURL, accessoriesImageURL])
+    }, [homeImageURL, plushiesImageURL, accessoriesImageURL])
 
     return (
         <div className="home-page">
             <div className="categories">
-                <CategoryTile category='home' url={homeImageURL}/>
-                <CategoryTile category='toys' url={toysImageURL}/>
+                <CategoryTile category='home-decor' url={homeImageURL}/>
+                <CategoryTile category='plushies' url={plushiesImageURL}/>
                 <CategoryTile category='accessories' url={accessoriesImageURL}/>
             </div>
             <h3 id="view-all-link"><Link to='/products'>VIEW ALL</Link></h3>

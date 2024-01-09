@@ -10,13 +10,13 @@ export const CategoryDropDown = () => {
         <div className='category-dropdown' style={{display:`${display}`}} >
             <ul>
                 <li>
-                    <Link to='/products/women'>
-                      WOMENS  
+                    <Link to='/products/home'>
+                      HOME DECOR  
                     </Link>
                 </li>
                 <li>
-                    <Link to='/products/men'>
-                      MENS  
+                    <Link to='/products/plushies'>
+                      PLUSHIES  
                     </Link>
                 </li>
                 <li>
