@@ -429,16 +429,20 @@ a {
 /* FLASH MESSAGE STYLING */
  
 .flash-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  height: auto;
+
+  border-radius: 8px;
+
   width: 450px;
 }
 
 .flash-message h4 {
+  font-size: 14px;
   color: white;
+  height: auto
 }
 
 .login-form .flash-message {
@@ -861,11 +865,10 @@ a {
 .add-to-cart button {
   font-family: 'Montserrat', sans-serif;
   font-size: 12px;
-  width: fit-content;
-  height: fit-content;
+  width: 100px;
   color: #7B6F64;
   margin: 10px;
-  padding: 8px 16px;
+  height: 32.5px;
   border: none; /* Add this line to remove the border */
   border-radius: 8px;
   transition: background-color 0.3s ease, color 0.3s ease; 
@@ -881,14 +884,14 @@ section.add-to-cart {
   width: auto;
 }
 div.flash-message.add-to-cart-flash {
-  width: fit-content;
-  height: auto;
-  text-align: center;
-  border-radius: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top:5px;
-  padding-bottom: 5px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 32.5px;
+  border-radius: 8px;
+  padding: 5px 10px
 }
 
 .add-to-cart form.cart-quantity-form {
