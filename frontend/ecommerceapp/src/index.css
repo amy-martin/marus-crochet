@@ -1261,6 +1261,8 @@ button.delete-cart-item:hover {
 }
 
 .checkout-button {
+  width: auto;
+  height: auto;
   border: none;
   border-radius: 10px;
   background-color: rgb(189, 189, 189); 
