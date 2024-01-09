@@ -47,6 +47,7 @@ export const ItemTile = (props) => {
                 throw e
             }
         }
+        setDisplay('none')
         fetchDeleteItem();
     }
 
