@@ -93,13 +93,14 @@ a {
   }
   /* NAVBAR SIDEBAR ICON STYLING */
   .sidebar-icon-container {
+    height: 100%;
     width: auto;
     position: absolute;
     left:0;
     margin-left: 40px;
   }
   .sidebar-icon {
-    margin-top: 5px;
+    margin-top: 10px;
     width: 25px;
     list-style-type: none;
     padding: 0;
