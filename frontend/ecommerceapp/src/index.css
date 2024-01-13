@@ -440,6 +440,7 @@ a {
 /* FLASH MESSAGE STYLING */
  
 .flash-message {
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1029,7 +1030,9 @@ div.flash-message.add-to-cart-flash h4 {
   width: 450px;
   background-color: #f0f0f0;
   border-radius: 20px;
-  padding: 40px;
+  padding: 10px;
+  padding-right: 40px;
+  padding-left: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1159,6 +1162,8 @@ div.flash-message.add-to-cart-flash h4 {
 
 /* CART STYLING */
 .cart-container {
+  width: 80%;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
 
@@ -1217,7 +1222,8 @@ div.flash-message.add-to-cart-flash h4 {
 }
 
 .cart-container .disclaimer {
-  width: 85%;
+  width: 110%;
+  min-width: 300px;
   margin-top: 20px;
 }
 /* Quantity Dropdown Styles using Class Names */
@@ -1372,6 +1378,7 @@ button.delete-cart-item:hover {
 
 /* PLURAL ORDERS STYLING */
 .orders-container {
+  width: 100%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
@@ -1381,6 +1388,8 @@ button.delete-cart-item:hover {
   text-align: center;
 }
 .orders-listing-container {
+  width: 80%;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1392,8 +1401,11 @@ button.delete-cart-item:hover {
 }
 
 .order-container {
+  width: 100%;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .order-container h3 {
   max-width: 300px;
