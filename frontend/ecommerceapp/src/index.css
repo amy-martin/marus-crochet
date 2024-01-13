@@ -1178,8 +1178,10 @@ div.flash-message.add-to-cart-flash h4 {
 }
 
 .cart-items-container {
-  margin: 20px;
+
   padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;;
   width: 90%;
   width: 90%;
   height: fit-content;
